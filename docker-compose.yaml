@@ -13,6 +13,7 @@ services:
       - POSTGRES_PASSWORD=test-databases
     ports:
       - 15432:5432
+
   fastapi:
     build:
       context: sample_service
@@ -21,6 +22,9 @@ services:
       - 8000:8000
     volumes:
       - ./sample_service:/app
+    environment:
+      DATABASE_URL: postgresql://user-name:password@postgres/db-name
+      WAIT_HOSTS: postgres:5432
 
   ghi:
     image: node:lts-bullseye
