@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from requests import get
 import os
 
 app = FastAPI()
@@ -27,3 +28,8 @@ def launch_details():
             "tz:": "PST"
         }
     }
+
+@app.get("/api/movie-search")
+def movie_search():
+    response = get('http://www.omdbapi.com/?i=tt3896198&apikey=ec4483b8')
+    pass
