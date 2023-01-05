@@ -40,7 +40,7 @@ steps = [
         CREATE TABLE movie_item (
             id SERIAL PRIMARY KEY NOT NULL,
             movie_id INTEGER REFERENCES movie(id),
-            movie_list_id INTEGER REFERENCES movie_list(id)
+            movie_group_id INTEGER REFERENCES movie_group(id)
         );
         """,
         # "Down" SQL statement
