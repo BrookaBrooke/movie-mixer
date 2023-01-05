@@ -1,18 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from routers import movies, movie_list
 import os
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        os.environ.get("CORS_HOST", "http://localhost:3000")
-    ],
+    allow_origins=[os.environ.get("CORS_HOST", "http://localhost:3000")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(movies.router)
+app.include_router(movie_list.router)
 
 
 @app.get("/api/launch-details")
@@ -24,6 +26,6 @@ def launch_details():
             "day": "9",
             "hour": 19,
             "min": 0,
-            "tz:": "PST"
+            "tz:": "PST",
         }
     }
