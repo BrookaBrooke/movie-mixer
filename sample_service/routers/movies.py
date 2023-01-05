@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from queries.movies import MovieIn, MovieRepository, MovieOut
+from typing import List
 
 
 router = APIRouter()
@@ -14,6 +15,10 @@ def create_movie(
 
 
 
-@router.get("/movies")
-def get_movies():
-    pass
+@router.get("/movies", response_model=List[MovieOut])
+def get_movies(
+    # movie: MovieOut,
+    repo: MovieRepository = Depends(),
+):
+
+    return repo.get()
