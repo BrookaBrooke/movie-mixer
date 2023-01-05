@@ -51,7 +51,7 @@ steps = [
     [
         # "Up" SQL statement
         """
-        CREATE TABLE movie_list (
+        CREATE TABLE movie_group (
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(100) NOT NULL,
             owner INTEGER REFERENCES user(id),
@@ -60,7 +60,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE movie_list;
+        DROP TABLE movie_group;
         """,
     ],
 ]
