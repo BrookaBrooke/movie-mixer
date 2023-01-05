@@ -1,6 +1,6 @@
 steps = [
     [
-        # "Up" SQL statement
+
         """
         CREATE TABLE user (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -11,13 +11,13 @@ steps = [
             last_name VARCHAR(50) NOT NULL
         );
         """,
-        # "Down" SQL statement
+
         """
         DROP TABLE user;
-        """,
+        """
     ],
     [
-        # "Up" SQL statement
+
         """
         CREATE TABLE movie (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -29,13 +29,13 @@ steps = [
             poster VARCHAR(1000) NOT NULL
         );
         """,
-        # "Down" SQL statement
+
         """
         DROP TABLE movie;
-        """,
+        """
     ],
     [
-        # "Up" SQL statement
+
         """
         CREATE TABLE movie_item (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -43,13 +43,13 @@ steps = [
             movie_group_id INTEGER REFERENCES movie_group(id)
         );
         """,
-        # "Down" SQL statement
+
         """
         DROP TABLE movie_item;
-        """,
+        """
     ],
     [
-        # "Up" SQL statement
+
         """
         CREATE TABLE movie_group (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -58,9 +58,9 @@ steps = [
 
         );
         """,
-        # "Down" SQL statement
+
         """
         DROP TABLE movie_group;
-        """,
+        """
     ],
 ]
