@@ -1,5 +1,18 @@
-# volumes:
+volumes:
+  postgres-data:
+    external: true
 services:
+  postgres:
+    image: postgres:14.5-bullseye
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: example_user
+      POSTGRES_DB: example
+    ports:
+      - 15432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   fastapi:
     build:
       context: sample_service
@@ -8,7 +21,10 @@ services:
       - 8000:8000
     volumes:
       - ./sample_service:/app
-      
+    environment:
+      DATABASE_URL: postgresql://user-name:password@postgres/db-name
+      WAIT_HOSTS: postgres:5432
+
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
@@ -23,4 +39,3 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
-            
