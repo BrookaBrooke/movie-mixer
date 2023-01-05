@@ -3,16 +3,15 @@ volumes:
     external: true
 services:
   postgres:
-    build:
-      context: ./relational-data
-      dockerfile: ./Dockerfile.dev
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+    image: postgres:14.5-bullseye
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=
-      - POSTGRES_PASSWORD=test-databases
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: example_user
+      POSTGRES_DB: example
     ports:
       - 15432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   fastapi:
     build:
