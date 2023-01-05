@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import movies
+from routers import movie_group
 import os
 
-from sample_service.routers import movie_group
+# from sample_service.routers import movie_group
 
 app = FastAPI()
 
