@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import movies
 import os
 
-from routers import movie_group, users
+from routers import movies, movie_group, users
+from routers.authenticator import authenticator
 
 app = FastAPI()
 
@@ -18,6 +18,7 @@ app.add_middleware(
 app.include_router(movies.router)
 app.include_router(movie_group.router)
 app.include_router(users.router)
+app.include_router(authenticator.router)
 
 
 @app.get("/api/launch-details")
