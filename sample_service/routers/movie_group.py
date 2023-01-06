@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 from queries.movie_group import (
     MovieGroupRepository,
-    MovieGroup,
     MovieGroupIn,
     MovieGroupOut,
 )
