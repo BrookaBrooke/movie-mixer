@@ -1,17 +1,17 @@
 steps = [
     [
         """
-        CREATE TABLE userss (
+        CREATE TABLE accounts (
             id SERIAL PRIMARY KEY NOT NULL,
             username VARCHAR(20) NOT NULL UNIQUE,
-            password VARCHAR(20) NOT NULL,
             email VARCHAR(50) NOT NULL UNIQUE,
             first_name VARCHAR(50) NOT NULL,
-            last_name VARCHAR(50) NOT NULL
+            last_name VARCHAR(50) NOT NULL,
+            hashed_password VARCHAR(1000) NOT NULL
         );
         """,
         """
-        DROP TABLE users;
+        DROP TABLE accounts;
         """,
     ],
     [
@@ -35,7 +35,7 @@ steps = [
         CREATE TABLE movie_groups (
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(100) NOT NULL,
-            owner INTEGER REFERENCES users(id)
+            owner INTEGER REFERENCES accounts(id)
 
         );
         """,
