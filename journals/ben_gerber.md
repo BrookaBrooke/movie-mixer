@@ -6,5 +6,5 @@ Had trouble getting connection to the database with proper username and password
 
 # 1-6-23
 
-Working on authentication.
-Jalen did the driving, Jesse and Mike did the navigating.
+Finished CRUD for the movie_groups
+Had some challenges where some things were dictionaries and others were custom objects, there still seem to be a mix of both but a mix that works
