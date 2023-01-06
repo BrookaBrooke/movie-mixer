@@ -5,6 +5,7 @@ from typing import List
 
 router = APIRouter()
 
+
 @router.post("/movies", response_model=MovieOut)
 def create_movie(
     movie: MovieIn,
@@ -12,7 +13,6 @@ def create_movie(
 ):
 
     return repo.create(movie)
-
 
 
 @router.get("/movies", response_model=List[MovieOut])
