@@ -1,5 +1,5 @@
 async def migrate():
-    from . import down, up, LATEST, ZERO
+    from . import down, up, LATEST, ZERO, populate
     import os
     import sys
 
@@ -30,6 +30,8 @@ async def migrate():
             except ValueError:
                 print(f"Unknown amount {amount}")
         await down(db_url, to=amount)
+    elif direction == "populate":
+        populate()
 
 
 if __name__ == "__main__":
