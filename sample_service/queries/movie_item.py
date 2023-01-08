@@ -90,17 +90,8 @@ class MovieItemRepository:
                     )
                     result.append(movieitem)
                 return result
-    
-    def update_one(self, id: int, movie_item: ItemPosition) -> Dict[str, Any]:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                db.execute(
-                    "UPDATE movie_items SET item_position = %s WHERE id = %s",
-                    (movie_item.item_position, id),
-                )
-                return movie_item
 
-    def update_many(self, items: List[ItemPosition]) -> List[ItemPosition]:
+    def update(self, items: List[ItemPosition]) -> List[ItemPosition]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 for movie_item in items:
@@ -109,15 +100,9 @@ class MovieItemRepository:
                     (movie_item.item_position, movie_item.id),
                 )
                 return items
-                # print("*************")
-                # print(all_movies)
-                # print("*************")
-                # print(result.fetchall())")
-                # return all_movies
-
-                # if all_movies is None:
-                #     return None
-                # else:
-                #     for i in all_movies:
-                #         list_movies.append(i)
-                #     return list_movies
+    
+    def delete(self, id: int) -> Dict[str, Any]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute("DELETE FROM movie_items WHERE id = %s", (id,))
+                return {"id": id}
