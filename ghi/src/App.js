@@ -21,7 +21,7 @@ function App(props) {
             index
             element={<MovieGroups movieGroups={props.movieGroups} />}
           />
-          <Route path="new" element={<MovieGroupForm />}></Route>
+          <Route path="new" element={<MovieGroupForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

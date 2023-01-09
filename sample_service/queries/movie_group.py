@@ -49,11 +49,8 @@ class MovieGroupRepository:
                     "INSERT INTO movie_groups (name, owner) VALUES (%s, %s) RETURNING id",
                     (movie_group.name, movie_group.owner),
                 )
-                print(movie_group)
                 data = movie_group.dict()
-                print(data)
                 id = db.fetchone()[0]
-                print("ID: ", id)
                 return MovieGroupOut(id=id, **data)
 
     def update(self, id: int, movie_group: MovieGroupIn) -> Dict[str, Any]:
