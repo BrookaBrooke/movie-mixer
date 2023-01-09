@@ -12,6 +12,7 @@ from authenticator import authenticator
 from pydantic import BaseModel
 
 from queries.accounts import (
+    Account,
     AccountIn,
     AccountOut,
     AccountRepo,
@@ -46,6 +47,13 @@ async def get_token(
             "type": "Bearer",
             "account": account,
         }
+
+
+@router.get("/api/accounts/{username}", response_model=Account | None)
+def get_account(
+    username: str, repo: AccountRepo = Depends()
+) -> Account | None:
+    return repo.get(username)
 
 
 @router.post("/api/accounts", response_model=AccountToken | HttpError)

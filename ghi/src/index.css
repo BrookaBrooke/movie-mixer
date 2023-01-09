@@ -11,3 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.navbar {
+  /* opacity: 0.9; */
+  letter-spacing: 1px;
+  word-spacing:10%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 17px;
+  font-weight: 30px;
+  background-color: black;
+}
+
+.home-pic {
+  background-image: linear-gradient(to left, rgba(94, 39, 87, 0.493), rgba(155, 45, 45, 0.287)), url('https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  width: 100%;
+  height: 1280px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.home-header {
+  text-align: center;
+  padding-top: 150px;
+  font-size: 50px;
+  color:aliceblue;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: black;
+  opacity: 0.7;
+}

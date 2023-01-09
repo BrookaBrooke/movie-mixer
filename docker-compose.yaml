@@ -23,6 +23,7 @@ services:
       - ./sample_service:/app
     environment:
       SIGNING_KEY: f9cadc04be8fa5458332fd833acee1c2598a79be
+      OMDB_API_KEY: ec4483b8
       DATABASE_URL: postgresql://example_user:secret@postgres/example
       WAIT_HOSTS: postgres:5432
 
