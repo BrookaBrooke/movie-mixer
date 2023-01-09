@@ -94,11 +94,6 @@ function Nav() {
                     Make a New Group
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink className="dropdown-item" to="/">
-                    Edit a Group
-                  </NavLink>
-                </li>
               </ul>
             </li>
           </ul>

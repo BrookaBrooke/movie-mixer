@@ -7,6 +7,7 @@ import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
+import MovieGroupForm from "./components/MovieGroupForm";
 
 function App(props) {
   return (
@@ -15,10 +16,13 @@ function App(props) {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
-        <Route
-          path="/groups"
-          element={<MovieGroups movieGroups={props.movieGroups} />}
-        />
+        <Route path="groups">
+          <Route
+            index
+            element={<MovieGroups movieGroups={props.movieGroups} />}
+          />
+          <Route path="new" element={<MovieGroupForm />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
