@@ -38,7 +38,7 @@ steps = [
             owner INTEGER REFERENCES accounts(id)
 
         );
-        """,
+        """,    
         """
         DROP TABLE movie_groups;
         """,
@@ -48,12 +48,12 @@ steps = [
         CREATE TABLE movie_items (
             id SERIAL PRIMARY KEY NOT NULL,
             movie_id INTEGER REFERENCES movies(id),
-            movie_group_id INTEGER REFERENCES movie_groups(id)
+            movie_group_id INTEGER REFERENCES movie_groups(id),
+            item_position INTEGER
         );
         """,
         """
         DROP TABLE movie_items;
         """,
-    ],
-
+    ]
 ]

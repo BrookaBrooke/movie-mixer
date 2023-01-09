@@ -7,8 +7,10 @@ import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
+import MovieGroups from "./components/MovieGroups";
+import MovieGroupForm from "./components/MovieGroupForm";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <Nav />
@@ -17,6 +19,13 @@ function App() {
         <Route path="/signup" element={<AccountForm />} />
         <Route path="/movie-detail/:imdbID" element={<MovieDetail />} />
 
+        <Route path="groups">
+          <Route
+            index
+            element={<MovieGroups movieGroups={props.movieGroups} />}
+          />
+          <Route path="new" element={<MovieGroupForm />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
