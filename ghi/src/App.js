@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./Nav";
 import MainPage from "./components/MainPage";
+import MovieDetail from "./components/MovieDetail"
 import { useEffect, useState } from "react";
 import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
@@ -14,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
+        <Route path="/movie-detail/:imdbID" element={<MovieDetail />} />
+
       </Routes>
     </BrowserRouter>
   );
