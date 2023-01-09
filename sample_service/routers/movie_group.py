@@ -21,7 +21,7 @@ def read_movie_groups():
 def create_movie_group(movie_group: MovieGroupIn):
     repository = MovieGroupRepository()
     new_movie_group = repository.create(movie_group)
-    return MovieGroupOut(**new_movie_group)
+    return new_movie_group
 
 
 @router.get("/movie-groups/{movie_group_id}")
