@@ -6,15 +6,24 @@ import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
+import MovieGroups from "./components/MovieGroups";
+import MovieGroupForm from "./components/MovieGroupForm";
 import MovieSearch from "./components/MovieSearch";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <Nav />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
+        <Route path="groups">
+          <Route
+            index
+            element={<MovieGroups movieGroups={props.movieGroups} />}
+          />
+          <Route path="new" element={<MovieGroupForm />}></Route>
+        </Route>
         <Route path="/search" element={<MovieSearch />}></Route>
         <Route
           path="/search/:searchQuery/:pageNumber"

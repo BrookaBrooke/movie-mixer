@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Any, List
 from queries.pool import pool
 from typing import List
 
@@ -22,23 +22,24 @@ class MovieGroupOut(BaseModel):
 
 
 class MovieGroupRepository:
-    def list(self):
+    def list(self) -> List[MovieGroupOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups")
-                return db.fetchall()
+                return [
+                    MovieGroupOut(
+                        id=record[0], name=record[1], owner=record[2]
+                    )
+                    for record in db
+                ]
 
     def get(self, id: int) -> MovieGroupOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT * FROM movie_groups WHERE id = %s", [id])
-                print("DB : ", db)
-                data = db.fetchone()
-                print(data)
+                db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
+                group = db.fetchone()
                 return MovieGroupOut(
-                    id=data[0],
-                    name=data[1],
-                    owner=data[2],
+                    id=group[0], name=group[1], owner=group[2]
                 )
 
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:

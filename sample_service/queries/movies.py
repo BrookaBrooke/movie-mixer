@@ -3,6 +3,7 @@ from datetime import date
 from queries.pool import pool
 from typing import List
 
+
 class MovieOut(BaseModel):
     id: int
     title: str
@@ -21,6 +22,7 @@ class MovieIn(BaseModel):
     imdbID: str
     poster: str
 
+
 class MovieRepository:
     def create(self, movie: MovieIn) -> MovieOut:
         with pool.connection() as conn:
@@ -37,8 +39,8 @@ class MovieRepository:
                         movie.plot,
                         movie.rated,
                         movie.imdbID,
-                        movie.poster
-                    ]
+                        movie.poster,
+                    ],
                 )
                 id = result.fetchone()[0]
                 data = movie.dict()
@@ -63,12 +65,10 @@ class MovieRepository:
                         plot=record[3],
                         rated=record[4],
                         imdbID=record[5],
-                        poster=record[6]
-
+                        poster=record[6],
                     )
                     result.append(movie)
                 return result
-
 
                 # print("*************")
                 # print(all_movies)
