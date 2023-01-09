@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from requests import get
 import os
 
-from routers import movies, movie_group, accounts, movie_item
-from routers import movies, movie_group, accounts, api_movies
+from routers import movies, movie_group, accounts, movie_item, api_movies
 from authenticator import authenticator
 
 app = FastAPI()
