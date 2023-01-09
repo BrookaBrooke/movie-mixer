@@ -32,11 +32,14 @@ class MovieGroupRepository:
                     for record in db
                 ]
 
-    def get(self, id: int) -> Dict[str, Any]:
+    def get(self, id: int) -> MovieGroupOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
-                return db.fetchone()
+                group = db.fetchone()
+                return MovieGroupOut(
+                    id=group[0], name=group[1], owner=group[2]
+                )
 
     def create(self, movie_group: MovieGroupIn) -> Dict[str, Any]:
         with pool.connection() as conn:
