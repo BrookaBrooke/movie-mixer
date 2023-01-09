@@ -36,8 +36,3 @@ def launch_details():
             "tz:": "PST",
         }
     }
-
-@app.get("/api/movie-search")
-def movie_search():
-    response = get('http://www.omdbapi.com/?i=tt3896198&apikey=ec4483b8')
-    pass
