@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const MovieGroups = (props) => {
+const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,9 +37,9 @@ const MovieGroups = (props) => {
       <tbody>
         {groups.map((group) => {
           return (
-            <tr key={group[0]}>
-              <td>{group[1]}</td>
-              <td>{group[2]}</td>
+            <tr key={group.id}>
+              <td>{group.name}</td>
+              <td>{group.owner}</td>
             </tr>
           );
         })}

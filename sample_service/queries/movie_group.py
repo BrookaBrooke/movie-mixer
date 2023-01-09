@@ -25,7 +25,12 @@ class MovieGroupRepository:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups")
-                return db.fetchall()
+                return [
+                    MovieGroupOut(
+                        id=record[0], name=record[1], owner=record[2]
+                    )
+                    for record in db
+                ]
 
     def get(self, id: int) -> Dict[str, Any]:
         with pool.connection() as conn:
