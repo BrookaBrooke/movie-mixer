@@ -24,16 +24,9 @@ class MovieGroupOut(BaseModel):
 
 class MovieGroupRepository:
     def list(self) -> List[MovieGroupOut]:
-    def list(self) -> List[MovieGroupOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups")
-                return [
-                    MovieGroupOut(
-                        id=record[0], name=record[1], owner=record[2]
-                    )
-                    for record in db
-                ]
                 return [
                     MovieGroupOut(
                         id=record[0], name=record[1], owner=record[2]
@@ -49,8 +42,6 @@ class MovieGroupRepository:
                 db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
                 group = db.fetchone()
                 return MovieGroupOut(
-                    id=group[0], name=group[1], owner=group[2]
-                )
                     id=group[0], name=group[1], owner=group[2]
                 )
 
