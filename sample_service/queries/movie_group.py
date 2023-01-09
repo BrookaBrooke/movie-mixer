@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Any, List
 from queries.pool import pool
 
 
@@ -21,7 +21,7 @@ class MovieGroupOut(BaseModel):
 
 
 class MovieGroupRepository:
-    def list(self):
+    def list(self) -> List[MovieGroupOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups")
