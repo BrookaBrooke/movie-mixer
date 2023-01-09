@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function MovieSearch() {
-  const [query, setQuery] = useState("");
-  const [pageNum, setPageNum] = useState();
-  const [movies, setMovies] = useState([]);
-
   const { searchQuery, pageNumber } = useParams();
   const navigate = useNavigate();
+
+  const [query, setQuery] = useState("");
+  const [pageNum, setPageNum] = useState(pageNumber);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const getResults = async () => {
@@ -26,20 +26,23 @@ function MovieSearch() {
   async function onChange(event) {
     setQuery(event.target.value);
   }
-  async function lastPage() {
-    setPageNum(pageNum - 1);
-    return navigate(`/search/${searchQuery}/${pageNum}`);
+
+  function lastPage() {
+    console.log("lastPage called");
+    const number = parseInt(pageNumber) - 1;
+    return navigate(`/search/${searchQuery}/${number}`);
   }
-  async function nextPage() {
-    setPageNum(pageNum + 1);
-    return navigate(`/search/${searchQuery}/${pageNum}`);
+  function nextPage() {
+    console.log("nextPage called");
+    const number = parseInt(pageNumber) + 1;
+    return navigate(`/search/${searchQuery}/${number}`);
   }
   async function onSubmit(event) {
     event.preventDefault();
     if (pageNum === undefined) {
       setPageNum(1);
     }
-    return navigate(`/search/${query}/${pageNum}`);
+    return navigate(`/search/${query}/1`);
   }
 
   const movieList = movies
@@ -75,7 +78,7 @@ function MovieSearch() {
             <div className="p-2">
               <button
                 className="btn btn-outline-primary"
-                type="submit"
+                type="button"
                 onClick={lastPage}
               >
                 Previous Page
@@ -85,7 +88,7 @@ function MovieSearch() {
           <div className="p-2">
             <button
               className="btn btn-outline-primary"
-              type="submit"
+              type="button"
               onClick={nextPage}
             >
               Next Page
