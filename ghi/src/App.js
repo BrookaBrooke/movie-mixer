@@ -6,6 +6,7 @@ import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
+import MovieSearch from "./components/MovieSearch";
 
 function App() {
   return (
@@ -14,6 +15,11 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
+        <Route path="/search" element={<MovieSearch />}></Route>
+        <Route
+          path="/search/:searchQuery/:pageNumber"
+          element={<MovieSearch />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
