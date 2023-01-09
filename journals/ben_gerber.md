@@ -8,3 +8,5 @@ Had trouble getting connection to the database with proper username and password
 
 Finished CRUD for the movie_groups
 Had some challenges where some things were dictionaries and others were custom objects, there still seem to be a mix of both but a mix that works
+
+# 1-9-23

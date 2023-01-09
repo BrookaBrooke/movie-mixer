@@ -6,14 +6,19 @@ import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
+import MovieGroups from "./components/MovieGroups";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <Nav />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
+        <Route
+          path="/groups"
+          element={<MovieGroups movieGroups={props.movieGroups} />}
+        />
       </Routes>
     </BrowserRouter>
   );
