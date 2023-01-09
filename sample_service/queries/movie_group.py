@@ -31,11 +31,18 @@ class MovieGroupRepository:
     def get(self, id: int) -> MovieGroupOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT * FROM movie_groups WHERE id = %s", (id))
-                print("DB : ",db)
+                db.execute(
+                    """
+                    SELECT * FROM movie_groups WHERE id = %s
+                    """,
+                    [id]
+                    )
                 data = db.fetchone()
-                print(data)
-                return MovieGroupOut(**data)
+                return MovieGroupOut(
+                    id=data[0],
+                    name=data[1],
+                    owner=data[2]
+                    )
 
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:
         with pool.connection() as conn:
