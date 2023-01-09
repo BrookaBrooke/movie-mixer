@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -83,45 +85,63 @@ const MovieGroups = () => {
   }
 
   return (
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Owner</th>
-        </tr>
-      </thead>
-      <tbody>
-        {groups.map((group) => {
-          return (
-            <tr key={group.id}>
-              {group.id === editingGroupId ? (
-                <>
+    <>
+      {groups.length === 0 && (
+        <div className="d-flex flex-column align-items-center mt-5">
+          <h3>You have no movie groups!</h3>
+          <Button variant="primary" as={Link} to="/groups/new/">
+            Create a Movie Group
+          </Button>
+        </div>
+      )}
+      {groups.length > 0 && (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Owner</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map((group) => {
+              return (
+                <tr key={group.id}>
+                  {group.id === editingGroupId ? (
+                    <>
+                      <td>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formValues.name}
+                          onChange={handleChange}
+                        />
+                      </td>
+                      <td>{group.owner}</td>
+                      <td>
+                        <button
+                          className="btn btn-primary"
+                          onClick={handleSubmit}
+                        >
+                          Save
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{group.name}</td>
+                      <td>{group.owner}</td>
+                      <td>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => setEditingGroupId(group.id)}
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </>
+                  )}
                   <td>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formValues.name}
-                      onChange={handleChange}
-                    />
-                  </td>
-                  <td>{group.owner}</td>
-                  <td>
-                    <button className="btn btn-primary" onClick={handleSubmit}>
-                      Save
-                    </button>
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{group.name}</td>
-                  <td>{group.owner}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => setEditingGroupId(group.id)}
-                    >
-                      Edit
-                    </button>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(group.id)}
@@ -129,13 +149,13 @@ const MovieGroups = () => {
                       Delete
                     </button>
                   </td>
-                </>
-              )}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </>
   );
 };
 
