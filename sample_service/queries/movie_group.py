@@ -34,7 +34,6 @@ class MovieGroupRepository:
                 ]
 
     def get(self, id: int) -> MovieGroupOut:
-    def get(self, id: int) -> MovieGroupOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
@@ -54,7 +53,7 @@ class MovieGroupRepository:
                 data = movie_group.dict()
                 print(data)
                 id = db.fetchone()[0]
-                print("ID: ",id)
+                print("ID: ", id)
                 return MovieGroupOut(id=id, **data)
 
     def update(self, id: int, movie_group: MovieGroupIn) -> Dict[str, Any]:
