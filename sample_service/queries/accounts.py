@@ -71,9 +71,17 @@ class AccountRepo:
             with pool.connection() as connection:
                 with connection.cursor() as db:
                     result = db.execute(
-                        """INSERT INTO accounts (username, email, first_name, last_name, hashed_password)
+                        """
+                        INSERT INTO accounts (
+                            username
+                            , email
+                            , first_name
+                            , last_name
+                            , hashed_password
+                        )
                         VALUES (%s, %s, %s, %s, %s)
-                        RETURNING id""",
+                        RETURNING id
+                        """,
                         [
                             account.username,
                             account.email,
