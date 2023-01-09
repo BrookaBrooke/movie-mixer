@@ -9,6 +9,7 @@ import "./App.css";
 import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
 import MovieGroupForm from "./components/MovieGroupForm";
+import MovieSearch from "./components/MovieSearch";
 
 function App(props) {
   return (
@@ -26,6 +27,11 @@ function App(props) {
           />
           <Route path="new" element={<MovieGroupForm />}></Route>
         </Route>
+        <Route path="/search" element={<MovieSearch />}></Route>
+        <Route
+          path="/search/:searchQuery/:pageNumber"
+          element={<MovieSearch />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
