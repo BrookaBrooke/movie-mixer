@@ -114,6 +114,8 @@ const MovieGroups = () => {
           <tr>
             <th>Name</th>
             <th>Owner</th>
+            {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
+            <th></th>
             <th></th>
           </tr>
         </thead>
