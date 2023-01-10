@@ -7,7 +7,6 @@ import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
-import MovieGroupForm from "./components/MovieGroupForm";
 import MovieSearch from "./components/MovieSearch";
 
 function App(props) {
@@ -22,7 +21,6 @@ function App(props) {
             index
             element={<MovieGroups movieGroups={props.movieGroups} />}
           />
-          <Route path="new" element={<MovieGroupForm />}></Route>
         </Route>
         <Route path="/search" element={<MovieSearch />}></Route>
         <Route

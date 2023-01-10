@@ -38,7 +38,7 @@ steps = [
             owner INTEGER REFERENCES accounts(id)
 
         );
-        """,    
+        """,
         """
         DROP TABLE movie_groups;
         """,
@@ -55,5 +55,5 @@ steps = [
         """
         DROP TABLE movie_items;
         """,
-    ]
+    ],
 ]
