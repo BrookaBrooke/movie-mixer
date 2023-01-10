@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 const MovieDetail = () => {
   const [details, setDetails] = useState('');
 
-  const { imdbID } = useParams()
+  const [ imdbID, setImdbID]= useParams()
 
 
 
