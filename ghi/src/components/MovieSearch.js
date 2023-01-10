@@ -16,14 +16,14 @@ function MovieSearch() {
       );
       const data = await response.json();
       console.log(data);
-      setMovies(data.Search);
+      setMovies(data.results);
     };
     if (searchQuery && pageNumber) {
       getResults();
     }
   }, [searchQuery, pageNumber]);
 
-  async function onChange(event) {
+  function onChange(event) {
     setQuery(event.target.value);
   }
 
@@ -37,6 +37,10 @@ function MovieSearch() {
     const number = parseInt(pageNumber) + 1;
     return navigate(`/search/${searchQuery}/${number}`);
   }
+
+  function goToMovieDetail(id) {
+    return navigate(`/movie-detail/${id}`);
+  }
   async function onSubmit(event) {
     event.preventDefault();
     if (pageNum === undefined) {
@@ -47,11 +51,18 @@ function MovieSearch() {
 
   const movieList = movies
     ? movies.map((result) => (
-        <div className="col-12">
+        <div className="col-12" key={result.id} value={result.id}>
           <div className="card">
-            <img src={result.Poster} />
+            <img src={result.poster_path} />
           </div>
-          {result.Title}
+          {result.original_title}
+          <button
+            className="button btn-primary m-5"
+            type="button"
+            onClick={() => goToMovieDetail(result.id)}
+          >
+            View Details
+          </button>
         </div>
       ))
     : null;
