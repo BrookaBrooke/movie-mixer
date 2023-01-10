@@ -3,6 +3,7 @@ from importlib import import_module
 from itertools import zip_longest
 import os.path
 from pathlib import Path
+from queries.pool import pool
 
 from psycopg import AsyncConnection
 from psycopg.rows import class_row
@@ -136,3 +137,32 @@ async def down(db_url, to=ZERO, dir=os.path.dirname(__file__)):
                     """,
                     [migration.name],
                 )
+
+def populate():
+    print("Populating database...")
+    with pool.connection() as conn:
+        with conn.cursor() as db:
+            result = db.execute(
+            """
+            INSERT INTO accounts (username, email, first_name, last_name, hashed_password)
+            VALUES ('one','one@me.com','one','string','$2b$12$A9/YMVRgPb7G5BvASfVpOetKAAk/YoS/Kk9gXXqdAPEF2avKLy6d2');
+
+            INSERT INTO movie_groups (name, owner)
+            VALUES ('Favorites 1',1);
+
+            INSERT INTO movies (title, released, plot, rated,
+                    imdbID, poster)
+            VALUES ('Starwars 1', '2013-01-01', 'Short', 'PG',
+                    001, 'imgurl_001'),
+                    ('Starwars 2', '2013-01-01', 'Medium', 'PG',
+                    002, 'imgurl_002'),
+                    ('Starwars 3', '2013-01-01', 'Long', 'PG',
+                    003, 'imgurl_003');
+
+            INSERT INTO movie_items (movie_id, movie_group_id,item_position)
+            VALUES (1,1,1),
+                    (2,1,2);
+
+            """
+            )
+            print("Database populated")
