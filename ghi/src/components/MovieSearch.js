@@ -53,7 +53,7 @@ function MovieSearch() {
     ? movies.map((result) => (
         <div className="col-12" key={result.id} value={result.id}>
           <div className="card">
-            <img src={result.poster_path} />
+            <img src={`https://image.tmdb.org/t/p/w500${result.poster_path}`} />
           </div>
           {result.original_title}
           <button
