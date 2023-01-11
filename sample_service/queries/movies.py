@@ -29,7 +29,7 @@ class MovieRepository:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    INSERT INTO movies (title, released, plot, rated, imdbID, poster)
+                    INSERT INTO movies
                     VALUES (%s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
@@ -52,7 +52,7 @@ class MovieRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT id, title, released, plot, rated, imdbID, poster
+                    SELECT *
                     FROM movies;
                     """,
                 )
@@ -82,3 +82,25 @@ class MovieRepository:
                 #     for i in all_movies:
                 #         list_movies.append(i)
                 #     return list_movies
+
+    def get_one(self, id) -> MovieOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT *
+                    FROM movies
+                    WHERE id = %s;
+                    """,
+                    [id],
+                )
+                movie = list(db.fetchone())
+                return MovieOut(
+                    id=movie[0],
+                    title=movie[1],
+                    released=movie[2],
+                    plot=movie[3],
+                    rated=movie[4],
+                    imdbID=movie[5],
+                    poster=movie[6],
+                )
