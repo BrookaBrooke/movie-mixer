@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLogInMutation } from "../store/authApi";
 import { updateField } from "../store/accountSlice";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 function AccountForm(props) {
   const dispatch = useDispatch();
