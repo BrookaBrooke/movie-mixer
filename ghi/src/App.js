@@ -18,7 +18,7 @@ function App(props) {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
-        <Route path="/movie-detail/:imdbID" element={<MovieDetail />} />
+        <Route path="/movie-detail/:id" element={<MovieDetail />} />
 
         <Route path="groups">
           <Route
