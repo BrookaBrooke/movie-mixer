@@ -8,6 +8,7 @@ function MovieSearch() {
   const [query, setQuery] = useState("");
   const [pageNum, setPageNum] = useState(pageNumber);
   const [movies, setMovies] = useState([]);
+  const [results, setResults] = useState();
 
   useEffect(() => {
     const getResults = async () => {
@@ -17,6 +18,7 @@ function MovieSearch() {
       const data = await response.json();
       console.log(data);
       setMovies(data.results);
+      setResults(data.total_results);
     };
     if (searchQuery && pageNumber) {
       getResults();
@@ -51,25 +53,41 @@ function MovieSearch() {
 
   const movieList = movies
     ? movies.map((result) => (
-        <div className="col-12" key={result.id} value={result.id}>
-          <div className="card">
-            <img src={`https://image.tmdb.org/t/p/w500${result.poster_path}`} />
+        <div className="col-sm-3" key={result.id} value={result.id}>
+          <div className="d-flex justify-content-center">
+            <img
+              src={
+                result.poster_path
+                  ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
+                  : null
+              }
+            />
           </div>
-          {result.original_title}
-          <button
-            className="button btn-primary m-5"
-            type="button"
-            onClick={() => goToMovieDetail(result.id)}
-          >
-            View Details
-          </button>
+          <div className="row">
+            <div className="col-sm d-flex justify-content-center m-3">
+              {result.title}{" "}
+            </div>
+          </div>
+          <div className="col-sm d-flex justify-content-center m-3">
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => goToMovieDetail(result.id)}
+            >
+              View Details
+            </button>
+          </div>
         </div>
       ))
     : null;
 
   return (
-    <div>
-      <form className="d-flex offset-8" role="search" onSubmit={onSubmit}>
+    <div className="container">
+      <form
+        className="d-flex justify-content-center"
+        role="search"
+        onSubmit={onSubmit}
+      >
         <input
           className="form-control me-2 m-5"
           type="search"
@@ -81,12 +99,12 @@ function MovieSearch() {
           Search
         </button>
       </form>
-      <div className="row w-25">{movieList}</div>
+      <div className="row">{movieList}</div>
 
       {pageNumber ? (
         <>
           {pageNumber > 1 ? (
-            <div className="p-2">
+            <div className="p-2 d-flex justify-content-center">
               <button
                 className="btn btn-outline-primary"
                 type="button"
@@ -96,15 +114,17 @@ function MovieSearch() {
               </button>
             </div>
           ) : null}
-          <div className="p-2">
-            <button
-              className="btn btn-outline-primary"
-              type="button"
-              onClick={nextPage}
-            >
-              Next Page
-            </button>
-          </div>
+          {results / pageNumber > 20 ? (
+            <div className="p-2 d-flex justify-content-center">
+              <button
+                className="btn btn-outline-primary"
+                type="button"
+                onClick={nextPage}
+              >
+                Next Page
+              </button>
+            </div>
+          ) : null}
         </>
       ) : null}
     </div>
