@@ -45,8 +45,42 @@ code {
   opacity: 0.7;
 }
 
-.background-image {
-  width: 100%;
-  height: auto;
+.banner {
+  /* width: 800px;
+  height: 800px; */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 1280px;
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.892), rgba(88, 39, 39, 0.542), rgba(88, 39, 39, 0.542)), url('https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 
+}
+
+.container {
+
+}
+
+.card-body {
+
+}
+
+#detail-text {
+  color: white;
+
+  /* vertical-align: middle; */
+
+}
+
+.poster-image {
+  display: block;
+  border-radius: 25px;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.8);
+}
+
+.genres {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, .5fr));
+  /* gap: 20px; */
+  color: white;
 }
