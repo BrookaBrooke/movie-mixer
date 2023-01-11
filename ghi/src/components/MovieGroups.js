@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -145,7 +146,10 @@ const MovieGroups = () => {
                   </>
                 ) : (
                   <>
-                    <td>{group.name}</td>
+                    <td>
+                      <Link to={`/groups/${group.id}`}>{group.name}</Link>
+                    </td>
+
                     <td>{group.owner}</td>
                     <td>
                       <button
