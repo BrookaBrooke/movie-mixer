@@ -3,6 +3,7 @@ from datetime import date
 from queries.pool import pool
 from typing import List, Dict, Any
 
+
 class MovieItemOut(BaseModel):
     id: int
     movie_id: int
@@ -15,16 +16,19 @@ class MovieItemIn(BaseModel):
     movie_group_id: int
     item_position: int
 
+
 class MovieGroupItem(BaseModel):
     id: int
     item_position: int
     movie_id: int
     title: str
-    
+
+
 class ItemPosition(BaseModel):
     id: int
     item_position: int
-    
+
+
 class MovieItemRepository:
     def create(self, movieitem: MovieItemIn) -> MovieItemOut:
         with pool.connection() as conn:
@@ -38,8 +42,8 @@ class MovieItemRepository:
                     [
                         movieitem.movie_id,
                         movieitem.movie_group_id,
-                        movieitem.item_position
-                    ]
+                        movieitem.item_position,
+                    ],
                 )
                 id = result.fetchone()[0]
                 data = movieitem.dict()
@@ -58,15 +62,14 @@ class MovieItemRepository:
                 result = []
                 for record in db:
                     movieitem = MovieItemOut(
-                        id= record[0],
-                        movie_id= record[1],
-                        movie_group_id= record[2],
-                        item_position= record[3]
-
+                        id=record[0],
+                        movie_id=record[1],
+                        movie_group_id=record[2],
+                        item_position=record[3],
                     )
                     result.append(movieitem)
                 return result
-            
+
     def get_list(self, movie_group_id) -> List[MovieGroupItem]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -78,15 +81,15 @@ class MovieItemRepository:
                     WHERE movie_items.movie_group_id = %s
                     ORDER BY item_position
                     """,
-                    [movie_group_id]
+                    [movie_group_id],
                 )
                 result = []
                 for record in db:
                     movieitem = MovieGroupItem(
-                        id= record[0],
-                        item_position= record[1],
-                        movie_id= record[2],
-                        title= record[3]
+                        id=record[0],
+                        item_position=record[1],
+                        movie_id=record[2],
+                        title=record[3],
                     )
                     result.append(movieitem)
                 return result
@@ -96,11 +99,11 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 for movie_item in items:
                     db.execute(
-                    "UPDATE movie_items SET item_position = %s WHERE id = %s",
-                    (movie_item.item_position, movie_item.id),
-                )
+                        "UPDATE movie_items SET item_position = %s WHERE id = %s",
+                        (movie_item.item_position, movie_item.id),
+                    )
                 return items
-    
+
     def delete(self, id: int) -> Dict[str, Any]:
         with pool.connection() as conn:
             with conn.cursor() as db:
