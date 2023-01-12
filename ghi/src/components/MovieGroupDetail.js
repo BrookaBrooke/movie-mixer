@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -86,7 +87,9 @@ const MovieGroupDetail = () => {
         <tbody>
           {movies.map((movie) => (
             <tr key={movie.id}>
-              <td>{movie.title}</td>
+              <td>
+                <Link to={`/movie-detail/${movie.imdbID}`}>{movie.title}</Link>
+              </td>
               <td>{movie.released}</td>
               <td>{movie.plot}</td>
               <td>{movie.rated}</td>
