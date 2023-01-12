@@ -109,8 +109,8 @@ const MovieGroups = () => {
   }
 
   return (
-    <>
-      <table className="table table-striped">
+    <div className="container">
+      <table className="table table-striped table-responsive">
         <thead>
           <tr>
             <th>Name</th>
@@ -147,7 +147,12 @@ const MovieGroups = () => {
                 ) : (
                   <>
                     <td>
-                      <Link to={`/groups/${group.id}`}>{group.name}</Link>
+                      <Link
+                        className="text-secondary text-decoration-none h5"
+                        to={`/groups/${group.id}`}
+                      >
+                        {group.name}
+                      </Link>
                     </td>
 
                     <td>{group.owner}</td>
@@ -199,7 +204,7 @@ const MovieGroups = () => {
           </tr>
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 
