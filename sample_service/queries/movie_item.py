@@ -94,6 +94,18 @@ class MovieItemRepository:
                     result.append(movieitem)
                 return result
 
+    def delete_movie_in_list(self, movie_group_id, movie_id) -> Dict[str, Any]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    DELETE FROM movie_items
+                    WHERE movie_items.movie_group_id = %s AND movie_items.movie_id = %s
+                    """,
+                    [movie_group_id, movie_id],
+                )
+                return {"movie_id": movie_id, "movie_group_id": movie_group_id}
+
     def update(self, items: List[ItemPosition]) -> List[ItemPosition]:
         with pool.connection() as conn:
             with conn.cursor() as db:

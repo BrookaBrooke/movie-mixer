@@ -9,6 +9,17 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
 
+  const handleDeleteMovie = async (movieId) => {
+    try {
+      await fetch(`http://localhost:8000/movie-items/${id}/movie/${movieId}`, {
+        method: "DELETE",
+      });
+      setMovies(movies.filter((movie) => movie.id !== movieId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchMovieGroups = async () => {
       try {
@@ -31,7 +42,7 @@ const MovieGroupDetail = () => {
     const fetchMovieItems = async () => {
       try {
         const movieItemsResponse = await fetch(
-          `http://localhost:8000/movie_items/${id}`
+          `http://localhost:8000/movie-items/${id}`
         );
         const movieItemsData = await movieItemsResponse.json();
         setMovieItems(movieItemsData);
@@ -82,6 +93,7 @@ const MovieGroupDetail = () => {
             <th>Released</th>
             <th>Plot</th>
             <th>Rated</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +110,14 @@ const MovieGroupDetail = () => {
               <td>{movie.released}</td>
               <td>{movie.plot}</td>
               <td>{movie.rated}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteMovie(movie.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

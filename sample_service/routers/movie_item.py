@@ -37,6 +37,17 @@ def get_movie_group_items(
     return repo.get_list(movie_group_id)
 
 
+@router.delete("/movie-items/{movie_group_id}/movie/{movie_id}")
+def get_movie_group_item(
+    movie_group_id: int,
+    movie_id: int,
+    repo: MovieItemRepository = Depends(),
+):
+    return repo.delete_movie_in_list(
+        movie_group_id=movie_group_id, movie_id=movie_id
+    )
+
+
 @router.put("/movie-items/", response_model=List[ItemPosition])
 def update_movie_items(items: List[ItemPosition]):
     repo = MovieItemRepository()
