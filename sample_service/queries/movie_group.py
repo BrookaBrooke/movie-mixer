@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Dict, Any, List
 from queries.pool import pool
-from typing import List
 
 
 class MovieGroup(BaseModel):
@@ -38,6 +37,8 @@ class MovieGroupRepository:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
                 group = db.fetchone()
+                db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
+                group = db.fetchone()
                 return MovieGroupOut(
                     id=group[0], name=group[1], owner=group[2]
                 )
@@ -49,11 +50,8 @@ class MovieGroupRepository:
                     "INSERT INTO movie_groups (name, owner) VALUES (%s, %s) RETURNING id",
                     (movie_group.name, movie_group.owner),
                 )
-                print(movie_group)
                 data = movie_group.dict()
-                print(data)
                 id = db.fetchone()[0]
-                print("ID: ", id)
                 return MovieGroupOut(id=id, **data)
 
     def update(self, id: int, movie_group: MovieGroupIn) -> Dict[str, Any]:

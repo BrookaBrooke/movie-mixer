@@ -22,3 +22,12 @@ def get_movies(
 ):
 
     return repo.get()
+
+
+@router.get("/movies/{id}", response_model=MovieOut)
+def get_movie(
+    id: int,
+    repo: MovieRepository = Depends(),
+):
+
+    return repo.get_one(id)

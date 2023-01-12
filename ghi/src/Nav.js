@@ -73,28 +73,10 @@ function Nav() {
                 Sign Up
               </NavLink>
             </li>
-            <li className="nav-item px-2 dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Movie Groups
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <NavLink className="dropdown-item" to="groups/">
-                    My Groups
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" to="groups/new">
-                    Make a New Group
-                  </NavLink>
-                </li>
-              </ul>
+            <li className="nav-item px-2">
+              <NavLink className="nav-link active" to="groups/">
+                My Groups
+              </NavLink>
             </li>
           </ul>
           <form className="d-flex" role="search">
