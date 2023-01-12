@@ -14,3 +14,11 @@ Wrote out the CRUD list items with reference to movie_group_id (movie list) and 
 
 Removed some test code I had inserted previously.
 Fixed a bug with the get-movie-group method that would return an error.  Not clear why the using square brackets for the variables in the sql execute query is necessary vs parentheses (list vs tuple).  Then we had to fix the formatting of the return data to make sure it matches what was expected.
+
+# 2023-01-10
+
+Helped with some code to get the images to show in the results page.
+
+# 2023-01-11
+
+Worked with Jesse on front end for Movie Detail.  Jesse was driver and I was navigator.
