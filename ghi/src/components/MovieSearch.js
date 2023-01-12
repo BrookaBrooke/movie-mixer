@@ -72,8 +72,7 @@ function MovieSearch() {
                 data-bs-target={target}
               >
                 <img
-                  className="poster-image
-          "
+                  className="search-poster-image"
                   src={
                     result.poster_path
                       ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
@@ -107,9 +106,8 @@ function MovieSearch() {
                         </button>
                       </div>
                       <div className="modal-body text-light d-flex justify-content-center">
-                        {" "}
                         <img
-                          className="poster-image"
+                          className="search-poster-image"
                           src={
                             result.poster_path
                               ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
