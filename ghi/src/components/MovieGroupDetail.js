@@ -72,10 +72,10 @@ const MovieGroupDetail = () => {
     );
   }
 
-  return movieItems.length != 0 ? (
-    <div>
-      <h1>{movieGroup && movieGroup.name}</h1>
-      <table className="table table-striped">
+  return (
+    <div className="container">
+      <h1 className="mb-3">{movieGroup && movieGroup.name}</h1>
+      <table className="table table-striped table-responsive">
         <thead>
           <tr>
             <th>Title</th>
@@ -88,7 +88,12 @@ const MovieGroupDetail = () => {
           {movies.map((movie) => (
             <tr key={movie.id}>
               <td>
-                <Link to={`/movie-detail/${movie.imdbID}`}>{movie.title}</Link>
+                <Link
+                  className="text-secondary text-decoration-none h5"
+                  to={`/movie-detail/${movie.imdbID}`}
+                >
+                  {movie.title}
+                </Link>
               </td>
               <td>{movie.released}</td>
               <td>{movie.plot}</td>
@@ -97,22 +102,9 @@ const MovieGroupDetail = () => {
           ))}
         </tbody>
       </table>
-    </div>
-  ) : (
-    <div>
-      <h1>{movieGroup && movieGroup.name}</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Released</th>
-            <th>Plot</th>
-            <th>Rated</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div>No movies in this group yet</div>
+      {movieItems.length === 0 && (
+        <div className="text-center">No movies in this group yet</div>
+      )}
     </div>
   );
 };
