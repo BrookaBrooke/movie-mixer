@@ -12,7 +12,7 @@ from typing import List
 router = APIRouter()
 
 
-@router.post("/movie_items", response_model=MovieItemOut)
+@router.post("/movie-items", response_model=MovieItemOut)
 def create_movie_item(
     movie: MovieItemIn,
     repo: MovieItemRepository = Depends(),
@@ -21,7 +21,7 @@ def create_movie_item(
     return repo.create(movie)
 
 
-@router.get("/movie_items", response_model=List[MovieItemOut])
+@router.get("/movie-items", response_model=List[MovieItemOut])
 def get_movie_items(
     repo: MovieItemRepository = Depends(),
 ):
@@ -29,7 +29,7 @@ def get_movie_items(
 
 
 @router.get(
-    "/movie_items/{movie_group_id}", response_model=List[MovieGroupItem]
+    "/movie-items/{movie_group_id}", response_model=List[MovieGroupItem]
 )
 def get_movie_group_items(
     movie_group_id: int, repo: MovieItemRepository = Depends()
@@ -37,7 +37,7 @@ def get_movie_group_items(
     return repo.get_list(movie_group_id)
 
 
-@router.put("/movie_items/", response_model=List[ItemPosition])
+@router.put("/movie-items/", response_model=List[ItemPosition])
 def update_movie_items(items: List[ItemPosition]):
     repo = MovieItemRepository()
     updated = repo.update(items)
@@ -48,7 +48,7 @@ def update_movie_items(items: List[ItemPosition]):
     return updated
 
 
-@router.delete("/movie_items/{item_id}")
+@router.delete("/movie-items/{item_id}")
 def delete_movie_item(item_id: int):
     repository = MovieItemRepository()
     movie_item = repository.delete(item_id)
