@@ -43,6 +43,11 @@ function MovieSearch() {
   function goToMovieDetail(id) {
     return navigate(`/movie-detail/${id}`);
   }
+
+  function posterMovieDetail(poster_path) {
+    return navigate(`/movie/detail/${poster_path}`);
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
     if (pageNum === undefined) {
