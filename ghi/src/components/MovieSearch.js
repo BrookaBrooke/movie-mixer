@@ -8,7 +8,7 @@ function MovieSearch() {
   const [query, setQuery] = useState("");
   const [pageNum, setPageNum] = useState(pageNumber);
   const [movies, setMovies] = useState([]);
-  const [results, setResults] = useState();
+  const [results, setResults] = useState(1);
 
   useEffect(() => {
     const getResults = async () => {
@@ -48,85 +48,141 @@ function MovieSearch() {
     if (pageNum === undefined) {
       setPageNum(1);
     }
+    console.log(movies);
     return navigate(`/search/${query}/1`);
   }
 
-  const movieList = movies
-    ? movies.map((result) => (
-        <div className="col-sm-3" key={result.id} value={result.id}>
-          <div className="d-flex justify-content-center">
-            <img
-              src={
-                result.poster_path
-                  ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
-                  : null
-              }
-            />
-          </div>
-          <div className="row">
+  const movieList =
+    results > 0
+      ? movies.map((result) => (
+          <div className="col-sm-3" key={result.id} value={result.id}>
+            <div
+              className="d-flex justify-content-center"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#movieModal"
+            >
+              <img
+                className="rounded
+              "
+                src={
+                  result.poster_path
+                    ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
+                    : `https://via.placeholder.com/185x276/FFFFFF/000000/?text=No%20Image%20Available`
+                }
+              />
+            </div>
+            <div className="row">
+              <div className="col-sm text-center text-light m-3">
+                {result.title}{" "}
+              </div>
+            </div>
             <div className="col-sm d-flex justify-content-center m-3">
-              {result.title}{" "}
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => goToMovieDetail(result.id)}
+              >
+                View Details
+              </button>
             </div>
           </div>
-          <div className="col-sm d-flex justify-content-center m-3">
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={() => goToMovieDetail(result.id)}
-            >
-              View Details
-            </button>
-          </div>
-        </div>
-      ))
-    : null;
+        ))
+      : null;
 
   return (
-    <div className="container">
-      <form
-        className="d-flex justify-content-center"
-        role="search"
-        onSubmit={onSubmit}
-      >
-        <input
-          className="form-control me-2 m-5"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          onChange={onChange}
-        />
-        <button value={query} className="btn btn-danger m-5" type="submit">
-          Search
-        </button>
-      </form>
-      <div className="row">{movieList}</div>
+    <div className="bg-dark">
+      <div className="container">
+        <form
+          className="d-flex justify-content-center"
+          role="search"
+          onSubmit={onSubmit}
+        >
+          <div className="container w-50 d-flex justify-content-center">
+            <input
+              className="form-control m-3"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              required
+              onChange={onChange}
+            />
+            <button value={query} className="btn btn-danger m-3" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
+        <div className="text-center text-light m-3">
+          Found {results} results matching your search
+        </div>
+        <div className="row">{movieList}</div>
+        <div
+          class="modal fade"
+          id="movieModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Modal title
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">...</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {pageNumber ? (
-        <>
-          {pageNumber > 1 ? (
-            <div className="p-2 d-flex justify-content-center">
-              <button
-                className="btn btn-outline-primary"
-                type="button"
-                onClick={lastPage}
-              >
-                Previous Page
-              </button>
-            </div>
-          ) : null}
-          {results / pageNumber > 20 ? (
-            <div className="p-2 d-flex justify-content-center">
-              <button
-                className="btn btn-outline-primary"
-                type="button"
-                onClick={nextPage}
-              >
-                Next Page
-              </button>
-            </div>
-          ) : null}
-        </>
-      ) : null}
+        {pageNumber ? (
+          <>
+            {pageNumber > 1 ? (
+              <div className="p-2 d-flex justify-content-center">
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={lastPage}
+                >
+                  Previous Page
+                </button>
+              </div>
+            ) : null}
+            {results / pageNumber > 20 ? (
+              <div className="p-2 d-flex justify-content-center">
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={nextPage}
+                >
+                  Next Page
+                </button>
+              </div>
+            ) : null}
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

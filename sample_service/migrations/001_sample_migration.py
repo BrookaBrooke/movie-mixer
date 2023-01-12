@@ -23,7 +23,7 @@ steps = [
             overview TEXT NOT NULL,
             imdb_id VARCHAR(9) NOT NULL,
             poster_path VARCHAR(1000) NOT NULL,
-            vote_average FLOAT NOT NULL,
+            vote_average FLOAT NOT NULL
         );
         """,
         """
