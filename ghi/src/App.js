@@ -1,14 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./Nav";
 import MainPage from "./components/MainPage";
+import MovieDetail from "./components/MovieDetail"
 import { useEffect, useState } from "react";
 import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
-import MovieGroupForm from "./components/MovieGroupForm";
 import MovieSearch from "./components/MovieSearch";
+import MovieGroupDetail from "./components/MovieGroupDetail";
 
 function App(props) {
   return (
@@ -17,12 +18,14 @@ function App(props) {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
-        <Route path="groups">
+        <Route path="/movie-detail/:id" element={<MovieDetail />} />
+
+        <Route path="/groups">
           <Route
             index
             element={<MovieGroups movieGroups={props.movieGroups} />}
           />
-          <Route path="new" element={<MovieGroupForm />}></Route>
+          <Route path="/groups/:id" element={<MovieGroupDetail />} />
         </Route>
         <Route path="/search" element={<MovieSearch />}></Route>
         <Route
