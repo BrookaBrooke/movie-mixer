@@ -51,17 +51,16 @@ const MovieGroupDetail = () => {
       }
     };
     fetchMovieItems();
-  }, [movieGroup]);
+  }, [movieGroup, id]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const movieIdList = movieItems.map((item) => item.movie_id);
         const movieList = [];
-
         for (let movie_id of movieIdList) {
           let movieResponse = await fetch(
-            `http://localhost:8000/movies/${movie_id}`
+            `http://localhost:8000/movies/id/${movie_id}`
           );
           const movieData = await movieResponse.json();
           movieList.push(movieData);
@@ -102,14 +101,14 @@ const MovieGroupDetail = () => {
               <td>
                 <Link
                   className="text-secondary text-decoration-none h5"
-                  to={`/movie-detail/${movie.imdbID}`}
+                  to={`/movie-detail/${movie.imdb_id}`}
                 >
                   {movie.title}
                 </Link>
               </td>
-              <td>{movie.released}</td>
-              <td>{movie.plot}</td>
-              <td>{movie.rated}</td>
+              <td>{movie.release_date}</td>
+              <td>{movie.overview}</td>
+              <td>{movie.vote_average}</td>
               <td>
                 <button
                   className="btn btn-danger"
