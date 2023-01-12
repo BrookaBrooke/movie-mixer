@@ -31,37 +31,37 @@ const MovieDetail = () => {
   }
 
   const divStyle = {
-    backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .7), rgba(93, 41, 41, 0.542)), url(https://image.tmdb.org/t/p/w1280/${details.backdrop_path})`,
+    backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .6), rgba(0, 0, 0, .4)), url(https://image.tmdb.org/t/p/w1280/${details.backdrop_path})`,
   }
 
   return (
-    <div className='banner' style={divStyle} >
-      <div className='container'>
-
-
-          <h2 id="detail-text"> {details.title} </h2>
-            <ul className="genres">
-              {details.genres?.map(genre => {
-              return (
-                        <li key={genre.id}>{genre.name}</li>
-                      );
-              })}
-            </ul>
-
-              <p id="detail-text">
-                {details.overview}
-              </p>
-
-            <h5 id="detail-text"> Released: {details.release_date} </h5>
-            <h4 id="detail-text"> { details.vote_average?.toFixed(1) } </h4>
-            <div className="card-body pb-4">
-              <img className="poster-image" src={`https://image.tmdb.org/t/p/w300${details.poster_path}`} />
-
-
+        <div className='banner' style={divStyle} >
+          <div className='container-fluid'>
+            <div className="row text-center">
+              <div id="poster-detail" className="col align-self-end pt-5">
+                    <img className="poster-image" src={`https://image.tmdb.org/t/p/w300${details.poster_path}`} />
+                  <div className="d-flex justify-content-center pt-4">
+                    <a href="#" className="btn btn-outline-info btn-lg" type="button">Add to List</a>
+                  </div>
+                </div>
+              <div className="col align-self-end pb-5">
+                  <h1 id="detail-text"> {details.title} </h1>
+                <div className="genres">
+                  {details.genres?.map(genre => {
+                  return (
+                            <span className="genres__item" key={genre.id}>{genre.name}</span>
+                          );
+                  })}
+                </div>
+                  <p id="detail-text">
+                    {details.overview}
+                  </p>
+                  <h4 id="detail-text"> Released: {details.release_date} </h4>
+                  <h4 id="detail-text"> Rating: { details.vote_average?.toFixed(1) } </h4>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="#" className="btn btn-outline-info">Add to List</a>
-      </div>
-    </div>
   )
 }
 
