@@ -6,7 +6,6 @@ const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
   const [movieCreated, setMovieCreated] = useState(false);
-  // const [movieItemExists, setMovieItemExists] = useState(false);
 
   const { id } = useParams();
 
