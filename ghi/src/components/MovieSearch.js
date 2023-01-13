@@ -89,13 +89,7 @@ function MovieSearch() {
                 >
                   <div className="modal-dialog" role="document">
                     <div className="modal-content bg-dark">
-                      <div className="modal-header text-center text-light">
-                        <h5
-                          className="modal-title w-100"
-                          id="exampleModalLabel"
-                        >
-                          {result.title}
-                        </h5>
+                      <div className="modal-header text-light">
                         <button
                           type="button"
                           className="close btn btn-outline-secondary"
@@ -156,7 +150,7 @@ function MovieSearch() {
           role="search"
           onSubmit={onSubmit}
         >
-          <div className="container w-50 d-flex justify-content-center">
+          <div className="container w-75 d-flex justify-content-center">
             <input
               className="form-control m-3"
               type="search"
