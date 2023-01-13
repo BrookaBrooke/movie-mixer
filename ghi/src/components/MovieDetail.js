@@ -103,12 +103,13 @@ const MovieDetail = () => {
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
         <div className="row text-center">
-          <div id="poster-detail" className="col align-self-end pt-5">
+          <div id="poster-detail" className="col-auto align-self-end pt-2">
             <img
               className="poster-image"
-              src={`https://image.tmdb.org/t/p/w300${details.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
             />
-            <div className="d-flex justify-content-center pt-4">
+
+            <div className="d-flex justify-content-center p-4">
               <button
                 className="btn btn-outline-info btn-lg"
                 type="button"
@@ -118,7 +119,7 @@ const MovieDetail = () => {
               </button>
             </div>
           </div>
-          <div className="col align-self-end pb-5">
+          <div id="genres-div" className="col-auto align-self-center pb-1">
             <h1 id="detail-text"> {details.title} </h1>
             <div className="genres">
               {details.genres?.map((genre) => {
