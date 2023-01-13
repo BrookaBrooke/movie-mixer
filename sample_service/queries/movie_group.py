@@ -27,6 +27,12 @@ class MovieGroupRepository:
             with conn.cursor() as db:
                 db.execute("SELECT * FROM movie_groups")
                 return db.fetchall()
+            
+    def list_user_groups(self, id: int):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute("SELECT * FROM movie_groups WHERE owner=%s",[id])
+                return db.fetchall()
 
     def get(self, id: int) -> MovieGroupOut:
         with pool.connection() as conn:
