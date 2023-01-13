@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { React, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Nav() {
   return (
@@ -79,17 +79,6 @@ function Nav() {
               </NavLink>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-danger" type="submit">
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>
