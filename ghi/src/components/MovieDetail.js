@@ -137,14 +137,14 @@ const MovieDetail = () => {
   return (
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
-        <div className="row text-center">
-          <div id="poster-detail" className="col-auto align-self-end pt-2">
+        <div className="row justify-content-center">
+          <div id="poster-detail" className="col-auto p-3 mb-4">
             <img
               className="poster-image"
               src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
             />
 
-            <div className="d-flex justify-content-center p-4">
+            <div className="d-flex justify-content-center pt-4">
               <select value={selectedGroupId} onChange={handleGroupSelection}>
                 {movieGroups.map((group) => (
                   <option key={group.id} value={group.id}>
