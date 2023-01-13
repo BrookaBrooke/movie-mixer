@@ -36,8 +36,8 @@ const MovieDetail = () => {
       const movie_item = {
         movie_id: movieId,
         movie_group_id: 1,
-        item_position: 1,
-        // Last two are placeholders for now
+        item_position: 0,
+        // Last two are placeholders for now, the movie group detail page gets REALLY upset at a null value for item_position for some reason looking for a fix for that
       };
       try {
         fetch(`http://localhost:8000/movie-items`, {
