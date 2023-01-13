@@ -5,8 +5,8 @@ import { useNavigate } from "react-router";
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
-  const [movieId, setMovieId] = useState();
   const [movieCreated, setMovieCreated] = useState(false);
+  // const [movieItemExists, setMovieItemExists] = useState(false);
 
   const { id } = useParams();
 
@@ -31,27 +31,41 @@ const MovieDetail = () => {
     }
   }, [movieCreated]);
 
-  useEffect(() => {
-    if (movieId) {
-      const movie_item = {
-        movie_id: movieId,
-        movie_group_id: 1,
-        item_position: 0,
-        // Last two are placeholders for now, the movie group detail page gets REALLY upset at a null value for item_position for some reason looking for a fix for that
-      };
+  const createMovieItem = async (movieItem) => {
+    let data;
+    try {
+      const response = await fetch(`http://localhost:8000/movie-items`);
+      data = await response.json();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+    let movieItemExists = false;
+    for (let item of data) {
+      if (
+        item.movie_id === movieItem.movie_id &&
+        item.movie_group_id === movieItem.movie_group_id
+      ) {
+        console.log("Movie is already in list!");
+        movieItemExists = true;
+        break;
+      }
+    }
+    if (!movieItemExists) {
       try {
-        fetch(`http://localhost:8000/movie-items`, {
+        console.log(movieItem);
+        await fetch(`http://localhost:8000/movie-items`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(movie_item),
+          body: JSON.stringify(movieItem),
         });
       } catch (error) {
         console.error(error);
       }
     }
-  }, [movieId]);
+  };
 
   const handleCreateMovie = async (details) => {
     const movie_details = {
@@ -76,14 +90,22 @@ const MovieDetail = () => {
         });
         if (response.ok) {
           const movieData = await response.json();
-          setMovieId(movieData.id);
+          createMovieItem({
+            movie_id: movieData.id,
+            movie_group_id: 1,
+            item_position: 0,
+          });
         }
       } catch (error) {
         console.error(error);
       }
     } else if (movieExistResponse.status === 200) {
       const movieExistData = await movieExistResponse.json();
-      setMovieId(movieExistData.id);
+      createMovieItem({
+        movie_id: movieExistData.id,
+        movie_group_id: 1,
+        item_position: 0,
+      });
     }
   };
 

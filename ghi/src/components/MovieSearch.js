@@ -130,6 +130,7 @@ function MovieSearch() {
                         <button
                           type="button"
                           className="btn btn-outline-success"
+                          onClick={() => console.log(modalId)}
                         >
                           Add to list
                         </button>
