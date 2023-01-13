@@ -6,6 +6,7 @@ const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
   const [movieId, setMovieId] = useState();
+  const [movieCreated, setMovieCreated] = useState(false);
 
   const { id } = useParams();
 
@@ -22,6 +23,35 @@ const MovieDetail = () => {
     }
     getMovies();
   }, []);
+
+  useEffect(() => {
+    if (movieCreated) {
+      handleCreateMovie(details);
+      setMovieCreated(false);
+    }
+  }, [movieCreated]);
+
+  useEffect(() => {
+    if (movieId) {
+      const movie_item = {
+        movie_id: movieId,
+        movie_group_id: 1,
+        item_position: 1,
+        // Last two are placeholders for now
+      };
+      try {
+        fetch(`http://localhost:8000/movie-items`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(movie_item),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [movieId]);
 
   const handleCreateMovie = async (details) => {
     const movie_details = {
@@ -55,23 +85,6 @@ const MovieDetail = () => {
       const movieExistData = await movieExistResponse.json();
       setMovieId(movieExistData.id);
     }
-    const movie_item = {
-      movie_id: movieId,
-      movie_group_id: 1,
-      item_position: 1,
-      // Last two are placeholders for now
-    };
-    try {
-      await fetch(`http://localhost:8000/movie-items`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(movie_item),
-      });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   if (loaded) {
@@ -99,7 +112,7 @@ const MovieDetail = () => {
               <button
                 className="btn btn-outline-info btn-lg"
                 type="button"
-                onClick={() => handleCreateMovie(details)}
+                onClick={() => setMovieCreated(true)}
               >
                 Add to List
               </button>

@@ -19,3 +19,10 @@ Updated the list view for movie groups so that the user can add a new group on t
 Also added delete and edit buttons to the list
 
 # 1-11-23
+
+The list view wasn't actually working properly, I did not test it thoroughly enough. I fixed those problems today.
+
+# 1-12-23
+
+Today I worked on the "Add to list" button functionality on the MovieDetail.js page. I've gotten the basics to work, but I need to add a way to check if a movie is already in a group.
+I also need to make it so the user can choose which group to add it to.
