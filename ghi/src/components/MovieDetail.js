@@ -6,6 +6,8 @@ const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
   const [movieCreated, setMovieCreated] = useState(false);
+  const [selectedGroupId, setSelectedGroupId] = useState(1);
+  const [movieGroups, setMovieGroups] = useState([]);
 
   const { id } = useParams();
 
@@ -21,6 +23,15 @@ const MovieDetail = () => {
       }
     }
     getMovies();
+  }, []);
+
+  useEffect(() => {
+    async function fetchMovieGroups() {
+      const response = await fetch(`http://localhost:8000/movie-groups`);
+      const data = await response.json();
+      setMovieGroups(data);
+    }
+    fetchMovieGroups();
   }, []);
 
   useEffect(() => {
@@ -52,7 +63,6 @@ const MovieDetail = () => {
     }
     if (!movieItemExists) {
       try {
-        console.log(movieItem);
         await fetch(`http://localhost:8000/movie-items`, {
           method: "POST",
           headers: {
@@ -91,7 +101,7 @@ const MovieDetail = () => {
           const movieData = await response.json();
           createMovieItem({
             movie_id: movieData.id,
-            movie_group_id: 1,
+            movie_group_id: selectedGroupId,
             item_position: 0,
           });
         }
@@ -102,10 +112,14 @@ const MovieDetail = () => {
       const movieExistData = await movieExistResponse.json();
       createMovieItem({
         movie_id: movieExistData.id,
-        movie_group_id: 1,
+        movie_group_id: selectedGroupId,
         item_position: 0,
       });
     }
+  };
+
+  const handleGroupSelection = (event) => {
+    setSelectedGroupId(Number(event.target.value));
   };
 
   if (loaded) {
@@ -131,6 +145,14 @@ const MovieDetail = () => {
             />
 
             <div className="d-flex justify-content-center p-4">
+              <select value={selectedGroupId} onChange={handleGroupSelection}>
+                {movieGroups.map((group) => (
+                  <option key={group.id} value={group.id}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+
               <button
                 className="btn btn-outline-info btn-lg"
                 type="button"
