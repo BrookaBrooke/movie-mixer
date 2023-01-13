@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Dropdown, Button } from "react-bootstrap";
 
 function MovieSearch() {
   const { searchQuery, pageNumber } = useParams();
@@ -9,6 +10,11 @@ function MovieSearch() {
   const [pageNum, setPageNum] = useState(pageNumber);
   const [movies, setMovies] = useState([]);
   const [results, setResults] = useState();
+
+  const [details, setDetails] = useState([]);
+  const [movieCreated, setMovieCreated] = useState(false);
+  const [selectedGroupId, setSelectedGroupId] = useState(1);
+  const [movieGroups, setMovieGroups] = useState([]);
 
   useEffect(() => {
     const getResults = async () => {
@@ -24,6 +30,112 @@ function MovieSearch() {
       getResults();
     }
   }, [searchQuery, pageNumber]);
+
+  async function getMovies(modalId) {
+    const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${modalId}`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      setDetails(data);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchMovieGroups() {
+      const response = await fetch(`http://localhost:8000/movie-groups`);
+      const data = await response.json();
+      setMovieGroups(data);
+    }
+    fetchMovieGroups();
+  }, []);
+
+  useEffect(() => {
+    if (movieCreated) {
+      handleCreateMovie(details);
+      setMovieCreated(false);
+    }
+  }, [movieCreated]);
+
+  const handleGroupSelection = (event) => {
+    setSelectedGroupId(Number(event.target.value));
+  };
+
+  const createMovieItem = async (movieItem) => {
+    let data;
+    try {
+      const response = await fetch(`http://localhost:8000/movie-items`);
+      data = await response.json();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+    let movieItemExists = false;
+    for (let item of data) {
+      if (
+        item.movie_id === movieItem.movie_id &&
+        item.movie_group_id === movieItem.movie_group_id
+      ) {
+        alert("Movie is already in this list!");
+        movieItemExists = true;
+        break;
+      }
+    }
+    if (!movieItemExists) {
+      try {
+        await fetch(`http://localhost:8000/movie-items`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(movieItem),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleCreateMovie = async (details) => {
+    const movie_details = {
+      title: details.title,
+      release_date: details.release_date,
+      overview: details.overview,
+      imdb_id: details.imdb_id,
+      poster_path: details.poster_path,
+      vote_average: details.vote_average,
+    };
+    const movieExistResponse = await fetch(
+      `http://localhost:8000/movies/${details.imdb_id}`
+    );
+    if (movieExistResponse.status === 404) {
+      try {
+        const response = await fetch(`http://localhost:8000/movies`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(movie_details),
+        });
+        if (response.ok) {
+          const movieData = await response.json();
+          createMovieItem({
+            movie_id: movieData.id,
+            movie_group_id: selectedGroupId,
+            item_position: 0,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (movieExistResponse.status === 200) {
+      const movieExistData = await movieExistResponse.json();
+      createMovieItem({
+        movie_id: movieExistData.id,
+        movie_group_id: selectedGroupId,
+        item_position: 0,
+      });
+    }
+  };
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -62,7 +174,6 @@ function MovieSearch() {
       ? movies.map((result) => {
           const modalId = result.id;
           const target = "#" + modalId;
-
           return (
             <div className="col-sm-3" key={result.id} value={result.id}>
               <div
@@ -106,7 +217,6 @@ function MovieSearch() {
                         </button>
                       </div>
                       <div className="modal-body text-light d-flex justify-content-center">
-                        {" "}
                         <img
                           className="search-poster-image"
                           src={
@@ -128,13 +238,28 @@ function MovieSearch() {
                         >
                           View more details
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-outline-success"
-                          onClick={() => console.log(modalId)}
-                        >
-                          Add to list
-                        </button>
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            as={Button}
+                            className="btn btn-outline-success bg-transparent"
+                            id="dropdown-basic"
+                          >
+                            Add to List
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            {" "}
+                            {movieGroups.map((movieGroup) => (
+                              <Dropdown.Item
+                                key={movieGroup.id}
+                                onClick={() => setMovieCreated(true)}
+                                value={movieGroup.id}
+                              >
+                                {movieGroup.name}
+                              </Dropdown.Item>
+                            ))}
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </div>
                     </div>
                   </div>
@@ -151,63 +276,60 @@ function MovieSearch() {
       : null;
 
   return (
-    <div className="banner-search">
-      <div className="">
-      <div className="search-bar-height"></div>
-        <div className="container search-bar">
-          <form
-            className="d-flex justify-content-center"
-            role="search"
-            onSubmit={onSubmit}
-          >
-            <div className="container w-50 d-flex justify-content-center">
-              <input
-                className="form-control m-3"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                required
-                onChange={onChange}
-              />
-              <button value={query} className="btn btn-danger m-3" type="submit">
-                Search
-              </button>
-            </div>
-          </form>
-          <div className="text-center text-light m-3">
-            {results !== undefined ? (
-              <p>Found {results} results matching your search</p>
-            ) : null}
+    <div className="bg-dark">
+      <div className="container">
+        <form
+          className="d-flex justify-content-center"
+          role="search"
+          onSubmit={onSubmit}
+        >
+          <div className="container w-50 d-flex justify-content-center">
+            <input
+              className="form-control m-3"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              required
+              onChange={onChange}
+            />
+            <button value={query} className="btn btn-danger m-3" type="submit">
+              Search
+            </button>
           </div>
-          <div className="row">{movieList}</div>
-
-          {pageNumber ? (
-            <>
-              {pageNumber > 1 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <button
-                    className="btn btn-outline-primary"
-                    type="button"
-                    onClick={lastPage}
-                  >
-                    Previous Page
-                  </button>
-                </div>
-              ) : null}
-              {results / pageNumber > 20 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <button
-                    className="btn btn-outline-primary"
-                    type="button"
-                    onClick={nextPage}
-                  >
-                    Next Page
-                  </button>
-                </div>
-              ) : null}
-            </>
+        </form>
+        <div className="text-center text-light m-3">
+          {results !== undefined ? (
+            <p>Found {results} results matching your search</p>
           ) : null}
         </div>
+        <div className="row">{movieList}</div>
+
+        {pageNumber ? (
+          <>
+            {pageNumber > 1 ? (
+              <div className="p-2 d-flex justify-content-center">
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={lastPage}
+                >
+                  Previous Page
+                </button>
+              </div>
+            ) : null}
+            {results / pageNumber > 20 ? (
+              <div className="p-2 d-flex justify-content-center">
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={nextPage}
+                >
+                  Next Page
+                </button>
+              </div>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </div>
   );
