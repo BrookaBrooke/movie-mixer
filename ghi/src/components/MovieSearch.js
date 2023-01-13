@@ -106,6 +106,7 @@ function MovieSearch() {
                         </button>
                       </div>
                       <div className="modal-body text-light d-flex justify-content-center">
+                        {" "}
                         <img
                           className="search-poster-image"
                           src={
