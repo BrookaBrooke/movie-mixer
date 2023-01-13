@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 
 const MovieDetail = () => {
@@ -7,7 +7,6 @@ const MovieDetail = () => {
   const [loaded, setLoaded] = useState(true);
 
   const { id } = useParams();
-
 
   useEffect(() => {
     async function getMovies() {
@@ -20,7 +19,7 @@ const MovieDetail = () => {
       }
     }
     getMovies();
-  }, [])
+  }, []);
 
   if (loaded) {
     return (
@@ -32,19 +31,21 @@ const MovieDetail = () => {
 
   const divStyle = {
     backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .6), rgba(0, 0, 0, .4)), url(https://image.tmdb.org/t/p/w1280/${details.backdrop_path})`,
-  }
+  };
 
   return (
-        <div className='banner' style={divStyle} >
+        <div className='banner' style={divStyle}>
           <div className='container-fluid'>
-            <div className="row text-center">
-              <div id="poster-detail" className="col align-self-end pt-5">
-                    <img className="poster-image" src={`https://image.tmdb.org/t/p/w300${details.poster_path}`} />
+            <div className="row justify-content-center">
+              <div id="poster-detail" className="col-auto p-3 mb-4">
+                    <img className="poster-image" src={`https://image.tmdb.org/t/p/w400${details.poster_path}`} />
+
                   <div className="d-flex justify-content-center pt-4">
+
                     <a href="#" className="btn btn-outline-info btn-lg" type="button">Add to List</a>
                   </div>
                 </div>
-              <div className="col align-self-end pb-5">
+              <div id="genres-div" className="col-auto align-self-center pb-1">
                   <h1 id="detail-text"> {details.title} </h1>
                 <div className="genres">
                   {details.genres?.map(genre => {
@@ -62,17 +63,18 @@ const MovieDetail = () => {
             </div>
           </div>
         </div>
-  )
-}
+  );
+};
 
 export default MovieDetail;
 
 // .toFixed(1)
 
- {/* <div id="back-drop">
+{
+  /* <div id="back-drop">
           <img style={background-image}: {`https://image.tmdb.org/t/p/w500${details.backdrop_path}`} />
-        </div> */}
+        </div> */
+}
 
-
-      //   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
-      // </div>
+//   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
+// </div>
