@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -56,7 +56,7 @@ const MovieDetail = () => {
         item.movie_id === movieItem.movie_id &&
         item.movie_group_id === movieItem.movie_group_id
       ) {
-        alert("Movie is already in list!");
+        alert("Movie is already in this list!");
         movieItemExists = true;
         break;
       }
@@ -145,21 +145,37 @@ const MovieDetail = () => {
             />
 
             <div className="d-flex justify-content-center pt-4">
-              <select value={selectedGroupId} onChange={handleGroupSelection}>
-                {movieGroups.map((group) => (
-                  <option key={group.id} value={group.id}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
+              <Dropdown>
+                <Dropdown.Toggle
+                  className="btn btn-outline-info btn-lg bg-transparent"
+                  id="dropdown-basic"
+                >
+                  Add to List
+                </Dropdown.Toggle>
 
+                <Dropdown.Menu>
+                  {" "}
+                  {movieGroups.map((movieGroup) => (
+                    <Dropdown.Item
+                      key={movieGroup.id}
+                      onClick={() => setMovieCreated(true)}
+                      value={movieGroup.id}
+                    >
+                      {movieGroup.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+
+              {/*
+              Couldn't get the hover effect to match what this one had, will circle back
               <button
                 className="btn btn-outline-info btn-lg"
                 type="button"
                 onClick={() => setMovieCreated(true)}
               >
                 Add to List
-              </button>
+              </button> */}
             </div>
           </div>
           <div id="genres-div" className="col-auto align-self-center pb-1">
