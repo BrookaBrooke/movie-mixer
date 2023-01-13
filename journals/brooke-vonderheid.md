@@ -10,3 +10,7 @@ Today we began working on the queries as a group. However, we discovered that ma
 
 Today we started working on the accounts feature which will allow us to create a new account
 on our site.
+
+# 1-12-23
+
+# 1-13-23
