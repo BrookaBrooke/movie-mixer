@@ -28,6 +28,9 @@ class ItemPosition(BaseModel):
     id: int
     item_position: int
 
+class Error(BaseModel):
+    message: str
+
 
 class MovieItemRepository:
     def create(self, movieitem: MovieItemIn) -> MovieItemOut:
