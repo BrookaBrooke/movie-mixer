@@ -75,7 +75,7 @@ function MovieSearch() {
                   className="search-poster-image"
                   src={
                     result.poster_path
-                      ? `https://image.tmdb.org/t/p/w300${result.poster_path}`
+                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
                       : `https://via.placeholder.com/185x276/FFFFFF/000000/?text=No%20Image%20Available`
                   }
                 />
@@ -111,7 +111,7 @@ function MovieSearch() {
                           className="search-poster-image"
                           src={
                             result.poster_path
-                              ? `https://image.tmdb.org/t/p/w300${result.poster_path}`
+                              ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
                               : `https://via.placeholder.com/185x276/FFFFFF/000000/?text=No%20Image%20Available`
                           }
                         />

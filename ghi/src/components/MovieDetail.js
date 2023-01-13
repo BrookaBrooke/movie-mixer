@@ -34,7 +34,7 @@ const MovieDetail = () => {
   };
 
   return (
-        <div className='banner' style={divStyle} >
+        <div className='banner' style={divStyle}>
           <div className='container-fluid'>
             <div className="row justify-content-center">
               <div id="poster-detail" className="col-auto p-3 mb-4">
@@ -54,7 +54,6 @@ const MovieDetail = () => {
                           );
                   })}
                 </div>
-
                   <p id="detail-text">
                     {details.overview}
                   </p>
@@ -63,27 +62,7 @@ const MovieDetail = () => {
               </div>
             </div>
           </div>
-          <div id="genres-div" className="col-auto align-self-center pb-1">
-            <h1 id="detail-text"> {details.title} </h1>
-            <div className="genres">
-              {details.genres?.map((genre) => {
-                return (
-                  <span className="genres__item" key={genre.id}>
-                    {genre.name}
-                  </span>
-                );
-              })}
-            </div>
-            <p id="detail-text">{details.overview}</p>
-            <h4 id="detail-text"> Released: {details.release_date} </h4>
-            <h4 id="detail-text">
-              {" "}
-              Rating: {details.vote_average?.toFixed(1)}{" "}
-            </h4>
-          </div>
         </div>
-      </div>
-    </div>
   );
 };
 
