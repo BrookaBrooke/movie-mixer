@@ -35,18 +35,50 @@ code {
 }
 
 .home-pic {
-  background-image: linear-gradient(to left, rgba(94, 39, 87, 0.493), rgba(155, 45, 45, 0.287)), url('https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  /* background-image: linear-gradient(to left, rgba(94, 39, 87, 0.493), rgba(155, 45, 45, 0.287)), url('https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); */
   width: 100%;
   height: 1280px;
   background-size: cover;
   background-repeat: no-repeat;
+  pointer-events: none;
+  /* opacity: 0.9; */
+  /* position: absolute; */
+  z-index: -1;
+  bottom: 0%;
+  left: 0%;
 }
+.main-page-search {
+  color: white;
+  background-color:black;
+  z-index: 1;
+  position: absolute;
+  right: 0%;
+  top: 20%;
+  width: 100%;
+  opacity: 0.5;
+  margin-top: 70px;
+  padding-bottom: 50px;
+}
+
+.carousel-content {
+  position: absolute;
+  z-index: 1;
+  bottom: 0%;
+  left: 0%;
+  right: 20%;
+}
+.overlay {
+  top: 0;
+}
+/* .main-page-search {
+  height: 400px;
+} */
 
 .home-header {
   text-align: center;
-  padding-top: 150px;
+  /* padding-top: 150px; */
   font-size: 50px;
-  color:aliceblue;
+  /* color:aliceblue; */
 }
 
 .dropdown-item.active, .dropdown-item:active {
@@ -72,7 +104,7 @@ code {
   color: white;
   margin-right: 0px;
   margin-bottom: 20px;
-
+  max-width: 500px;
 }
 
 /* div col align-self-end pb-5 {
@@ -84,6 +116,7 @@ code {
   border-radius: 25px;
   box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.8);
   margin-top: 120px;
+  margin-right: 60px;
   /* margin-left: 5px; */
 }
 
@@ -98,7 +131,7 @@ code {
   padding-right: 50px;
   padding-bottom: 30px;
   line-height: 50px;
-  margin-left: 20px;
+  /* margin-left: 10px; */
 }
 
 .genres__item {
@@ -121,6 +154,24 @@ code {
   margin-left: 100px;
 }
 
+.banner-search {
+  background-color: black;
+  height: cover;
+  min-height: 1280px;
+}
+
+/* .div, .bg-dark {
+  margin-top: 100px;
+} */
+
+.container, .search-bar {
+  /* margin-top: 150px; */
+}
+
+.search-bar-height {
+  min-height: 150px;
+}
+
 /* .btn btn-outline-info btn-lg {
   position: relative;
   align-items: center;
@@ -137,6 +188,12 @@ div #genres-div .col-align-self-end pb-5{
   margin-bottom: 200px;
 } */
 
-.col-auto, .align-self-end, .pt-2 {
+/* .col-auto, .align-self-end, .pt-2 {
+  width: 100px;
+  align-items: center;
+} */
+
+/* .col-auto, .align-self-center, .pb-1 {
   width: 600px;
-}
+  align-items: center;
+} */
