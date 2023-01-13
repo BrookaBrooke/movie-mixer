@@ -46,7 +46,7 @@ const MovieDetail = () => {
         item.movie_id === movieItem.movie_id &&
         item.movie_group_id === movieItem.movie_group_id
       ) {
-        console.log("Movie is already in list!");
+        alert("Movie is already in list!");
         movieItemExists = true;
         break;
       }
