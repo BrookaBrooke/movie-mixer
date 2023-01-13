@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 
 const MovieDetail = () => {
@@ -7,7 +7,6 @@ const MovieDetail = () => {
   const [loaded, setLoaded] = useState(true);
 
   const { id } = useParams();
-
 
   useEffect(() => {
     async function getMovies() {
@@ -20,7 +19,7 @@ const MovieDetail = () => {
       }
     }
     getMovies();
-  }, [])
+  }, []);
 
   if (loaded) {
     return (
@@ -32,7 +31,7 @@ const MovieDetail = () => {
 
   const divStyle = {
     backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .6), rgba(0, 0, 0, .4)), url(https://image.tmdb.org/t/p/w1280/${details.backdrop_path})`,
-  }
+  };
 
   return (
         <div className='banner' style={divStyle} >
@@ -64,18 +63,39 @@ const MovieDetail = () => {
               </div>
             </div>
           </div>
+          <div id="genres-div" className="col-auto align-self-center pb-1">
+            <h1 id="detail-text"> {details.title} </h1>
+            <div className="genres">
+              {details.genres?.map((genre) => {
+                return (
+                  <span className="genres__item" key={genre.id}>
+                    {genre.name}
+                  </span>
+                );
+              })}
+            </div>
+            <p id="detail-text">{details.overview}</p>
+            <h4 id="detail-text"> Released: {details.release_date} </h4>
+            <h4 id="detail-text">
+              {" "}
+              Rating: {details.vote_average?.toFixed(1)}{" "}
+            </h4>
+          </div>
         </div>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
 export default MovieDetail;
 
 // .toFixed(1)
 
- {/* <div id="back-drop">
+{
+  /* <div id="back-drop">
           <img style={background-image}: {`https://image.tmdb.org/t/p/w500${details.backdrop_path}`} />
-        </div> */}
+        </div> */
+}
 
-
-      //   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
-      // </div>
+//   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
+// </div>
