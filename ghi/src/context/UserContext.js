@@ -15,7 +15,7 @@ export const UserProvider = (props) => {
         },
         };
 
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api/accounts/{username}`
+        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`
         const response = await fetch(url);
         if (!response.ok) {
             setToken(null);
