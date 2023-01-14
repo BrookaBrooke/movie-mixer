@@ -15,7 +15,8 @@ export const UserProvider = (props) => {
         },
         };
 
-        const response = await fetch("/api/accounts/{username}", requestOptions);
+        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api/accounts/{username}`
+        const response = await fetch(url);
         if (!response.ok) {
             setToken(null);
         }
@@ -24,9 +25,9 @@ export const UserProvider = (props) => {
     fetchUser();
     }, [token]);
 
-        return (
-        <UserContext.Provider value={[token, setToken]}>
-            {props.children}
-            </UserContext.Provider>
-        )
+    return (
+      <UserContext.Provider value={[token, setToken]}>
+          {props.children}
+      </UserContext.Provider>
+    );
 };

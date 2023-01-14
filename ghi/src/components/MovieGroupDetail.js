@@ -71,7 +71,7 @@ const MovieGroupDetail = () => {
     );
   }
 
-  return movieItems.length != 0 ? (
+  return movieItems.length !== 0 ? (
     <div>
       <h1>{movieGroup && movieGroup.name}</h1>
       <table className="table table-striped">
