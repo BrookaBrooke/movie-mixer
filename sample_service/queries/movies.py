@@ -3,6 +3,7 @@ from datetime import date
 from queries.pool import pool
 from typing import List
 
+
 class MovieOut(BaseModel):
     id: int
     title: str
@@ -21,13 +22,14 @@ class MovieIn(BaseModel):
     imdbID: str
     poster: str
 
+
 class MovieRepository:
     def create(self, movie: MovieIn) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    INSERT INTO movies (title, released, plot, rated, imdbID, poster)
+                    INSERT INTO movies
                     VALUES (%s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
@@ -37,8 +39,8 @@ class MovieRepository:
                         movie.plot,
                         movie.rated,
                         movie.imdbID,
-                        movie.poster
-                    ]
+                        movie.poster,
+                    ],
                 )
                 id = result.fetchone()[0]
                 data = movie.dict()
@@ -50,7 +52,7 @@ class MovieRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT id, title, released, plot, rated, imdbID, poster
+                    SELECT *
                     FROM movies;
                     """,
                 )
@@ -63,12 +65,10 @@ class MovieRepository:
                         plot=record[3],
                         rated=record[4],
                         imdbID=record[5],
-                        poster=record[6]
-
+                        poster=record[6],
                     )
                     result.append(movie)
                 return result
-
 
                 # print("*************")
                 # print(all_movies)
@@ -82,3 +82,25 @@ class MovieRepository:
                 #     for i in all_movies:
                 #         list_movies.append(i)
                 #     return list_movies
+
+    def get_one(self, id) -> MovieOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT *
+                    FROM movies
+                    WHERE id = %s;
+                    """,
+                    [id],
+                )
+                movie = list(db.fetchone())
+                return MovieOut(
+                    id=movie[0],
+                    title=movie[1],
+                    released=movie[2],
+                    plot=movie[3],
+                    rated=movie[4],
+                    imdbID=movie[5],
+                    poster=movie[6],
+                )

@@ -19,11 +19,12 @@ steps = [
         CREATE TABLE movies (
             id SERIAL PRIMARY KEY NOT NULL,
             title VARCHAR(255) NOT NULL,
-            released DATE NOT NULL,
-            plot TEXT NOT NULL,
-            rated VARCHAR(5) NOT NULL,
-            imdbID VARCHAR(9) NOT NULL,
-            poster VARCHAR(1000) NOT NULL
+            release_date DATE NOT NULL,
+            overview TEXT NOT NULL,
+            imdb_id VARCHAR(9) NOT NULL,
+            poster_path VARCHAR(1000) NOT NULL,
+            vote_average FLOAT NOT NULL,
+            api3_id INT NOT NULL
         );
         """,
         """
@@ -38,7 +39,7 @@ steps = [
             owner INTEGER REFERENCES accounts(id)
 
         );
-        """,    
+        """,
         """
         DROP TABLE movie_groups;
         """,
@@ -55,5 +56,5 @@ steps = [
         """
         DROP TABLE movie_items;
         """,
-    ]
+    ],
 ]
