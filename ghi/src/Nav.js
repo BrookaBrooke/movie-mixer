@@ -59,18 +59,18 @@ function Nav() {
               </ul>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
+              <NavLink className="nav-link active" to="/login">
                 Log In
               </NavLink>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
+              <NavLink className="nav-link active" to="/logout">
                 Log Out
               </NavLink>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
-                Sign Up
+              <NavLink className="nav-link active" to="/register">
+                Register
               </NavLink>
             </li>
             <li className="nav-item px-2">

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from authenticator import authenticator
+from typing import List
 
 from queries.movie_group import (
     MovieGroupRepository,
@@ -10,11 +11,10 @@ from queries.movie_group import (
 
 router = APIRouter()
 
-
 @router.get("/movie-groups")
 def read_movie_groups(
-    repository = MovieGroupRepository()
-    ):
+    repository: MovieGroupRepository = Depends ()
+    ) -> List[MovieGroupOut]:
         return repository.list()
     # account_data: dict = Depends(authenticator.get_current_account_data)
     # ):
@@ -24,18 +24,18 @@ def read_movie_groups(
     #     )
     # else:
 
-
 @router.get("/movie-groups-by-user")
 def get_groups_by_user(
     repo: MovieGroupRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
-    ):
+    ) -> List[MovieGroupOut]:
     if account_data is None:
         raise HTTPException(
-            status_code=401, detail="Not logged in"
+            status_code=401 , detail="Not logged in"
         )
     else:
         return repo.list_user_groups(account_data["id"])
+
 
 @router.get("/movie-groups/{movie_group_id}")
 def read_movie_group(movie_group_id: int):
@@ -57,14 +57,13 @@ def create_movie_group(
         new_movie_group = repository.create(movie_group)
         return new_movie_group
 
-
 @router.put("/movie-groups/{movie_group_id}")
 def update_movie_group(
     movie_group_id: int, 
     movie_group: MovieGroupIn,
-    repository = MovieGroupRepository(),
+    repository: MovieGroupRepository = Depends (),
     account_data: dict = Depends(authenticator.get_current_account_data)
-    ):
+    ) -> MovieGroupOut:
     if account_data is None:
         raise HTTPException(
             status_code=401, detail="Not logged in"
@@ -84,7 +83,7 @@ def update_movie_group(
             name=updated_movie_group.name,
             owner=updated_movie_group.owner,
         )
-
+        
 @router.delete("/movie-groups/{movie_group_id}")
 def delete_movie_group(
     movie_group_id: int,
