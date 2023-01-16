@@ -42,8 +42,8 @@ function Nav() {
                 </li>
                 {/* <li><hr className="dropdown-divider"/></li> */}
                 <li>
-                  <NavLink className="dropdown-item" to="/">
-                    My Favorites (home)
+                  <NavLink className="dropdown-item" to="/my-groups">
+                    My Favorites
                   </NavLink>
                 </li>
                 <li>
@@ -75,7 +75,7 @@ function Nav() {
             </li>
             <li className="nav-item px-2">
               <NavLink className="nav-link active" to="#">
-                Deleted
+                Groups (moved)
               </NavLink>
             </li>
           </ul>

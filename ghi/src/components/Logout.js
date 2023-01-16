@@ -24,7 +24,7 @@ const Logout = () => {
         localStorage.removeItem("leadsToken")
         };
       logout();
-      }, []);
+      }, [token]);
 
     return (
     <div className="row">

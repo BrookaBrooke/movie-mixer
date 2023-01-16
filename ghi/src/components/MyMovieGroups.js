@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const MovieGroups = () => {
+const MyMovieGroups = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingGroupId, setEditingGroupId] = useState();
@@ -13,7 +13,14 @@ const MovieGroups = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const groupData = await fetch("http://localhost:8000/movie-groups");
+        const groupData = await fetch(`http://localhost:8000/movie-groups-by-user`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
+            }
+        }
+        );
         const data = await groupData.json();
         console.log(data)
         console.log(groupData)
@@ -25,6 +32,7 @@ const MovieGroups = () => {
     };
     fetchData();
   }, []);
+
 
   const handleCreateGroup = () => {
     setCreatingGroup(true);
@@ -111,7 +119,7 @@ const MovieGroups = () => {
       <div className="row justify-content-center m-5">
         <div className="spinner-border alignt-center" role="status">
           <span className="visually-hidden">Error...</span>
-          <h1> Unauthorized </h1>
+          <h1> yOU aRe Not Logged in! </h1>
         </div>
       </div>
     );
@@ -130,7 +138,7 @@ const MovieGroups = () => {
   return (
     <>
       <section className="container">
-        <h2 class="mb-5">All Favorites List</h2>
+        <h2 class="mb-5">{localStorage.getItem("username")}'s Favorites List</h2>
       <table className="table table-dark table-hover">
         <thead>
           <tr>
@@ -225,4 +233,4 @@ const MovieGroups = () => {
   );
 };
 
-export default MovieGroups;
+export default MyMovieGroups;

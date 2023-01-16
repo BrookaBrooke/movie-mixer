@@ -30,7 +30,10 @@ const Login = () => {
         if (response.ok) {
           const data = await response.json();
           const token = data.access_token;
-          // DO SOMETHING WITH THE TOKEN SO YOU CAN USE IT
+          localStorage.setItem("leadsToken", data.access_token);
+          localStorage.setItem("user_id", data.account.id);
+          localStorage.setItem("username", data.account.username);
+          // DO SOMETHING WITH THE TOKEN SO YOU CAN USE IT localStorage.getItem("user_id")
           // IN REQUESTS TO YOUR NON-ACCOUNTS SERVICES
         }
       } catch (e) {}
