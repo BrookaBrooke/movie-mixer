@@ -183,6 +183,7 @@ function MovieSearch() {
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target={target}
+                onClick={(e) => getMovies(modalId)}
               >
                 <img
                   className="search-poster-image"
