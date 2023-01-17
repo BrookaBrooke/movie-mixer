@@ -65,15 +65,18 @@ def update_movie_items(
 @router.delete("/movie_items/{item_id}")
 def delete_movie_item(
     item_id: int,
-    repo: MovieItemRepository = Depends(),
-    owner: MovieGroupRepository = Depends(),
+    item: MovieItemRepository = Depends(),
+    group: MovieGroupRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    movie_group_data = owner.get(account_data["id"])
+    movie_group_owner = group.get(
+        item.get_detail(item_id).movie_group_id
+    ).owner
+    print(movie_group_owner)
     if account_data is None:
         raise HTTPException(status_code=401, detail="Not logged in")
-    elif movie_group_data.owner == account_data["id"]:
-        movie_item = repo.delete(item_id)
+    elif movie_group_owner == account_data["id"]:
+        movie_item = item.delete(item_id)
         if not movie_item:
             raise HTTPException(
                 status_code=400, detail="Failed to delete movie item"

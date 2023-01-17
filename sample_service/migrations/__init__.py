@@ -180,3 +180,18 @@ def populate():
             """
             )
             print("Database populated")
+            
+def drop():
+    print("Dropping tables...")
+    with pool.connection() as conn:
+        with conn.cursor() as db:
+            result = db.execute(
+            """
+            DROP TABLE accounts;
+            DROP TABLE movies;
+            DROP TABLE movie_groups;
+            DROP TABLE movie_items;
+
+            """
+            )
+            print("Tables dropped")
