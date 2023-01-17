@@ -23,9 +23,9 @@ const Logout = () => {
         setToken(null);
       }
       localStorage.removeItem("leadsToken");
+      navigate("/");
+      window.location.reload(false);
     };
-    navigate("/");
-    window.location.reload(false);
     logout();
   }, [token]);
 
