@@ -30,3 +30,7 @@ Worked on authentication for back-end.  Implemented authentication on 'edit' fea
 # 2023-01-16
 
 Worked on authentication for front-end with Jesse.  Saved token to localStorage and user_id.  Authentication was implemented to allow for requests to pass through as authorized.  We identified a bug, which does not allow to delete movie-groups because of the relationship with the items tied to them.  (this is an 'on delete cascade or protect' issue).  Login/Logout/Signup are functional, but ugly.  Favorites list for user view is functional.
+
+# 2023-01-17
+
+Fixed a bug that allowed non-owners of movie items to delete movie-items.
