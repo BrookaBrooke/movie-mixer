@@ -21,7 +21,7 @@ steps = [
             title VARCHAR(255) NOT NULL,
             release_date DATE NOT NULL,
             overview TEXT NOT NULL,
-            imdb_id VARCHAR(9) NOT NULL,
+            imdb_id VARCHAR(15) NOT NULL,
             poster_path VARCHAR(1000) NOT NULL,
             vote_average FLOAT NOT NULL,
             api3_id INT NOT NULL

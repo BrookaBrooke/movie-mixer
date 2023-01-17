@@ -17,17 +17,25 @@ def create_movie(
 
 @router.get("/movies", response_model=List[MovieOut])
 def get_movies(
-    # movie: MovieOut,
     repo: MovieRepository = Depends(),
 ):
 
     return repo.get()
 
 
-@router.get("/movies/{id}", response_model=MovieOut)
-def get_movie(
+@router.get("/movies/{imdb_id}", response_model=MovieOut)
+def get_movie_by_imdb_id(
+    imdb_id: str,
+    repo: MovieRepository = Depends(),
+):
+
+    return repo.get_by_imdb_id(imdb_id)
+
+
+@router.get("/movies/id/{id}", response_model=MovieOut)
+def get_movie_by_id(
     id: int,
     repo: MovieRepository = Depends(),
 ):
 
-    return repo.get_one(id)
+    return repo.get_by_id(id)

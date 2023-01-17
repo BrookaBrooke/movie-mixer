@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -7,6 +8,17 @@ const MovieGroupDetail = () => {
   const [movies, setMovies] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+
+  const handleDeleteMovie = async (movieId) => {
+    try {
+      await fetch(`http://localhost:8000/movie_items/${id}/movie/${movieId}`, {
+        method: "DELETE",
+      });
+      setMovies(movies.filter((movie) => movie.id !== movieId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -39,17 +51,16 @@ const MovieGroupDetail = () => {
       }
     };
     fetchMovieItems();
-  }, [movieGroup]);
+  }, [movieGroup, id]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const movieIdList = movieItems.map((item) => item.movie_id);
         const movieList = [];
-
         for (let movie_id of movieIdList) {
           let movieResponse = await fetch(
-            `http://localhost:8000/movies/${movie_id}`
+            `http://localhost:8000/movies/id/${movie_id}`
           );
           const movieData = await movieResponse.json();
           movieList.push(movieData);
@@ -71,45 +82,48 @@ const MovieGroupDetail = () => {
     );
   }
 
-  return movieItems.length !== 0 ? (
-    <div>
-      <h1>{movieGroup && movieGroup.name}</h1>
-      <table className="table table-striped">
+  return (
+    <div className="container">
+      <h1 className="mb-3">{movieGroup && movieGroup.name}</h1>
+      <table className="table table-striped table-responsive">
         <thead>
           <tr>
             <th>Title</th>
             <th>Released</th>
             <th>Plot</th>
             <th>Rated</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {movies.map((movie) => (
             <tr key={movie.id}>
-              <td>{movie.title}</td>
+              <td>
+                <Link
+                  className="text-secondary text-decoration-none h5"
+                  to={`/movie-detail/${movie.imdbID}`}
+                >
+                  {movie.title}
+                </Link>
+              </td>
               <td>{movie.released}</td>
               <td>{movie.plot}</td>
-              <td>{movie.rated}</td>
+              <td>{movie.vote_avr}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteMovie(movie.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
-  ) : (
-    <div>
-      <h1>{movieGroup && movieGroup.name}</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Released</th>
-            <th>Plot</th>
-            <th>Rated</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div>No movies in this group yet</div>
+      {movieItems.length === 0 && (
+        <div className="text-center">No movies in this group yet</div>
+      )}
     </div>
   );
 };
