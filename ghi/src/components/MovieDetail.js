@@ -88,7 +88,6 @@ const MovieDetail = () => {
       `http://localhost:8000/movies/${details.imdb_id}`
     );
     if (movieExistResponse.status === 404) {
-      console.log(movie_details);
       try {
         const response = await fetch(`http://localhost:8000/movies`, {
           method: "POST",
@@ -106,7 +105,7 @@ const MovieDetail = () => {
           });
         }
       } catch (error) {
-        console.error(error);
+        console.error("TEST123");
       }
     } else if (movieExistResponse.status === 200) {
       const movieExistData = await movieExistResponse.json();
