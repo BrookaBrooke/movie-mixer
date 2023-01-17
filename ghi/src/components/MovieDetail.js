@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
+import { UserContext } from "../context/UserContext";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -10,6 +11,8 @@ const MovieDetail = () => {
   const [movieGroups, setMovieGroups] = useState([]);
 
   const { id } = useParams();
+
+  const [token] = useContext(UserContext);
 
   useEffect(() => {
     async function getMovies() {
@@ -36,12 +39,12 @@ const MovieDetail = () => {
 
   useEffect(() => {
     if (movieCreated) {
-      handleCreateMovie(details);
+      handleCreateMovie(details, token);
       setMovieCreated(false);
     }
   }, [movieCreated]);
 
-  const createMovieItem = async (movieItem) => {
+  const createMovieItem = async (movieItem, token) => {
     let data;
     try {
       const response = await fetch(
@@ -66,6 +69,7 @@ const MovieDetail = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(movieItem),
         });
@@ -75,7 +79,7 @@ const MovieDetail = () => {
     }
   };
 
-  const handleCreateMovie = async (details) => {
+  const handleCreateMovie = async (details, token) => {
     const movie_details = {
       title: details.title,
       released: details.release_date,
@@ -94,27 +98,34 @@ const MovieDetail = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(movie_details),
         });
         if (response.ok) {
           const movieData = await response.json();
-          createMovieItem({
-            movie_id: movieData.id,
-            movie_group_id: selectedGroupId,
-            item_position: 0,
-          });
+          createMovieItem(
+            {
+              movie_id: movieData.id,
+              movie_group_id: selectedGroupId,
+              item_position: 0,
+            },
+            token
+          );
         }
       } catch (error) {
         console.error(error);
       }
     } else if (movieExistResponse.status === 200) {
       const movieExistData = await movieExistResponse.json();
-      createMovieItem({
-        movie_id: movieExistData.id,
-        movie_group_id: selectedGroupId,
-        item_position: 0,
-      });
+      createMovieItem(
+        {
+          movie_id: movieExistData.id,
+          movie_group_id: selectedGroupId,
+          item_position: 0,
+        },
+        token
+      );
     }
   };
 
