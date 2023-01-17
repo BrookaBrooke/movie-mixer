@@ -45,7 +45,7 @@ const MovieDetail = () => {
     let data;
     try {
       const response = await fetch(
-        `http://localhost:8000/movie-items/${selectedGroupId}`
+        `http://localhost:8000/movie_items/${selectedGroupId}`
       );
       data = await response.json();
     } catch (error) {
@@ -62,7 +62,7 @@ const MovieDetail = () => {
     }
     if (!movieItemExists) {
       try {
-        await fetch(`http://localhost:8000/movie-items`, {
+        await fetch(`http://localhost:8000/movie_items`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -83,6 +83,7 @@ const MovieDetail = () => {
       imdbID: details.imdb_id,
       poster: details.poster_path,
       vote_avr: details.vote_average,
+      api3_id: details.id,
     };
     const movieExistResponse = await fetch(
       `http://localhost:8000/movies/${details.imdb_id}`
@@ -105,7 +106,7 @@ const MovieDetail = () => {
           });
         }
       } catch (error) {
-        console.error("TEST123");
+        console.error(error);
       }
     } else if (movieExistResponse.status === 200) {
       const movieExistData = await movieExistResponse.json();

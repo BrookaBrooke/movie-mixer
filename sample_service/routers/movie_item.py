@@ -42,7 +42,7 @@ def get_movie_items(
 
 
 @router.get(
-    "/movie-items/{movie_group_id}", response_model=List[MovieGroupItem]
+    "/movie_items/{movie_group_id}", response_model=List[MovieGroupItem]
 )
 def get_movie_group_items(
     movie_group_id: int, repo: MovieItemRepository = Depends()

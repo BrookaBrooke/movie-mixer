@@ -65,7 +65,9 @@ function MovieSearch() {
   const createMovieItem = async (movieItem) => {
     let data;
     try {
-      const response = await fetch(`http://localhost:8000/movie-items`);
+      const response = await fetch(
+        `http://localhost:8000/movie_items/${selectedGroupId}`
+      );
       data = await response.json();
     } catch (error) {
       console.error(error);
@@ -73,10 +75,7 @@ function MovieSearch() {
     }
     let movieItemExists = false;
     for (let item of data) {
-      if (
-        item.movie_id === movieItem.movie_id &&
-        item.movie_group_id === movieItem.movie_group_id
-      ) {
+      if (item.movie_id === movieItem.movie_id) {
         alert("Movie is already in this list!");
         movieItemExists = true;
         break;
@@ -84,7 +83,7 @@ function MovieSearch() {
     }
     if (!movieItemExists) {
       try {
-        await fetch(`http://localhost:8000/movie-items`, {
+        await fetch(`http://localhost:8000/movie_items`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -105,6 +104,7 @@ function MovieSearch() {
       imdbID: details.imdb_id,
       poster: details.poster_path,
       vote_avr: details.vote_average,
+      api3_id: details.id,
     };
 
     const movieExistResponse = await fetch(

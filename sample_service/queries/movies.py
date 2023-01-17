@@ -13,6 +13,7 @@ class MovieOut(BaseModel):
     imdbID: str
     poster: str
     vote_avr: float
+    api3_id: int
 
 
 class MovieIn(BaseModel):
@@ -22,6 +23,7 @@ class MovieIn(BaseModel):
     imdbID: str
     poster: str
     vote_avr: float
+    api3_id: int
 
 
 class MovieRepository:
@@ -31,9 +33,9 @@ class MovieRepository:
                 db.execute(
                     """
                     INSERT INTO movies (
-                        title, release_date, overview, imdb_id, poster_path, vote_average
+                        title, release_date, overview, imdb_id, poster_path, vote_average, api3_id
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
@@ -43,6 +45,7 @@ class MovieRepository:
                         movie.imdbID,
                         movie.poster,
                         movie.vote_avr,
+                        movie.api3_id,
                     ],
                 )
                 id = db.fetchone()[0]
@@ -68,6 +71,7 @@ class MovieRepository:
                         imdbID=record[4],
                         poster=record[5],
                         vote_avr=record[6],
+                        api3_id=record[7],
                     )
                     result.append(movie)
                 return result
@@ -111,6 +115,7 @@ class MovieRepository:
                     imdbID=movie[4],
                     poster=movie[5],
                     vote_avr=movie[6],
+                    api3_id=movie[7],
                 )
 
     def get_by_id(self, id: int) -> MovieOut:
@@ -139,4 +144,5 @@ class MovieRepository:
                     imdbID=movie[4],
                     poster=movie[5],
                     vote_avr=movie[6],
+                    api3_id=movie[7],
                 )

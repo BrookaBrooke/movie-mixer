@@ -28,6 +28,7 @@ class ItemPosition(BaseModel):
     id: int
     item_position: int
 
+
 class Error(BaseModel):
     message: str
 
@@ -58,7 +59,7 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT id, movie_id, movie_group_id, item_position
+                    SELECT *
                     FROM movie_items;
                     """,
                 )
