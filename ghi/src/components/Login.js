@@ -34,6 +34,8 @@ const Login = () => {
           localStorage.setItem("leadsToken", data.access_token);
           localStorage.setItem("user_id", data.account.id);
           localStorage.setItem("username", data.account.username);
+          navigate("/");
+          window.location.reload(false);
           // DO SOMETHING WITH THE TOKEN SO YOU CAN USE IT localStorage.getItem("user_id")
           // IN REQUESTS TO YOUR NON-ACCOUNTS SERVICES
         }
@@ -69,8 +71,6 @@ const Login = () => {
     // submitLogin();
     login(username, password);
     // BLANK THE FORM _OR_ TAKE TO HOME PAGE
-    navigate("/");
-    window.location.reload(false);
 
     setUsername("");
     setPassword("");
