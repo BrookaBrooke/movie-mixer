@@ -4,6 +4,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 function Nav() {
 
+
+  // const renderSwitch = () => {
+  //   switch(this.)
+  // }
   // const [authentication, setAuthentication] = useState(localStorage.getItem("leadsToken"));
   // const [authenticated, setAuthenticated] = useState(true)
 

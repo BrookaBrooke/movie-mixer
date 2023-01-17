@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Nav from "./Nav";
 import MainPage from "./components/MainPage";
 import MovieDetail from "./components/MovieDetail"
@@ -14,36 +14,49 @@ import MovieGroupDetail from "./components/MovieGroupDetail";
 import Register from "./components/Register";
 import Logout from "./components/Logout";
 import Login from "./components/Login";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App(props) {
+
+
+
   return (
     <BrowserRouter>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/signup" element={<AccountForm />} />
-        <Route path="/movie-detail/:id" element={<MovieDetail />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/my-groups" element={<MyMovieGroups />} />
-        <Route path="/groups">
-          <Route
-            index
-            element={<MovieGroups movieGroups={props.movieGroups} />}
-          />
-          <Route path="/groups/:id" element={<MovieGroupDetail />} />
-        </Route>
-        <Route path="/search" element={<MovieSearch />}></Route>
-        <Route
-          path="/search/:searchQuery/:pageNumber"
-          element={<MovieSearch />}
-        ></Route>
-      </Routes>
+
+        {/* <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} /> */}
+            <Nav />
+
+            <Routes>
+
+
+                <Route path="/" element={<MainPage />} />
+                <Route path="/signup" element={<AccountForm />} />
+                <Route path="/movie-detail/:id" element={<MovieDetail />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/search" element={<MovieSearch />}></Route>
+                <Route
+                  path="/search/:searchQuery/:pageNumber"
+                  element={<MovieSearch />}
+                ></Route>
+                <Route element={<ProtectedRoutes/>} >
+                  <Route path="/my-groups" element={<MyMovieGroups />} />
+                  <Route path="/groups">
+                    <Route index element={<MovieGroups movieGroups={props.movieGroups} />}/>
+                    <Route path="/groups/:id" element={<MovieGroupDetail />} />
+                  </Route>
+
+              </Route>
+            </Routes>
+
+
     </BrowserRouter>
   );
 }
 export default App;
+
 
 {
   /* //   useEffect(() => {

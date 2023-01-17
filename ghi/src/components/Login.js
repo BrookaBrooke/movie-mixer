@@ -7,8 +7,14 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
   const [, setToken] = useContext(UserContext);
-  
-  
+
+
+  function handleClick(){
+    localStorage.setItem("leadsToken", true)
+    window.location.href = "/home"
+  }
+
+
   async function login(username, password) {
     const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`;
     const form = new FormData();
@@ -22,7 +28,7 @@ const Login = () => {
       });
     if (response.ok) {
       const tokenUrl = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`;
-  
+
       try {
         const response = await fetch(tokenUrl, {
           credentials: "include",
@@ -42,10 +48,12 @@ const Login = () => {
     let error = await response.json();
     // DO SOMETHING WITH THE ERROR, IF YOU WANT
   }
-  
-  
+
+
+
+
   // FIRST TRY BELOW THIS LINE --
-  
+
   const submitLogin = async () => {
       const requestOptions = {
         method: "POST",
@@ -69,7 +77,7 @@ const Login = () => {
         // submitLogin();
         login(username,password);
           // BLANK THE FORM _OR_ TAKE TO HOME PAGE
-        setUsername("");  
+        setUsername("");
         setPassword("");
         };
 
@@ -96,7 +104,7 @@ const Login = () => {
 
             <ErrorMessage message={errorMessage}/>
             <br />
-            <button className="btn btn-primary" type="submit">
+            <button onClick={() => handleClick()} className="btn btn-primary" type="submit">
               Login
             </button>
           </form>
