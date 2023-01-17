@@ -24,7 +24,7 @@ function MovieSearch() {
   useEffect(() => {
     const getResults = async () => {
       const response = await fetch(
-        `http://localhost:8000/api-movies/search/${searchQuery}?page_num=${pageNumber}`
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/search/${searchQuery}?page_num=${pageNumber}`
       );
       const data = await response.json();
       console.log(data);
@@ -247,7 +247,12 @@ function MovieSearch() {
                       </div>
                       <div className="text-light text-center">
                         <p>{result.title}</p>
-                        <p>Released on: {result.release_date}</p>
+                        <p>
+                          Released on:{" "}
+                          {result.release_date
+                            ? result.release_date
+                            : "Unknown"}
+                        </p>
                       </div>
                       <div className="modal-footer d-flex justify-content-center">
                         <button

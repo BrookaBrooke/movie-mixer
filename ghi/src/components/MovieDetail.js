@@ -148,7 +148,7 @@ const MovieDetail = () => {
   return (
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
-        <div className="row d-flex justify-content-center">
+        <div className="row">
           <div id="poster-detail" className="col-auto px-5 mb-4">
             <div className="d-flex justify-content-center">
               <img
