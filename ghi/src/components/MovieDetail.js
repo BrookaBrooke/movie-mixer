@@ -30,7 +30,14 @@ const MovieDetail = () => {
 
   useEffect(() => {
     async function fetchMovieGroups() {
-      const response = await fetch(`http://localhost:8000/movie-groups`);
+      const response = await fetch(
+        `http://localhost:8000/movie-groups-by-user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
       setMovieGroups(data);
     }
