@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from queries.pool import pool
 from typing import List
+from fastapi import HTTPException
 
 
 class MovieOut(BaseModel):
@@ -9,42 +10,46 @@ class MovieOut(BaseModel):
     title: str
     released: date
     plot: str
-    rated: str
     imdbID: str
     poster: str
+    vote_avr: float
+    api3_id: int
 
 
 class MovieIn(BaseModel):
     title: str
     released: date
     plot: str
-    rated: str
     imdbID: str
     poster: str
+    vote_avr: float
+    api3_id: int
 
 
 class MovieRepository:
     def create(self, movie: MovieIn) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
-                    INSERT INTO movies
-                    VALUES (%s, %s, %s, %s, %s, %s)
+                    INSERT INTO movies (
+                        title, release_date, overview, imdb_id, poster_path, vote_average, api3_id
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
                         movie.title,
                         movie.released,
                         movie.plot,
-                        movie.rated,
                         movie.imdbID,
                         movie.poster,
+                        movie.vote_avr,
+                        movie.api3_id,
                     ],
                 )
-                id = result.fetchone()[0]
+                id = db.fetchone()[0]
                 data = movie.dict()
-                print(result.fetchone())
                 return MovieOut(id=id, **data)
 
     def get(self) -> List[MovieOut]:
@@ -63,9 +68,10 @@ class MovieRepository:
                         title=record[1],
                         released=record[2],
                         plot=record[3],
-                        rated=record[4],
-                        imdbID=record[5],
-                        poster=record[6],
+                        imdbID=record[4],
+                        poster=record[5],
+                        vote_avr=record[6],
+                        api3_id=record[7],
                     )
                     result.append(movie)
                 return result
@@ -83,7 +89,36 @@ class MovieRepository:
                 #         list_movies.append(i)
                 #     return list_movies
 
-    def get_one(self, id) -> MovieOut:
+    def get_by_imdb_id(self, imdb_id: str) -> MovieOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT *
+                    FROM movies
+                    WHERE imdb_id = %s;
+                    """,
+                    [imdb_id],
+                )
+                movie = db.fetchone()
+
+                if movie is None:
+                    raise HTTPException(
+                        status_code=404, detail="Movie not found"
+                    )
+
+                return MovieOut(
+                    id=movie[0],
+                    title=movie[1],
+                    released=movie[2],
+                    plot=movie[3],
+                    imdbID=movie[4],
+                    poster=movie[5],
+                    vote_avr=movie[6],
+                    api3_id=movie[7],
+                )
+
+    def get_by_id(self, id: int) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
@@ -94,13 +129,20 @@ class MovieRepository:
                     """,
                     [id],
                 )
-                movie = list(db.fetchone())
+                movie = db.fetchone()
+
+                if movie is None:
+                    raise HTTPException(
+                        status_code=404, detail="Movie not found"
+                    )
+
                 return MovieOut(
-                    id=movie[0],
+                    id=id,
                     title=movie[1],
                     released=movie[2],
                     plot=movie[3],
-                    rated=movie[4],
-                    imdbID=movie[5],
-                    poster=movie[6],
+                    imdbID=movie[4],
+                    poster=movie[5],
+                    vote_avr=movie[6],
+                    api3_id=movie[7],
                 )
