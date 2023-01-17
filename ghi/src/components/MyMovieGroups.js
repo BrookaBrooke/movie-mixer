@@ -38,6 +38,8 @@ const MyMovieGroups = () => {
 
   const handleCreateGroup = () => {
     setCreatingGroup(true);
+    setFormValues({name: ""})
+    setEditingGroupId(null)
   };
 
   const handleChange = (e) => {
@@ -49,8 +51,7 @@ const MyMovieGroups = () => {
   };
 
   const handleCreate = async () => {
-    console.log(formValues.name)
-    console.log(formValues.name.length)
+
     if ( formValues.name.length > 0 ) {
       setErrorMessage("")
     try {
@@ -156,7 +157,7 @@ const MyMovieGroups = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>User</th>
+            <th></th>
             {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
             <th></th>
             <th></th>
@@ -176,13 +177,16 @@ const MyMovieGroups = () => {
                         onChange={handleChange}
                       />
                     </td>
-                    <td>{group.owner}</td>
+                    <td></td>
                     <td>
                       <button
                         className="btn btn-primary"
                         onClick={handleSubmit}
                       >
                         Save
+                      </button>
+                      <button className="btn btn-secondary" onClick={ () => { setEditingGroupId(null) } }>
+                      Cancel
                       </button>
                     </td>
                   </>
@@ -192,13 +196,15 @@ const MyMovieGroups = () => {
                       <Link to={`/groups/${group.id}`}>{group.name}</Link>
                     </td>
 
-                    <td>{group.owner}</td>
+                    <td></td>
                     <td>
                       <button
                         className="btn btn-primary"
                         onClick={() => {
                           setEditingGroupId(group.id);
-                          setFormValues({name: group.name})}}
+                          setFormValues({name: group.name});
+                          setCreatingGroup(false);
+                        }}
                       >
                         Edit
                       </button>
@@ -233,7 +239,7 @@ const MyMovieGroups = () => {
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-danger" onClick={ () => { setCreatingGroup(false) } }>
+                  <button className="btn btn-secondary" onClick={ () => { setCreatingGroup(false) } }>
                     Cancel
                   </button>
                 </td>
