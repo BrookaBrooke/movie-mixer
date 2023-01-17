@@ -49,7 +49,7 @@ steps = [
         CREATE TABLE movie_items (
             id SERIAL PRIMARY KEY NOT NULL,
             movie_id INTEGER REFERENCES movies(id),
-            movie_group_id INTEGER REFERENCES movie_groups(id),
+            movie_group_id INTEGER REFERENCES movie_groups(id) ON DELETE CASCADE,
             item_position INTEGER
         );
         """,

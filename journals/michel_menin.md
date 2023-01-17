@@ -22,3 +22,11 @@ Helped with some code to get the images to show in the results page.
 # 2023-01-11
 
 Worked with Jesse on front end for Movie Detail.  Jesse was driver and I was navigator.
+
+# 2023-01-14
+
+Worked on authentication for back-end.  Implemented authentication on 'edit' features (create,edit,delete) so that outsiders cannot modify data, but allow anyone to read data.
+
+# 2023-01-16
+
+Worked on authentication for front-end with Jesse.  Saved token to localStorage and user_id.  Authentication was implemented to allow for requests to pass through as authorized.  We identified a bug, which does not allow to delete movie-groups because of the relationship with the items tied to them.  (this is an 'on delete cascade or protect' issue).  Login/Logout/Signup are functional, but ugly.  Favorites list for user view is functional.

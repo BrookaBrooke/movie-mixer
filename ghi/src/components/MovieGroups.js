@@ -13,7 +13,7 @@ const MovieGroups = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const groupData = await fetch("http://localhost:8000/movie-groups");
+        const groupData = await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups`);
         const data = await groupData.json();
         console.log(data)
         console.log(groupData)
@@ -38,73 +38,6 @@ const MovieGroups = () => {
     });
   };
 
-  const handleCreate = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/movie-groups`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formValues, owner: 1 }),
-      });
-      const data = await response.json();
-      setGroups([...groups, data]);
-      setFormValues({
-        name: "",
-      });
-      setCreatingGroup(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const group = groups.find((group) => group.id === editingGroupId);
-      const owner = group.owner;
-      const response = await fetch(
-        `http://localhost:8000/movie-groups/${editingGroupId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...formValues, owner }),
-        }
-      );
-      const data = await response.json();
-      setGroups(
-        groups.map((group) => {
-          if (group.id === data.id) {
-            return data;
-          }
-          return group;
-        })
-      );
-      setFormValues({
-        name: "",
-      });
-      setEditingGroupId(null);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDelete = async (groupId) => {
-    try {
-      await fetch(`http://localhost:8000/movie-groups/${groupId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
-  },
-      });
-      setGroups(groups.filter((group) => group.id !== groupId));
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   if ( Object.keys(groups).includes("detail") ){
     return (
@@ -134,7 +67,7 @@ const MovieGroups = () => {
       <table className="table table-dark table-hover">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>List Name</th>
             <th>User</th>
             {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
             <th></th>
@@ -152,14 +85,14 @@ const MovieGroups = () => {
                         type="text"
                         name="name"
                         value={formValues.name}
-                        onChange={handleChange}
+                        
                       />
                     </td>
                     <td>{group.owner}</td>
                     <td>
                       <button
                         className="btn btn-primary"
-                        onClick={handleSubmit}
+                       
                       >
                         Save
                       </button>
@@ -175,9 +108,9 @@ const MovieGroups = () => {
                     <td>
                       <button
                         className="btn btn-primary"
-                        onClick={() => setEditingGroupId(group.id)}
+                        
                       >
-                        Edit
+                        removed
                       </button>
                     </td>
                   </>
@@ -185,9 +118,9 @@ const MovieGroups = () => {
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => handleDelete(group.id)}
+                    
                   >
-                    Delete
+                    removed
                   </button>
                 </td>
               </tr>
@@ -205,15 +138,15 @@ const MovieGroups = () => {
                   />
                 </td>
                 <td>
-                  <button className="btn btn-primary" onClick={handleCreate}>
-                    Create
+                  <button className="btn btn-primary" >
+                    removed
                   </button>
                 </td>
               </>
             ) : (
               <td colSpan={4}>
-                <button className="btn btn-primary" onClick={handleCreateGroup}>
-                  Create a movie group
+                <button className="btn btn-primary" >
+                  removed
                 </button>
               </td>
             )}

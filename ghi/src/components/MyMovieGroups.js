@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ErrorMessage from "./ErrorMessage"
 
 const MyMovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -9,11 +10,12 @@ const MyMovieGroups = () => {
   const [formValues, setFormValues] = useState({
     name: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const groupData = await fetch(`http://localhost:8000/movie-groups-by-user`, {
+        const groupData = await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -47,11 +49,16 @@ const MyMovieGroups = () => {
   };
 
   const handleCreate = async () => {
+    console.log(formValues.name)
+    console.log(formValues.name.length)
+    if ( formValues.name.length > 0 ) {
+      setErrorMessage("")
     try {
-      const response = await fetch(`http://localhost:8000/movie-groups`, {
+      const response = await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
         },
         body: JSON.stringify({ ...formValues, owner: 1 }),
       });
@@ -64,6 +71,11 @@ const MyMovieGroups = () => {
     } catch (error) {
       console.error(error);
     }
+  } 
+  else {
+    setErrorMessage("List name cannot be empty")
+  }
+
   };
 
   const handleSubmit = async (event) => {
@@ -72,11 +84,12 @@ const MyMovieGroups = () => {
       const group = groups.find((group) => group.id === editingGroupId);
       const owner = group.owner;
       const response = await fetch(
-        `http://localhost:8000/movie-groups/${editingGroupId}`,
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${editingGroupId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
           },
           body: JSON.stringify({ ...formValues, owner }),
         }
@@ -101,7 +114,7 @@ const MyMovieGroups = () => {
 
   const handleDelete = async (groupId) => {
     try {
-      await fetch(`http://localhost:8000/movie-groups/${groupId}`, {
+      await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${groupId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -183,7 +196,9 @@ const MyMovieGroups = () => {
                     <td>
                       <button
                         className="btn btn-primary"
-                        onClick={() => setEditingGroupId(group.id)}
+                        onClick={() => {
+                          setEditingGroupId(group.id);
+                          setFormValues({name: group.name})}}
                       >
                         Edit
                       </button>
@@ -204,7 +219,7 @@ const MyMovieGroups = () => {
           <tr>
             {creatingGroup ? (
               <>
-                <td colSpan={3}>
+                <td colSpan={2}>
                   <input
                     type="text"
                     name="name"
@@ -215,6 +230,11 @@ const MyMovieGroups = () => {
                 <td>
                   <button className="btn btn-primary" onClick={handleCreate}>
                     Create
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-danger" onClick={ () => { setCreatingGroup(false) } }>
+                    Cancel
                   </button>
                 </td>
               </>
@@ -228,6 +248,7 @@ const MyMovieGroups = () => {
           </tr>
         </tbody>
       </table>
+      < ErrorMessage message={errorMessage} />
       </section>
     </>
   );
