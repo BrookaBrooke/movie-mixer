@@ -57,7 +57,7 @@ function MovieSearch() {
   }, [movieCreated]);
 
   const handleGroupSelection = (event) => {
-    setSelectedGroupId(Number(event.target.value));
+    setSelectedGroupId(Number(event.target.getAttribute("value")));
   };
 
   const createMovieItem = async (movieItem) => {
@@ -252,7 +252,10 @@ function MovieSearch() {
                             {movieGroups.map((movieGroup) => (
                               <Dropdown.Item
                                 key={movieGroup.id}
-                                onClick={() => setMovieCreated(true)}
+                                onClick={(event) => {
+                                  setMovieCreated(true);
+                                  handleGroupSelection(event);
+                                }}
                                 value={movieGroup.id}
                               >
                                 {movieGroup.name}

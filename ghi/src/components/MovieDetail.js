@@ -44,7 +44,9 @@ const MovieDetail = () => {
   const createMovieItem = async (movieItem) => {
     let data;
     try {
-      const response = await fetch(`http://localhost:8000/movie-items`);
+      const response = await fetch(
+        `http://localhost:8000/movie-items/${selectedGroupId}`
+      );
       data = await response.json();
     } catch (error) {
       console.error(error);
@@ -52,10 +54,7 @@ const MovieDetail = () => {
     }
     let movieItemExists = false;
     for (let item of data) {
-      if (
-        item.movie_id === movieItem.movie_id &&
-        item.movie_group_id === movieItem.movie_group_id
-      ) {
+      if (item.movie_id === movieItem.movie_id) {
         alert("Movie is already in this list!");
         movieItemExists = true;
         break;
@@ -119,7 +118,7 @@ const MovieDetail = () => {
   };
 
   const handleGroupSelection = (event) => {
-    setSelectedGroupId(Number(event.target.value));
+    setSelectedGroupId(Number(event.target.getAttribute("value")));
   };
 
   if (loaded) {
@@ -158,7 +157,10 @@ const MovieDetail = () => {
                   {movieGroups.map((movieGroup) => (
                     <Dropdown.Item
                       key={movieGroup.id}
-                      onClick={() => setMovieCreated(true)}
+                      onClick={(event) => {
+                        setMovieCreated(true);
+                        handleGroupSelection(event);
+                      }}
                       value={movieGroup.id}
                     >
                       {movieGroup.name}
