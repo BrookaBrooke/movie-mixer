@@ -32,3 +32,10 @@ I also need to make it so the user can choose which group to add it to.
 I was able create the functionality for a user to choose which list to add a movie to and for a movie to not be added to a list
 where it already exists from the movie detail page. I'm still working on adding that to the modal in the movie search page.
 The only difficulty I have had with it is that the modal closes whenever you click anywhere, so opening the dropdown closes the modal
+
+# 1-17-23
+
+Fixed the modal closing when clicked, but that meant there was no longer a fade effect. I realize as I'm writing this at 5:40 PM EST that I forgot to mention this... Hopefully I will remember to breing it up tomorrow...
+finished the add to list buttons, but ran into issues with authentication when pulling from main. Fixed that by getting the auth token from UserContext and sending it as authorization in the headers where needed.
+Also Mike let me know that I did not put in any filter to the add buttons so that the logged in user can only add to their lists, luckily it was a quick(ish) fix as there was already a query for movie groups by user
+Also quickly wrote a test for movie_groups, should push that up to main
