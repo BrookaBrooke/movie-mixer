@@ -1,7 +1,20 @@
 import { React, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
+
 function Nav() {
+
+  // const [authentication, setAuthentication] = useState(localStorage.getItem("leadsToken"));
+  // const [authenticated, setAuthenticated] = useState(true)
+
+  // useEffect(() => {
+  //   const logAuth = async () => {
+  //   if (localStorage.getItem("leadsToken" === true)) {
+
+  //   }
+  //   }
+  // })
+
   return (
     <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div className="container-fluid">
