@@ -63,11 +63,11 @@ class MovieRepository:
                     movie = MovieOut(
                         id=record[0],
                         title=record[1],
-                        release_date=record[2],
-                        overview=record[3],
-                        imdb_id=record[4],
-                        poster_path=record[5],
-                        vote_average=record[6],
+                        released=record[2],
+                        plot=record[3],
+                        imdbID=record[4],
+                        poster=record[5],
+                        vote_avr=record[6],
                     )
                     result.append(movie)
                 return result
@@ -106,11 +106,11 @@ class MovieRepository:
                 return MovieOut(
                     id=movie[0],
                     title=movie[1],
-                    release_date=movie[2],
-                    overview=movie[3],
-                    imdb_id=movie[4],
-                    poster_path=movie[5],
-                    vote_average=movie[6],
+                    released=movie[2],
+                    plot=movie[3],
+                    imdbID=movie[4],
+                    poster=movie[5],
+                    vote_avr=movie[6],
                 )
 
     def get_by_id(self, id: int) -> MovieOut:
@@ -134,9 +134,9 @@ class MovieRepository:
                 return MovieOut(
                     id=id,
                     title=movie[1],
-                    release_date=movie[2],
-                    overview=movie[3],
-                    imdb_id=movie[4],
-                    poster_path=movie[5],
-                    vote_average=movie[6],
+                    released=movie[2],
+                    plot=movie[3],
+                    imdbID=movie[4],
+                    poster=movie[5],
+                    vote_avr=movie[6],
                 )

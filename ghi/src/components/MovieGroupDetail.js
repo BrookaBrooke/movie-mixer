@@ -101,14 +101,14 @@ const MovieGroupDetail = () => {
               <td>
                 <Link
                   className="text-secondary text-decoration-none h5"
-                  to={`/movie-detail/${movie.imdb_id}`}
+                  to={`/movie-detail/${movie.imdbID}`}
                 >
                   {movie.title}
                 </Link>
               </td>
-              <td>{movie.release_date}</td>
-              <td>{movie.overview}</td>
-              <td>{movie.vote_average}</td>
+              <td>{movie.released}</td>
+              <td>{movie.plot}</td>
+              <td>{movie.vote_avr}</td>
               <td>
                 <button
                   className="btn btn-danger"
