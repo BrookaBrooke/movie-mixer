@@ -72,6 +72,25 @@ class MovieItemRepository:
                     )
                     result.append(movieitem)
                 return result
+            
+    def get_detail(self,item_id: int) -> MovieItemOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT * 
+                    FROM movie_items
+                    WHERE id = %s;
+                    """,[item_id]
+                )
+                record = db.fetchone()
+                print(record)
+                return MovieItemOut(
+                        id=record[0],
+                        movie_id=record[1],
+                        movie_group_id=record[2],
+                        item_position=record[3]
+                        )
 
     def get_list(self, movie_group_id) -> List[MovieGroupItem]:
         with pool.connection() as conn:
