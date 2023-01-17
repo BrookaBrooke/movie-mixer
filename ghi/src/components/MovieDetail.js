@@ -34,35 +34,44 @@ const MovieDetail = () => {
   };
 
   return (
-        <div className='banner' style={divStyle}>
-          <div className='container-fluid'>
-            <div className="row justify-content-center">
-              <div id="poster-detail" className="col-auto p-3 mb-4">
-                    <img className="poster-image" src={`https://image.tmdb.org/t/p/w400${details.poster_path}`} />
+    <div className="banner" style={divStyle}>
+      <div className="container-fluid">
+        <div className="row d-flex justify-content-center">
+          <div id="poster-detail" className="col-auto px-5 mb-4">
+            <div className="d-flex justify-content-center">
+              <img
+                className="poster-image"
+                src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
+              />
+            </div>
 
-                  <div className="d-flex justify-content-center pt-4">
-
-                    <a href="#" className="btn btn-outline-info btn-lg" type="button">Add to List</a>
-                  </div>
-                </div>
-              <div id="genres-div" className="col-auto align-self-center pb-1">
-                  <h1 id="detail-text"> {details.title} </h1>
-                <div className="genres">
-                  {details.genres?.map(genre => {
-                  return (
-                            <span className="genres__item" key={genre.id}>{genre.name}</span>
-                          );
-                  })}
-                </div>
-                  <p id="detail-text">
-                    {details.overview}
-                  </p>
-                  <h4 id="detail-text"> Released: {details.release_date} </h4>
-                  <h4 id="detail-text"> Rating: { details.vote_average?.toFixed(1) } </h4>
-              </div>
+            <div className="d-flex justify-content-center pt-4">
+              <a href="#" className="btn btn-outline-info btn-lg" type="button">
+                Add to List
+              </a>
             </div>
           </div>
+          <div id="genres-div" className="col-auto align-self-center pb-1">
+            <h1 id="detail-text"> {details.title} </h1>
+            <div className="genres">
+              {details.genres?.map((genre) => {
+                return (
+                  <span className="genres__item" key={genre.id}>
+                    {genre.name}
+                  </span>
+                );
+              })}
+            </div>
+            <p id="detail-text">{details.overview}</p>
+            <h4 id="detail-text"> Released: {details.release_date} </h4>
+            <h4 id="detail-text">
+              {" "}
+              Rating: {details.vote_average?.toFixed(1)}{" "}
+            </h4>
+          </div>
         </div>
+      </div>
+    </div>
   );
 };
 

@@ -89,13 +89,7 @@ function MovieSearch() {
                 >
                   <div className="modal-dialog" role="document">
                     <div className="modal-content bg-dark">
-                      <div className="modal-header text-center text-light">
-                        <h5
-                          className="modal-title w-100"
-                          id="exampleModalLabel"
-                        >
-                          {result.title}
-                        </h5>
+                      <div className="modal-header text-light">
                         <button
                           type="button"
                           className="close btn btn-outline-secondary"
@@ -152,7 +146,7 @@ function MovieSearch() {
   return (
     <div className="banner-search">
       <div className="">
-      <div className="search-bar-height"></div>
+        <div className="search-bar-height"></div>
         <div className="container search-bar">
           <form
             className="d-flex justify-content-center"
@@ -168,7 +162,11 @@ function MovieSearch() {
                 required
                 onChange={onChange}
               />
-              <button value={query} className="btn btn-danger m-3" type="submit">
+              <button
+                value={query}
+                className="btn btn-danger m-3"
+                type="submit"
+              >
                 Search
               </button>
             </div>
