@@ -10,3 +10,25 @@ Finished CRUD for the movie_groups
 Had some challenges where some things were dictionaries and others were custom objects, there still seem to be a mix of both but a mix that works
 
 # 1-9-23
+
+Created a front end view for the movie groups with a page for a list of movie groups and a page with a form to add a new movie group
+
+# 1-10-23
+
+Updated the list view for movie groups so that the user can add a new group on the list page instead of a seperate page and got rid of the seperate form page.
+Also added delete and edit buttons to the list
+
+# 1-11-23
+
+The list view wasn't actually working properly, I did not test it thoroughly enough. I fixed those problems today.
+
+# 1-12-23
+
+Today I worked on the "Add to list" button functionality on the MovieDetail.js page. I've gotten the basics to work, but I need to add a way to check if a movie is already in a group.
+I also need to make it so the user can choose which group to add it to.
+
+# 1-13-23
+
+I was able create the functionality for a user to choose which list to add a movie to and for a movie to not be added to a list
+where it already exists from the movie detail page. I'm still working on adding that to the modal in the movie search page.
+The only difficulty I have had with it is that the modal closes whenever you click anywhere, so opening the dropdown closes the modal
