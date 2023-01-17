@@ -9,27 +9,29 @@ class MovieOut(BaseModel):
     title: str
     released: date
     plot: str
-    rated: str
     imdbID: str
     poster: str
+    vote_avr: float
 
 
 class MovieIn(BaseModel):
     title: str
     released: date
     plot: str
-    rated: str
     imdbID: str
     poster: str
+    vote_avr: float
 
 
 class MovieRepository:
     def create(self, movie: MovieIn) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
-                    INSERT INTO movies
+                    INSERT INTO movies (
+                        title, release_date, overview, imdb_id, poster_path, vote_average
+                    )
                     VALUES (%s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
@@ -37,14 +39,13 @@ class MovieRepository:
                         movie.title,
                         movie.released,
                         movie.plot,
-                        movie.rated,
                         movie.imdbID,
                         movie.poster,
+                        movie.vote_avr,
                     ],
                 )
-                id = result.fetchone()[0]
+                id = db.fetchone()[0]
                 data = movie.dict()
-                print(result.fetchone())
                 return MovieOut(id=id, **data)
 
     def get(self) -> List[MovieOut]:
