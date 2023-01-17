@@ -145,23 +145,37 @@ def populate():
             result = db.execute(
             """
             INSERT INTO accounts (username, email, first_name, last_name, hashed_password)
-            VALUES ('one','one@me.com','one','string','$2b$12$A9/YMVRgPb7G5BvASfVpOetKAAk/YoS/Kk9gXXqdAPEF2avKLy6d2');
+            VALUES ('one', 'one@me.com', 'one', 'string', '$2b$12$A9/YMVRgPb7G5BvASfVpOetKAAk/YoS/Kk9gXXqdAPEF2avKLy6d2'),
+                    ('two', 'two@email.com', 'two', 'string', '$2b$12$INL0GcdtSyDorD8YomiLdO3KJPRSihVD1pdCVB4AVTVJPNzjq3aNq');
 
             INSERT INTO movie_groups (name, owner)
-            VALUES ('Favorites 1',1);
+            VALUES ('Sci-fi',1),
+                    ('Spy',2),
+                    ('Action',2);
 
-            INSERT INTO movies (title, released, plot, rated,
-                    imdbID, poster)
-            VALUES ('Starwars 1', '2013-01-01', 'Short', 'PG',
-                    001, 'imgurl_001'),
-                    ('Starwars 2', '2013-01-01', 'Medium', 'PG',
-                    002, 'imgurl_002'),
-                    ('Starwars 3', '2013-01-01', 'Long', 'PG',
-                    003, 'imgurl_003');
+            INSERT INTO movies (title, release_date, overview,
+                    imdb_id, poster_path, vote_average, api3_id)
+            VALUES ('Starwars 1', '2013-01-01', 'Short',  001, 'imgurl_001', 10, 11),
+                    ('Starwars 2', '2013-01-01', 'Medium', 002, 'imgurl_002', 10, 11),
+                    ('Starwars 3', '2013-01-01', 'Long', 003, 'imgurl_003', 10, 11),
+                    ('James Bond 1', '1999-01-01', 'Short', 004, 'imgurl_004', 9, 658),
+                    ('James Bond 2', '1999-01-01', 'Medium', 005, 'imgurl_005', 9, 658),
+                    ('James Bond 3', '1999-01-01', 'Long', 006, 'imgurl_006', 9, 658),
+                    ('Mission Impossible 1', '1996-01-01', 'Short', 007, 'imgurl_007', 9, 954),
+                    ('Mission Impossible 2', '1996-01-01', 'Medium', 008, 'imgurl_008', 9, 954),
+                    ('Mission Impossible 3', '1996-01-01', 'Long', 009, 'imgurl_009', 9, 954);
+                    
 
             INSERT INTO movie_items (movie_id, movie_group_id,item_position)
-            VALUES (1,1,1),
-                    (2,1,2);
+            VALUES (1,1,0),
+                    (2,1,0),
+                    (3,1,0),
+                    (4,2,0),
+                    (5,2,0),
+                    (6,2,0),
+                    (7,3,0),
+                    (8,3,0),
+                    (9,3,0);
 
             """
             )

@@ -23,7 +23,8 @@ steps = [
             overview TEXT NOT NULL,
             imdb_id VARCHAR(9) NOT NULL,
             poster_path VARCHAR(1000) NOT NULL,
-            vote_average FLOAT NOT NULL
+            vote_average FLOAT NOT NULL,
+            api3_id INT NOT NULL
         );
         """,
         """
@@ -48,7 +49,7 @@ steps = [
         CREATE TABLE movie_items (
             id SERIAL PRIMARY KEY NOT NULL,
             movie_id INTEGER REFERENCES movies(id),
-            movie_group_id INTEGER REFERENCES movie_groups(id),
+            movie_group_id INTEGER REFERENCES movie_groups(id) ON DELETE CASCADE,
             item_position INTEGER
         );
         """,

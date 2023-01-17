@@ -34,9 +34,17 @@ const Register = () => {
         e.preventDefault();
         if (password === confirmationPassword && password.length >= 8) {
           submitRegistration();
+          // BLANK THE FORM _OR_ TAKE TO HOME PAGE
+          setUsername("");  
+          setEmail("");
+          setFirstName("");
+          setLastName("");
+          setPassword("");
+          setConfirmationPassword("");
         } else {
           setErrorMessage("Please make sure that your password is a minimum of 8 characters");
         }
+
       };
 
     return (
