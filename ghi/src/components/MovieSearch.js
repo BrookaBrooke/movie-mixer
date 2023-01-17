@@ -98,7 +98,6 @@ function MovieSearch() {
   };
 
   const handleCreateMovie = async (details) => {
-    console.log(details);
     const movie_details = {
       title: details.title,
       released: details.release_date,
@@ -107,9 +106,11 @@ function MovieSearch() {
       poster: details.poster_path,
       vote_avr: details.vote_average,
     };
+
     const movieExistResponse = await fetch(
       `http://localhost:8000/movies/${details.imdb_id}`
     );
+
     if (movieExistResponse.status === 404) {
       try {
         const response = await fetch(`http://localhost:8000/movies`, {
