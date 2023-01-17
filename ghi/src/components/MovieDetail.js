@@ -78,16 +78,17 @@ const MovieDetail = () => {
   const handleCreateMovie = async (details) => {
     const movie_details = {
       title: details.title,
-      release_date: details.release_date,
-      overview: details.overview,
-      imdb_id: details.imdb_id,
-      poster_path: details.poster_path,
-      vote_average: details.vote_average,
+      released: details.release_date,
+      plot: details.overview,
+      imdbID: details.imdb_id,
+      poster: details.poster_path,
+      vote_avr: details.vote_average,
     };
     const movieExistResponse = await fetch(
       `http://localhost:8000/movies/${details.imdb_id}`
     );
     if (movieExistResponse.status === 404) {
+      console.log(movie_details);
       try {
         const response = await fetch(`http://localhost:8000/movies`, {
           method: "POST",

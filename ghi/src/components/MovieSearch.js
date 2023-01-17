@@ -98,14 +98,16 @@ function MovieSearch() {
   };
 
   const handleCreateMovie = async (details) => {
+    console.log(details);
     const movie_details = {
       title: details.title,
-      release_date: details.release_date,
-      overview: details.overview,
-      imdb_id: details.imdb_id,
-      poster_path: details.poster_path,
-      vote_average: details.vote_average,
+      released: details.release_date,
+      plot: details.overview,
+      imdbID: details.imdb_id,
+      poster: details.poster_path,
+      vote_avr: details.vote_average,
     };
+    console.log(movie_details);
     const movieExistResponse = await fetch(
       `http://localhost:8000/movies/${details.imdb_id}`
     );
@@ -319,32 +321,33 @@ function MovieSearch() {
           </div>
           <div className="row">{movieList}</div>
 
-        {pageNumber ? (
-          <>
-            {pageNumber > 1 ? (
-              <div className="p-2 d-flex justify-content-center">
-                <button
-                  className="btn btn-outline-primary"
-                  type="button"
-                  onClick={lastPage}
-                >
-                  Previous Page
-                </button>
-              </div>
-            ) : null}
-            {results / pageNumber > 20 ? (
-              <div className="p-2 d-flex justify-content-center">
-                <button
-                  className="btn btn-outline-primary"
-                  type="button"
-                  onClick={nextPage}
-                >
-                  Next Page
-                </button>
-              </div>
-            ) : null}
-          </>
-        ) : null}
+          {pageNumber ? (
+            <>
+              {pageNumber > 1 ? (
+                <div className="p-2 d-flex justify-content-center">
+                  <button
+                    className="btn btn-outline-primary"
+                    type="button"
+                    onClick={lastPage}
+                  >
+                    Previous Page
+                  </button>
+                </div>
+              ) : null}
+              {results / pageNumber > 20 ? (
+                <div className="p-2 d-flex justify-content-center">
+                  <button
+                    className="btn btn-outline-primary"
+                    type="button"
+                    onClick={nextPage}
+                  >
+                    Next Page
+                  </button>
+                </div>
+              ) : null}
+            </>
+          ) : null}
+        </div>
       </div>
     </div>
   );
