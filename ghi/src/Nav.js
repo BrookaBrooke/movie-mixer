@@ -42,40 +42,40 @@ function Nav() {
                 </li>
                 {/* <li><hr className="dropdown-divider"/></li> */}
                 <li>
-                  <NavLink className="dropdown-item" to="/">
+                  <NavLink className="dropdown-item" to="/my-groups">
                     My Favorites
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" to="#">
+                  <NavLink className="dropdown-item" to="groups/">
                     All Favorites
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" to="#">
-                    Movie Trivia
+                  <NavLink className="dropdown-item" to="/">
+                    Movie Trivia (home)
                   </NavLink>
                 </li>
               </ul>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
+              <NavLink className="nav-link active" to="/login">
                 Log In
               </NavLink>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
+              <NavLink className="nav-link active" to="/logout">
                 Log Out
               </NavLink>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="">
-                Sign Up
+              <NavLink className="nav-link active" to="/register">
+                Register
               </NavLink>
             </li>
             <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="groups/">
-                My Groups
+              <NavLink className="nav-link active" to="#">
+                Groups (moved)
               </NavLink>
             </li>
           </ul>

@@ -8,9 +8,12 @@ import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
+import MyMovieGroups from "./components/MyMovieGroups";
 import MovieSearch from "./components/MovieSearch";
 import MovieGroupDetail from "./components/MovieGroupDetail";
 import Register from "./components/Register";
+import Logout from "./components/Logout";
+import Login from "./components/Login";
 
 function App(props) {
   return (
@@ -21,6 +24,9 @@ function App(props) {
         <Route path="/signup" element={<AccountForm />} />
         <Route path="/movie-detail/:id" element={<MovieDetail />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/my-groups" element={<MyMovieGroups />} />
         <Route path="/groups">
           <Route
             index
