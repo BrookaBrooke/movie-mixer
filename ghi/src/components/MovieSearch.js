@@ -16,6 +16,8 @@ function MovieSearch() {
   const [selectedGroupId, setSelectedGroupId] = useState(1);
   const [movieGroups, setMovieGroups] = useState([]);
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     const getResults = async () => {
       const response = await fetch(
@@ -191,7 +193,7 @@ function MovieSearch() {
                   }
                 />
                 <div
-                  className="modal fade"
+                  className={`modal ${modalOpen ? "show" : ""}`}
                   id={modalId}
                   tabIndex="-1"
                   role="dialog"
@@ -199,7 +201,10 @@ function MovieSearch() {
                   aria-hidden="true"
                 >
                   <div className="modal-dialog" role="document">
-                    <div className="modal-content bg-dark">
+                    <div
+                      className="modal-content bg-dark"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="modal-header text-center text-light">
                         <h5
                           className="modal-title w-100"
