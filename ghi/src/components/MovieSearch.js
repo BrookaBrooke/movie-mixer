@@ -285,33 +285,39 @@ function MovieSearch() {
       : null;
 
   return (
-    <div className="bg-dark">
-      <div className="container">
-        <form
-          className="d-flex justify-content-center"
-          role="search"
-          onSubmit={onSubmit}
-        >
-          <div className="container w-50 d-flex justify-content-center">
-            <input
-              className="form-control m-3"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              required
-              onChange={onChange}
-            />
-            <button value={query} className="btn btn-danger m-3" type="submit">
-              Search
-            </button>
+    <div className="banner-search">
+      <div className="">
+        <div className="search-bar-height"></div>
+        <div className="container search-bar">
+          <form
+            className="d-flex justify-content-center"
+            role="search"
+            onSubmit={onSubmit}
+          >
+            <div className="container w-50 d-flex justify-content-center">
+              <input
+                className="form-control m-3"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                required
+                onChange={onChange}
+              />
+              <button
+                value={query}
+                className="btn btn-danger m-3"
+                type="submit"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+          <div className="text-center text-light m-3">
+            {results !== undefined ? (
+              <p>Found {results} results matching your search</p>
+            ) : null}
           </div>
-        </form>
-        <div className="text-center text-light m-3">
-          {results !== undefined ? (
-            <p>Found {results} results matching your search</p>
-          ) : null}
-        </div>
-        <div className="row">{movieList}</div>
+          <div className="row">{movieList}</div>
 
         {pageNumber ? (
           <>

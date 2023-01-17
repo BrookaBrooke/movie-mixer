@@ -8,42 +8,44 @@ from fastapi import HTTPException
 class MovieOut(BaseModel):
     id: int
     title: str
-    release_date: date
-    overview: str
-    imdb_id: str
-    poster_path: str
-    vote_average: str
+    released: date
+    plot: str
+    imdbID: str
+    poster: str
+    vote_avr: float
 
 
 class MovieIn(BaseModel):
     title: str
-    release_date: date
-    overview: str
-    imdb_id: str
-    poster_path: str
-    vote_average: str
+    released: date
+    plot: str
+    imdbID: str
+    poster: str
+    vote_avr: float
 
 
 class MovieRepository:
     def create(self, movie: MovieIn) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
-                    INSERT INTO movies (title, release_date, overview, imdb_id, poster_path, vote_average)
+                    INSERT INTO movies (
+                        title, release_date, overview, imdb_id, poster_path, vote_average
+                    )
                     VALUES (%s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
                         movie.title,
-                        movie.release_date,
-                        movie.overview,
-                        movie.imdb_id,
-                        movie.poster_path,
-                        movie.vote_average,
+                        movie.released,
+                        movie.plot,
+                        movie.imdbID,
+                        movie.poster,
+                        movie.vote_avr,
                     ],
                 )
-                id = result.fetchone()[0]
+                id = db.fetchone()[0]
                 data = movie.dict()
                 return MovieOut(id=id, **data)
 
