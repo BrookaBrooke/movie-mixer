@@ -11,7 +11,7 @@ const MovieGroupDetail = () => {
 
   const handleDeleteMovie = async (movieId) => {
     try {
-      await fetch(`http://localhost:8000/movie-items/${id}/movie/${movieId}`, {
+      await fetch(`http://localhost:8000/movie_items/${id}/movie/${movieId}`, {
         method: "DELETE",
       });
       setMovies(movies.filter((movie) => movie.id !== movieId));
@@ -42,7 +42,7 @@ const MovieGroupDetail = () => {
     const fetchMovieItems = async () => {
       try {
         const movieItemsResponse = await fetch(
-          `http://localhost:8000/movie-items/${id}`
+          `http://localhost:8000/movie_items/${id}`
         );
         const movieItemsData = await movieItemsResponse.json();
         setMovieItems(movieItemsData);
