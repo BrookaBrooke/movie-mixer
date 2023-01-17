@@ -107,7 +107,6 @@ function MovieSearch() {
       poster: details.poster_path,
       vote_avr: details.vote_average,
     };
-    console.log(movie_details);
     const movieExistResponse = await fetch(
       `http://localhost:8000/movies/${details.imdb_id}`
     );
@@ -242,7 +241,10 @@ function MovieSearch() {
                         <button
                           type="button"
                           className="btn btn-outline-primary"
-                          onClick={() => goToMovieDetail(result.id)}
+                          data-bs-dismiss="modal"
+                          onClick={() => {
+                            goToMovieDetail(result.id);
+                          }}
                         >
                           View more details
                         </button>
