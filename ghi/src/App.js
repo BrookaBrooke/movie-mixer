@@ -10,6 +10,7 @@ import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
 import MovieSearch from "./components/MovieSearch";
 import MovieGroupDetail from "./components/MovieGroupDetail";
+import Register from "./components/Register";
 
 function App(props) {
   return (
@@ -19,7 +20,7 @@ function App(props) {
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<AccountForm />} />
         <Route path="/movie-detail/:id" element={<MovieDetail />} />
-
+        <Route path="/register" element={<Register />} />
         <Route path="/groups">
           <Route
             index
