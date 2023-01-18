@@ -14,11 +14,9 @@ const MovieGroups = () => {
     const fetchData = async () => {
       try {
         const groupData = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups`
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-with-username`
         );
         const data = await groupData.json();
-        console.log(data);
-        console.log(groupData);
         setGroups(data);
         setLoading(false);
       } catch (error) {
@@ -61,13 +59,12 @@ const MovieGroups = () => {
   return (
     <>
       <section className="container">
-        <h2 class="mb-5">All Favorites List</h2>
+        <h2 className="mb-5">All Favorites List</h2>
         <table className="table table-dark table-hover">
           <thead>
             <tr>
               <th>List Name</th>
               <th>User</th>
-              {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
               <th></th>
               <th></th>
             </tr>
@@ -85,7 +82,7 @@ const MovieGroups = () => {
                           value={formValues.name}
                         />
                       </td>
-                      <td>{group.owner}</td>
+                      <td>{group.username}</td>
                       <td>
                         <button className="btn btn-primary">Save</button>
                       </td>
@@ -101,7 +98,7 @@ const MovieGroups = () => {
                         </Link>
                       </td>
 
-                      <td>{group.owner}</td>
+                      <td>{group.username}</td>
                       <td>
                         <button className="btn btn-primary">removed</button>
                       </td>

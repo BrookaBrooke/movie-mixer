@@ -20,6 +20,13 @@ class MovieGroupOut(BaseModel):
     owner: int
 
 
+class GroupUserItem(BaseModel):
+    id: int
+    name: str
+    owner: int
+    username: str
+
+
 class MovieGroupRepository:
     def list(self) -> List[MovieGroupOut]:
         with pool.connection() as conn:
@@ -31,11 +38,31 @@ class MovieGroupRepository:
                     )
                     for record in db
                 ]
-            
+
+    def get_user(self) -> List[MovieGroupOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT movie_groups.id, movie_groups.name, movie_groups.owner, accounts.username
+                    FROM accounts
+                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id
+                    """
+                )
+                return [
+                    GroupUserItem(
+                        id=record[0],
+                        name=record[1],
+                        owner=record[2],
+                        username=record[3],
+                    )
+                    for record in db
+                ]
+
     def list_user_groups(self, id: int) -> List[MovieGroupOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT * FROM movie_groups WHERE owner=%s",[id])
+                db.execute("SELECT * FROM movie_groups WHERE owner=%s", [id])
                 return [
                     MovieGroupOut(
                         id=record[0], name=record[1], owner=record[2]

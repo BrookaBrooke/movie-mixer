@@ -19,6 +19,13 @@ def read_movie_groups(
     return repository.list()
 
 
+@router.get("/movie-groups-with-username")
+def get_username(
+    repo: MovieGroupRepository = Depends(),
+) -> List[MovieGroupOut]:
+    return repo.get_user()
+
+
 # account_data: dict = Depends(authenticator.get_current_account_data)
 # ):
 # if account_data is None:
