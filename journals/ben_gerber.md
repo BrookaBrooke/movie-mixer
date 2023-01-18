@@ -41,3 +41,9 @@ Also Mike let me know that I did not put in any filter to the add buttons so tha
 Also quickly wrote a test for movie_groups, should push that up to main.
 Tomorrow I'd like to work on it showing the username in the "All Favorites" page instead of just the user id, but the only info on the user available so far in that file is the user id.
 I may have to make a query that returns a user based on a user id as the only one we have now like that returns based on a user id.
+
+# 1-18-23
+
+Noticed the delete button on the movie group detail page wasn't working so I fixed that. That got mostly overwritten though. The way the movie group detail was get the movies in the group was very ineffecient because I coded it terribly the first time for some reason to make fetches for every movie... but I fixed that by adding a new query and route that takes a string of numbers seperated by commas which returns all the movies with the id included in that string of numbers.
+On a less dev more personal note, I feel any contribution I've made has been poor and been overwritten eventually (and rightly so). Still, it sucks to see when you write something then it just gets replaced and called shit to your face.
+Not that it wasn't deserved.
