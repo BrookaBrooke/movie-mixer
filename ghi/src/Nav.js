@@ -5,8 +5,8 @@ import { UserContext } from "./context/UserContext";
 function Nav() {
   const user = useContext(UserContext);
   console.log(user);
-  const userToken = user[0];
-  console.log(userToken);
+  const userToken = localStorage.getItem("leadsToken");
+  console.log(typeof userToken);
 
   const LoggedOutNavOptions = (
     <li className="nav-item px-2">
@@ -91,7 +91,7 @@ function Nav() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {userToken !== 'null' ? LoggedInNavOptions : LoggedOutNavOptions}
+            {userToken !== "null" ? LoggedInNavOptions : LoggedOutNavOptions}
           </ul>
         </div>
       </div>
