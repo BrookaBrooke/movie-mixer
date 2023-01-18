@@ -30,3 +30,11 @@ Worked on authentication for back-end.  Implemented authentication on 'edit' fea
 # 2023-01-16
 
 Worked on authentication for front-end with Jesse.  Saved token to localStorage and user_id.  Authentication was implemented to allow for requests to pass through as authorized.  We identified a bug, which does not allow to delete movie-groups because of the relationship with the items tied to them.  (this is an 'on delete cascade or protect' issue).  Login/Logout/Signup are functional, but ugly.  Favorites list for user view is functional.
+
+# 2023-01-17
+
+Worked with Jesse on the cascade delete problem for deleting movie-groups, fixed.  Improved the movie-group list view and functionality to edit,create,delete movie groups to your own list.
+
+# 2023-01-18
+
+Worked with Jesse and Jalen (Jesse driver, Jalen & I nav) to get the list of movies to be draggable to reorder the list of movies in a favorite list (movie-group).  Functional to the point where you can reorder the list on the front end.  Back end had already been set up for this feature.s
