@@ -31,11 +31,11 @@ class MovieGroupRepository:
                     )
                     for record in db
                 ]
-            
+
     def list_user_groups(self, id: int) -> List[MovieGroupOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT * FROM movie_groups WHERE owner=%s",[id])
+                db.execute("SELECT * FROM movie_groups WHERE owner=%s", [id])
                 return [
                     MovieGroupOut(
                         id=record[0], name=record[1], owner=record[2]
