@@ -89,6 +89,33 @@ class MovieRepository:
                 #         list_movies.append(i)
                 #     return list_movies
 
+    def list_by_ids(self, ids: str) -> List[MovieOut]:
+        id_list = list(map(lambda x: int(x), ids.split(",")))
+        if id_list is None:
+            return []
+        stmt = "SELECT * FROM movies WHERE id IN (%s)" % ",".join(
+            "%s" for _ in id_list
+        )
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    stmt,
+                    id_list,
+                )
+                return [
+                    MovieOut(
+                        id=record[0],
+                        title=record[1],
+                        released=record[2],
+                        plot=record[3],
+                        imdbID=record[4],
+                        poster=record[5],
+                        vote_avr=record[6],
+                        api3_id=record[7],
+                    )
+                    for record in db
+                ]
+
     def get_by_imdb_id(self, imdb_id: str) -> MovieOut:
         with pool.connection() as conn:
             with conn.cursor() as db:

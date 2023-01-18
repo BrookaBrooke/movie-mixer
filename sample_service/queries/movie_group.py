@@ -46,7 +46,7 @@ class MovieGroupRepository:
                     """
                     SELECT movie_groups.id, movie_groups.name, movie_groups.owner, accounts.username
                     FROM accounts
-                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id
+                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id;
                     """
                 )
                 return [

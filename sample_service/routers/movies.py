@@ -23,6 +23,14 @@ def get_movies(
     return repo.get()
 
 
+@router.get("/movies/ids/{ids}", response_model=List[MovieOut])
+def get_movies_by_ids(
+    ids: str,
+    repo: MovieRepository = Depends(),
+):
+    return repo.list_by_ids(ids)
+
+
 @router.get("/movies/{imdb_id}", response_model=MovieOut)
 def get_movie_by_imdb_id(
     imdb_id: str,
