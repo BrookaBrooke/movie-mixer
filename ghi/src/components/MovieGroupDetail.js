@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -9,17 +10,26 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
 
-  const handleDeleteMovie = async (movieId) => {
-    try {
-      await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}/movie/${movieId}`,
-        {
-          method: "DELETE",
+  const [token] = useContext(UserContext);
+
+  const handleDeleteMovie = async (items, movieId) => {
+    for (let item of items) {
+      if (item.movie_id === movieId) {
+        try {
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item.id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setMovies(movies.filter((movie) => movie.id !== movieId));
+        } catch (error) {
+          console.error(error);
         }
-      );
-      setMovies(movies.filter((movie) => movie.id !== movieId));
-    } catch (error) {
-      console.error(error);
+      }
     }
   };
 
@@ -115,7 +125,9 @@ const MovieGroupDetail = () => {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => handleDeleteMovie(movie.id)}
+                  onClick={() => {
+                    handleDeleteMovie(movieItems, movie.id);
+                  }}
                 >
                   Delete
                 </button>
