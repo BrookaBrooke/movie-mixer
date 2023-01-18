@@ -11,9 +11,12 @@ const MovieGroupDetail = () => {
 
   const handleDeleteMovie = async (movieId) => {
     try {
-      await fetch(`http://localhost:8000/movie_items/${id}/movie/${movieId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}/movie/${movieId}`,
+        {
+          method: "DELETE",
+        }
+      );
       setMovies(movies.filter((movie) => movie.id !== movieId));
     } catch (error) {
       console.error(error);
@@ -24,7 +27,7 @@ const MovieGroupDetail = () => {
     const fetchMovieGroups = async () => {
       try {
         const movieGroupsResponse = await fetch(
-          `http://localhost:8000/movie-groups/${id}`
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${id}`
         );
         const movieGroupData = await movieGroupsResponse.json();
         setMovieGroup(movieGroupData);
@@ -42,7 +45,7 @@ const MovieGroupDetail = () => {
     const fetchMovieItems = async () => {
       try {
         const movieItemsResponse = await fetch(
-          `http://localhost:8000/movie_items/${id}`
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
         );
         const movieItemsData = await movieItemsResponse.json();
         setMovieItems(movieItemsData);
@@ -60,7 +63,7 @@ const MovieGroupDetail = () => {
         const movieList = [];
         for (let movie_id of movieIdList) {
           let movieResponse = await fetch(
-            `http://localhost:8000/movies/id/${movie_id}`
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/id/${movie_id}`
           );
           const movieData = await movieResponse.json();
           movieList.push(movieData);

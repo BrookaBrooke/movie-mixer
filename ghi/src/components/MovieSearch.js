@@ -48,7 +48,7 @@ function MovieSearch() {
   useEffect(() => {
     async function fetchMovieGroups() {
       const response = await fetch(
-        `http://localhost:8000/movie-groups-by-user`,
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ function MovieSearch() {
     let data;
     try {
       const response = await fetch(
-        `http://localhost:8000/movie_items/${selectedGroupId}`
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
       );
       data = await response.json();
     } catch (error) {
@@ -93,14 +93,17 @@ function MovieSearch() {
     }
     if (!movieItemExists) {
       try {
-        await fetch(`http://localhost:8000/movie_items`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movieItem),
-        });
+        await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movieItem),
+          }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -119,19 +122,22 @@ function MovieSearch() {
     };
 
     const movieExistResponse = await fetch(
-      `http://localhost:8000/movies/${details.imdb_id}`
+      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
     );
 
     if (movieExistResponse.status === 404) {
       try {
-        const response = await fetch(`http://localhost:8000/movies`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movie_details),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movie_details),
+          }
+        );
         if (response.ok) {
           const movieData = await response.json();
           createMovieItem(
