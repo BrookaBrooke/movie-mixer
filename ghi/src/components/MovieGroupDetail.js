@@ -12,26 +12,6 @@ const MovieGroupDetail = () => {
 
   const [token] = useContext(UserContext);
 
-  const handleDeleteMovie = async (items, movieId) => {
-    for (let item of items) {
-      if (item.movie_id === movieId) {
-        try {
-          await fetch(
-            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item.id}`,
-            {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setMovies(movies.filter((movie) => movie.id !== movieId));
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-  };
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -199,26 +179,63 @@ const MovieGroupDetail = () => {
       setMovies(list)
     }
 
+    const handleUpdate = async () => {
+      const ordered_data = movies.map( (item, i) => ( {"id": item.id, "item_position": i,} ) )
+        console.log(ordered_data)
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+              },
+              body: JSON.stringify( ordered_data ),
+            }
+          );
+          const data = await response.json();
+
+        } catch (error) {
+          console.error(error);
+        }
+
+    };
+
     /* filter list where only items with id unequal to current id's are allowed */
-    const handleDelete = (event) => {
+    const handleDelete = async (event) => {
       event.preventDefault()
+      const item_id = movies[event.target.id].id
+      console.log(item_id)
       const list = movies.filter((item, i) =>
         i !== Number(event.target.id))
       console.log(event.target.id)
+      try {
+        await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
       setMovies(list)
     }
 
     /* create list of items */
     const listItems = () => {
 
-      return movies.map((item, i) => (
+      return movies?.map((item, i) => (
         <div key={i} className='dnd-list'>
        <div className="number-movies">
         {i+1}
         </div>
-          <input
+          <span
             id={i}
-            type='text'
             className='input-item'
             draggable='true'
             onDragStart={handleDragStart}
@@ -228,9 +245,12 @@ const MovieGroupDetail = () => {
             onDrop={handleDrop}
             onDragEnd={handleDragEnd}
             onChange={handleChange}
-            placeholder='Enter text here'
-            value={item.title}
-          />
+          >
+          {/* <Link className="text-secondary text-decoration-none h5"
+                          to={`/movie-detail/${item.api3_id}`}> */}
+                          {item.title}
+          {/* </Link> */}
+          </span>
           <div id={i} className='delButton' onClick={handleDelete}>X</div>
         </div>
       )
@@ -267,9 +287,12 @@ const MovieGroupDetail = () => {
     return (
       <div className='page'>
         <div className='container'>
-          <h1 style={{ color: "white", textAlign: "center" }}>Today</h1>
+          <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
           {listItems()}
           {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
+          <button className="btn btn-success" onClick={handleUpdate}>
+                      Save order
+                    </button>
         </div>
       </div>
     )

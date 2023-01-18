@@ -50,7 +50,7 @@ def get_movie_group_items(
     return repo.get_list(movie_group_id)
 
 
-@router.put("/movie_items/", response_model=List[ItemPosition])
+@router.put("/movie_items", response_model=List[ItemPosition])
 def update_movie_items(
     items: List[ItemPosition], repo: MovieItemRepository = Depends()
 ):
