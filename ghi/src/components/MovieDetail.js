@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
+import { NavLink } from "react-router-dom";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -30,16 +31,18 @@ const MovieDetail = () => {
 
   useEffect(() => {
     async function fetchMovieGroups() {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setMovieGroups(data);
+      if (token !== "null") {
+        const response = await fetch(
+          `http://localhost:8000/movie-groups-by-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setMovieGroups(data);
+      }
     }
     fetchMovieGroups();
   }, []);
@@ -171,30 +174,38 @@ const MovieDetail = () => {
             </div>
 
             <div className="d-flex justify-content-center pt-4">
-              <Dropdown>
-                <Dropdown.Toggle
-                  className="btn btn-outline-info btn-lg bg-transparent"
-                  id="dropdown-basic"
-                >
-                  Add to List
-                </Dropdown.Toggle>
+              {token !== "null" ? (
+                <Dropdown>
+                  <Dropdown.Toggle
+                    className="btn btn-outline-success bg-transparent"
+                    id="dropdown-basic"
+                  >
+                    Add to List
+                  </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  {" "}
-                  {movieGroups.map((movieGroup) => (
-                    <Dropdown.Item
-                      key={movieGroup.id}
-                      onClick={(event) => {
-                        setMovieCreated(true);
-                        handleGroupSelection(event);
-                      }}
-                      value={movieGroup.id}
-                    >
-                      {movieGroup.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
+                  <Dropdown.Menu>
+                    {movieGroups.map((movieGroup) => (
+                      <Dropdown.Item
+                        key={movieGroup.id}
+                        onClick={(event) => {
+                          setMovieCreated(true);
+                          handleGroupSelection(event);
+                        }}
+                        value={movieGroup.id}
+                      >
+                        {movieGroup.name}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <NavLink
+                  className="btn btn-outline-success bg-transparent"
+                  to={"/login"}
+                >
+                  Login to add to list
+                </NavLink>
+              )}
 
               {/*
               Couldn't get the hover effect to match what this one had, will circle back

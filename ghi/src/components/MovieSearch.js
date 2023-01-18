@@ -184,10 +184,6 @@ function MovieSearch() {
     return navigate(`/movie-detail/${id}`);
   }
 
-  function posterMovieDetail(poster_path) {
-    return navigate(`/movie/detail/${poster_path}`);
-  }
-
   async function onSubmit(event) {
     event.preventDefault();
     if (pageNum === undefined) {
@@ -278,31 +274,32 @@ function MovieSearch() {
                         >
                           View more details
                         </button>
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            as={Button}
-                            className="btn btn-outline-success bg-transparent"
-                            id="dropdown-basic"
-                          >
-                            Add to List
-                          </Dropdown.Toggle>
+                        {token !== "null" ? (
+                          <Dropdown>
+                            <Dropdown.Toggle
+                              as={Button}
+                              className="btn btn-outline-success bg-transparent"
+                              id="dropdown-basic"
+                            >
+                              Add to List
+                            </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            {" "}
-                            {movieGroups.map((movieGroup) => (
-                              <Dropdown.Item
-                                key={movieGroup.id}
-                                onClick={(event) => {
-                                  setMovieCreated(true);
-                                  handleGroupSelection(event);
-                                }}
-                                value={movieGroup.id}
-                              >
-                                {movieGroup.name}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
+                            <Dropdown.Menu>
+                              {movieGroups.map((movieGroup) => (
+                                <Dropdown.Item
+                                  key={movieGroup.id}
+                                  onClick={(event) => {
+                                    setMovieCreated(true);
+                                    handleGroupSelection(event);
+                                  }}
+                                  value={movieGroup.id}
+                                >
+                                  {movieGroup.name}
+                                </Dropdown.Item>
+                              ))}
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        ) : null}
                       </div>
                     </div>
                   </div>
