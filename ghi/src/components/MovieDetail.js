@@ -164,26 +164,23 @@ const MovieDetail = () => {
   return (
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
-        <div className="row">
-          <div id="poster-detail" className="col-auto px-5 mb-4">
-            <div className="d-flex justify-content-center">
-              <img
-                className="poster-image"
-                src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
-              />
-            </div>
+        <div className="row justify-content-center">
+          <div id="poster-detail" className="col-auto justify-content-center">
+            <img
+                  className="poster-image"
+                  src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
+                />
+              <div className="d-flex justify-content-center p-3">
 
-            <div className="d-flex justify-content-center pt-4">
-              {token !== "null" ? (
                 <Dropdown>
                   <Dropdown.Toggle
-                    className="btn btn-outline-success bg-transparent"
-                    id="dropdown-basic"
-                  >
+                    className="btn btn-outline-info btn-lg bg-transparent mt-4"
+                    id="dropdown-basic">
                     Add to List
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
+                    {" "}
                     {movieGroups.map((movieGroup) => (
                       <Dropdown.Item
                         key={movieGroup.id}
@@ -198,14 +195,10 @@ const MovieDetail = () => {
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-              ) : (
-                <NavLink
-                  className="btn btn-outline-success bg-transparent"
-                  to={"/login"}
-                >
-                  Login to add to list
-                </NavLink>
-              )}
+              </div>
+
+            <div className="col-auto justify-content-center pt-4">
+
 
               {/*
               Couldn't get the hover effect to match what this one had, will circle back
