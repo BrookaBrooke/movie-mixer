@@ -61,11 +61,6 @@ function Nav() {
               </NavLink>
             </li> */}
       <li className="nav-item px-2">
-        <NavLink className="nav-link active" to="#">
-          Groups (moved)
-        </NavLink>
-      </li>
-      <li className="nav-item px-2">
         <NavLink className="nav-link active" to="/logout">
           Log Out
         </NavLink>

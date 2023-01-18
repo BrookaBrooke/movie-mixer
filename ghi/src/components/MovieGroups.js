@@ -65,29 +65,13 @@ const MovieGroups = () => {
             <tr>
               <th>List Name</th>
               <th>User</th>
-              <th></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
             {groups.map((group) => {
               return (
                 <tr key={group.id}>
-                  {group.id === editingGroupId ? (
-                    <>
-                      <td>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formValues.name}
-                        />
-                      </td>
-                      <td>{group.username}</td>
-                      <td>
-                        <button className="btn btn-primary">Save</button>
-                      </td>
-                    </>
-                  ) : (
+                  {
                     <>
                       <td>
                         <Link
@@ -99,38 +83,11 @@ const MovieGroups = () => {
                       </td>
 
                       <td>{group.username}</td>
-                      <td>
-                        <button className="btn btn-primary">removed</button>
-                      </td>
                     </>
-                  )}
-                  <td>
-                    <button className="btn btn-danger">removed</button>
-                  </td>
+                  }
                 </tr>
               );
             })}
-            <tr>
-              {creatingGroup ? (
-                <>
-                  <td colSpan={3}>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formValues.name}
-                      onChange={handleChange}
-                    />
-                  </td>
-                  <td>
-                    <button className="btn btn-primary">removed</button>
-                  </td>
-                </>
-              ) : (
-                <td colSpan={4}>
-                  <button className="btn btn-primary">removed</button>
-                </td>
-              )}
-            </tr>
           </tbody>
         </table>
       </section>

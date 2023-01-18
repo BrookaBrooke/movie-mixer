@@ -68,17 +68,17 @@ const MovieGroupDetail = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      if (movieItems.length === 0) {
+        return;
+      }
       try {
         const movieIdList = movieItems.map((item) => item.movie_id);
-        const movieList = [];
-        for (let movie_id of movieIdList) {
-          let movieResponse = await fetch(
-            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/id/${movie_id}`
-          );
-          const movieData = await movieResponse.json();
-          movieList.push(movieData);
-        }
-        setMovies(movieList);
+        const movieIds = movieIdList.join(",");
+        const movieResponse = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/ids/${movieIds}`
+        );
+        const movieData = await movieResponse.json();
+        setMovies(movieData);
       } catch (error) {
         console.error(error);
       }
