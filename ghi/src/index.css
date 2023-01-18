@@ -51,7 +51,7 @@ code {
   z-index: 1;
   position: absolute;
   right: 0%;
-  top: 25%;
+  top: 28%;
   width: 100%;
   opacity: 0.5;
   margin-top: 70px;
@@ -197,22 +197,22 @@ div #genres-div .col-align-self-end pb-5{
   margin-bottom: 200px;
 } */
 
-@media (max-width: 1400px) {
-  .col-auto,
-  .align-self-end,
-  .pt-2 {
+ /* @media (max-width: 1400px)
+
+{
+  .col-auto, .align-self-end, .pt-2 {
     width: 100%;
   }
 }
 
 /* @media (min-width: 1400px) */
 
-/* {  */
-/* .col-auto, .align-self-end, .pt-2 {
+ /* {
+   .col-auto, .align-self-end, .pt-2 {
     width: 100px;
-  align-items: center;
-} */
-
+    align-items: center;
+}
+ }  */
 /* .col-auto, .align-self-center, .pb-1 {
   width: 40%;
   }

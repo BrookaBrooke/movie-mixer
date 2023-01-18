@@ -42,9 +42,9 @@ function MainPage() {
                   width="100%"
                   height="1080px"
                   pip={true}
-                  fullscreen={true}
+                  // fullscreen={true}
                   muted={true}
-                  hover={true}
+                  // hover={true}
                   // controls={true}
 
 
