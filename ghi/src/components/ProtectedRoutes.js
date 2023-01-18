@@ -4,10 +4,10 @@ import ErrorMessage from './ErrorMessage';
 function ProtectedRoutes() {
 
   let isAuthenticated = localStorage.getItem("leadsToken");
-
+  console.log(isAuthenticated);
   return (
 
-    isAuthenticated !== "true" ? <Navigate to="/login"/> : <Outlet/>
+    isAuthenticated !== 'null' ? <Outlet/>: <Navigate to="/login"/>
   )
 }
 

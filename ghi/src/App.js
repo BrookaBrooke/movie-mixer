@@ -26,10 +26,7 @@ function App(props) {
         {/* <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} /> */}
             <Nav />
-
             <Routes>
-
-
                 <Route path="/" element={<MainPage />} />
                 <Route path="/signup" element={<AccountForm />} />
                 <Route path="/movie-detail/:id" element={<MovieDetail />} />
@@ -41,13 +38,12 @@ function App(props) {
                   path="/search/:searchQuery/:pageNumber"
                   element={<MovieSearch />}
                 ></Route>
-                <Route element={<ProtectedRoutes/>} >
-                  <Route path="/my-groups" element={<MyMovieGroups />} />
-                  <Route path="/groups">
-                    <Route index element={<MovieGroups movieGroups={props.movieGroups} />}/>
-                    <Route path="/groups/:id" element={<MovieGroupDetail />} />
-                  </Route>
-
+                  <Route element={<ProtectedRoutes/>} >
+                    <Route path="/my-groups" element={<MyMovieGroups />} />
+                    <Route path="/groups">
+                      <Route index element={<MovieGroups movieGroups={props.movieGroups} />}/>
+                      <Route path="/groups/:id" element={<MovieGroupDetail />} />
+                    </Route>
               </Route>
             </Routes>
 
