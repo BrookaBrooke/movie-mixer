@@ -27,9 +27,11 @@ function MovieSearch() {
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/search/${searchQuery}?page_num=${pageNumber}`
       );
       const data = await response.json();
-      console.log(data);
-      setMovies(data.results);
-      setResults(data.total_results);
+      if (response.ok) {
+        console.log(data);
+        setMovies(data.results);
+        setResults(data.total_results);
+      }
     };
     if (searchQuery && pageNumber) {
       getResults();

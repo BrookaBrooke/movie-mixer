@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
@@ -7,6 +7,43 @@ import ReactPlayer from "react-player";
 function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const sampleMovieIds = [315162, 299534, 675353, 76600, 809];
+  const [movies, setMovies] = useState([]);
+  const [videoLinks, setVideoLinks] = useState([]);
+
+  useEffect(() => {
+    const getMovieData = async () => {
+      const tempList = [];
+      for (const id of sampleMovieIds) {
+        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${id}`;
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          tempList.push(data);
+        }
+      }
+      setMovies(tempList);
+    };
+
+    const getMovieTrailers = async () => {
+      const tempList = [];
+      for (const id of sampleMovieIds) {
+        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailer/${id}`;
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          tempList.push(data.video);
+        }
+      }
+      setVideoLinks(tempList);
+    };
+    getMovieData();
+    getMovieTrailers();
+  }, []);
+
+  const movieDataWithKey = movies.map((x, i) => {
+    return [x, videoLinks[i].key];
+  });
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -67,11 +104,11 @@ function MainPage() {
 
       <div className="">
         <Carousel>
-          {videoProperties.map((videoObj) => {
+          {movieDataWithKey.map((movieData) => {
             return (
-              <Carousel.Item key={videoObj.id}>
+              <Carousel.Item key={movieData[0].id}>
                 <ReactPlayer
-                  url={videoObj.src}
+                  url={`https://www.youtube.com/watch?v=${movieData[1]}`}
                   playing={true}
                   width="100%"
                   height="540px"
@@ -79,12 +116,11 @@ function MainPage() {
                   // fullscreen={true}
                   muted={true}
                   // hover={true}
-                  // controls={true}
+                  controls={false}
                 />
                 <Carousel.Caption>
-                  <h2>New Release</h2>
-                  <h3>{videoObj.title}</h3>
-                  <p>Credits: {videoObj.credit}</p>
+                  <h3>{movieData[0].title}</h3>
+                  <h4>Released: {movieData[0].release_date}</h4>
                   {/* <h4>Add to your Favorites</h4> */}
                 </Carousel.Caption>
               </Carousel.Item>
