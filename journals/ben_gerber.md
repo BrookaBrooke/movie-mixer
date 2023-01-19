@@ -47,3 +47,10 @@ I may have to make a query that returns a user based on a user id as the only on
 Noticed the delete button on the movie group detail page wasn't working so I fixed that. That got mostly overwritten though. The way the movie group detail was get the movies in the group was very ineffecient because I coded it terribly the first time for some reason to make fetches for every movie... but I fixed that by adding a new query and route that takes a string of numbers seperated by commas which returns all the movies with the id included in that string of numbers.
 On a less dev more personal note, I feel any contribution I've made has been poor and been overwritten eventually (and rightly so). Still, it sucks to see when you write something then it just gets replaced and called shit to your face.
 Not that it wasn't deserved.
+
+# 1-19-23
+
+Not really sure what to do today. It seems MVP is done and we're on sretch goals now. Not sure if deployment should come before or after that but they've already started on other stuff so that's kind of a moot point.
+Nothing is left that isn't being worked on by multiple people in what we put for stretch goals aside from the trivia game which I'm not sure I can do. Besides, I doubt they want me to go ahead and do that on my own,
+they'd probably have to redo most of my code as they already have. Not sure if all these journal entries are going to be read, but I wonder if I'm doing/have done enough to be reviewed well by my peers. I may fail based just on that.
+I feel personally that I've done a fair amount, but I wouldn't take it personally if they reviewed me poorly. Three members of the group have seemed to have done most of the work, I've just tried to do what I can.
