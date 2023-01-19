@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
+import { NavLink } from "react-router-dom";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -30,16 +31,18 @@ const MovieDetail = () => {
 
   useEffect(() => {
     async function fetchMovieGroups() {
-      const response = await fetch(
-        `http://localhost:8000/movie-groups-by-user`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setMovieGroups(data);
+      if (token !== "null") {
+        const response = await fetch(
+          `http://localhost:8000/movie-groups-by-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setMovieGroups(data);
+      }
     }
     fetchMovieGroups();
   }, []);
@@ -55,7 +58,7 @@ const MovieDetail = () => {
     let data;
     try {
       const response = await fetch(
-        `http://localhost:8000/movie_items/${selectedGroupId}`
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
       );
       data = await response.json();
     } catch (error) {
@@ -72,14 +75,17 @@ const MovieDetail = () => {
     }
     if (!movieItemExists) {
       try {
-        await fetch(`http://localhost:8000/movie_items`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movieItem),
-        });
+        await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movieItem),
+          }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -97,18 +103,21 @@ const MovieDetail = () => {
       api3_id: details.id,
     };
     const movieExistResponse = await fetch(
-      `http://localhost:8000/movies/${details.imdb_id}`
+      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
     );
     if (movieExistResponse.status === 404) {
       try {
-        const response = await fetch(`http://localhost:8000/movies`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movie_details),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movie_details),
+          }
+        );
         if (response.ok) {
           const movieData = await response.json();
           createMovieItem(
@@ -163,15 +172,17 @@ const MovieDetail = () => {
                 />
               <div className="d-flex justify-content-center p-3">
 
+            <div className="d-flex justify-content-center pt-4">
+              {token !== "null" ? (
                 <Dropdown>
                   <Dropdown.Toggle
-                    className="btn btn-outline-info btn-lg bg-transparent mt-4"
-                    id="dropdown-basic">
+                    className="btn btn-outline-success bg-transparent"
+                    id="dropdown-basic"
+                  >
                     Add to List
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {" "}
                     {movieGroups.map((movieGroup) => (
                       <Dropdown.Item
                         key={movieGroup.id}
@@ -186,10 +197,14 @@ const MovieDetail = () => {
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-              </div>
-
-            <div className="col-auto justify-content-center pt-4">
-
+              ) : (
+                <NavLink
+                  className="btn btn-outline-success bg-transparent"
+                  to={"/login"}
+                >
+                  Login to add to list
+                </NavLink>
+              )}
 
               {/*
               Couldn't get the hover effect to match what this one had, will circle back

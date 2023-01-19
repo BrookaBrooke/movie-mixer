@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ErrorMessage from "./ErrorMessage"
+import ErrorMessage from "./ErrorMessage";
 
 const MyMovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -15,17 +15,19 @@ const MyMovieGroups = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const groupData = await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
-            }
-        }
+        const groupData = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+            },
+          }
         );
         const data = await groupData.json();
-        console.log(data)
-        console.log(groupData)
+        console.log(data);
+        console.log(groupData);
         setGroups(data);
         setLoading(false);
       } catch (error) {
@@ -35,11 +37,10 @@ const MyMovieGroups = () => {
     fetchData();
   }, []);
 
-
   const handleCreateGroup = () => {
     setCreatingGroup(true);
-    setFormValues({name: ""})
-    setEditingGroupId(null)
+    setFormValues({ name: "" });
+    setEditingGroupId(null);
   };
 
   const handleChange = (e) => {
@@ -51,32 +52,32 @@ const MyMovieGroups = () => {
   };
 
   const handleCreate = async () => {
-
-    if ( formValues.name.length > 0 ) {
-      setErrorMessage("")
-    try {
-      const response = await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
-        },
-        body: JSON.stringify({ ...formValues, owner: 1 }),
-      });
-      const data = await response.json();
-      setGroups([...groups, data]);
-      setFormValues({
-        name: "",
-      });
-      setCreatingGroup(false);
-    } catch (error) {
-      console.error(error);
+    if (formValues.name.length > 0) {
+      setErrorMessage("");
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+            },
+            body: JSON.stringify({ ...formValues, owner: 1 }),
+          }
+        );
+        const data = await response.json();
+        setGroups([...groups, data]);
+        setFormValues({
+          name: "",
+        });
+        setCreatingGroup(false);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setErrorMessage("List name cannot be empty");
     }
-  } 
-  else {
-    setErrorMessage("List name cannot be empty")
-  }
-
   };
 
   const handleSubmit = async (event) => {
@@ -90,7 +91,7 @@ const MyMovieGroups = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`
+            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
           },
           body: JSON.stringify({ ...formValues, owner }),
         }
@@ -115,20 +116,23 @@ const MyMovieGroups = () => {
 
   const handleDelete = async (groupId) => {
     try {
-      await fetch(`${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${groupId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
-  },
-      });
+      await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${groupId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+          },
+        }
+      );
       setGroups(groups.filter((group) => group.id !== groupId));
     } catch (error) {
       console.error(error);
     }
   };
 
-  if ( Object.keys(groups).includes("detail") ){
+  if (Object.keys(groups).includes("detail")) {
     return (
       <div className="row justify-content-center m-5">
         <div className="spinner-border alignt-center" role="status">
@@ -137,7 +141,6 @@ const MyMovieGroups = () => {
         </div>
       </div>
     );
-
   }
   if (loading) {
     return (
@@ -147,114 +150,127 @@ const MyMovieGroups = () => {
     );
   }
 
-
-
   return (
     <>
       <section className="container">
-        <h2 class="mb-5">{localStorage.getItem("username")}'s Favorites List</h2>
-      <table className="table table-dark table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th></th>
-            {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {groups.map((group) => {
-            return (
-              <tr key={group.id}>
-                {group.id === editingGroupId ? (
-                  <>
-                    <td>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formValues.name}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td></td>
-                    <td>
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleSubmit}
-                      >
-                        Save
-                      </button>
-                      <button className="btn btn-secondary" onClick={ () => { setEditingGroupId(null) } }>
-                      Cancel
-                      </button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td>
-                      <Link to={`/groups/${group.id}`}>{group.name}</Link>
-                    </td>
+        <h2 className="mb-5">
+          {localStorage.getItem("username")}'s Favorites List
+        </h2>
+        <table className="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th></th>
+              {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map((group) => {
+              return (
+                <tr key={group.id}>
+                  {group.id === editingGroupId ? (
+                    <>
+                      <td>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formValues.name}
+                          onChange={handleChange}
+                        />
+                      </td>
+                      <td></td>
+                      <td>
+                        <button
+                          className="btn btn-primary"
+                          onClick={handleSubmit}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => {
+                            setEditingGroupId(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>
+                        <Link to={`/groups/${group.id}`}>{group.name}</Link>
+                      </td>
 
-                    <td></td>
-                    <td>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          setEditingGroupId(group.id);
-                          setFormValues({name: group.name});
-                          setCreatingGroup(false);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                  </>
-                )}
-                <td>
+                      <td></td>
+                      <td>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            setEditingGroupId(group.id);
+                            setFormValues({ name: group.name });
+                            setCreatingGroup(false);
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </>
+                  )}
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(group.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+            <tr>
+              {creatingGroup ? (
+                <>
+                  <td colSpan={2}>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formValues.name}
+                      onChange={handleChange}
+                    />
+                  </td>
+                  <td>
+                    <button className="btn btn-primary" onClick={handleCreate}>
+                      Create
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setCreatingGroup(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </>
+              ) : (
+                <td colSpan={4}>
                   <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(group.id)}
+                    className="btn btn-primary"
+                    onClick={handleCreateGroup}
                   >
-                    Delete
+                    Create a movie group
                   </button>
                 </td>
-              </tr>
-            );
-          })}
-          <tr>
-            {creatingGroup ? (
-              <>
-                <td colSpan={2}>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formValues.name}
-                    onChange={handleChange}
-                  />
-                </td>
-                <td>
-                  <button className="btn btn-primary" onClick={handleCreate}>
-                    Create
-                  </button>
-                </td>
-                <td>
-                  <button className="btn btn-secondary" onClick={ () => { setCreatingGroup(false) } }>
-                    Cancel
-                  </button>
-                </td>
-              </>
-            ) : (
-              <td colSpan={4}>
-                <button className="btn btn-primary" onClick={handleCreateGroup}>
-                  Create a movie group
-                </button>
-              </td>
-            )}
-          </tr>
-        </tbody>
-      </table>
-      < ErrorMessage message={errorMessage} />
+              )}
+            </tr>
+          </tbody>
+        </table>
+        <ErrorMessage message={errorMessage} />
       </section>
     </>
   );

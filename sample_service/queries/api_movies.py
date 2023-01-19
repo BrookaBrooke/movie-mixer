@@ -19,3 +19,17 @@ class ApiMovieQueries:
         )
         data = results.json()
         return data
+
+    def get_one_trailer(self, id: str):
+        results = requests.get(
+            f"https://api.themoviedb.org/3/movie/{id}/videos?api_key={api_key}&language=en-US"
+        )
+
+        # trailer = None
+        # while not trailer:
+        data = results.json()
+        for result in data["results"]:
+            if result["type"] == "Trailer":
+                trailer = result
+                break
+        return trailer
