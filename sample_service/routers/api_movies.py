@@ -11,5 +11,10 @@ def get_movies(title: str, page_num: int, repo: ApiMovieQueries = Depends()):
 
 
 @router.get("/api-movies/detail/{id}", response_model=dict)
-def get_movies(id: str, repo: ApiMovieQueries = Depends()):
+def get_movie(id: str, repo: ApiMovieQueries = Depends()):
     return repo.get_one_movie(id)
+
+
+@router.get("/api-movies/trailer/{id}", response_model=dict)
+def get_trailer(id: str, repo: ApiMovieQueries = Depends()):
+    return {"video": repo.get_one_trailer(id)}
