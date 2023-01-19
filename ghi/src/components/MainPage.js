@@ -8,42 +8,21 @@ function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const sampleMovieIds = [315162, 299534, 675353, 76600, 809];
-  const [movies, setMovies] = useState([]);
-  const [videoLinks, setVideoLinks] = useState([]);
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
-    const getMovieData = async () => {
-      const tempList = [];
+    const getMovieInfoWithTrailers = async () => {
       for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${id}`;
+        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailers`;
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
-          tempList.push(data);
+          setMovieData(data);
         }
       }
-      setMovies(tempList);
     };
-
-    const getMovieTrailers = async () => {
-      const tempList = [];
-      for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailer/${id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          tempList.push(data.video);
-        }
-      }
-      setVideoLinks(tempList);
-    };
-    getMovieData();
-    getMovieTrailers();
+    getMovieInfoWithTrailers();
   }, []);
-
-  const movieDataWithKey = movies.map((x, i) => {
-    return [x, videoLinks[i].key];
-  });
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -104,11 +83,11 @@ function MainPage() {
 
       <div className="">
         <Carousel>
-          {movieDataWithKey.map((movieData) => {
+          {movieData.map((movieData) => {
             return (
-              <Carousel.Item key={movieData[0].id}>
+              <Carousel.Item key={movieData.id}>
                 <ReactPlayer
-                  url={`https://www.youtube.com/watch?v=${movieData[1]}`}
+                  url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
                   playing={true}
                   width="100%"
                   height="540px"
@@ -119,8 +98,8 @@ function MainPage() {
                   controls={false}
                 />
                 <Carousel.Caption>
-                  <h3>{movieData[0].title}</h3>
-                  <h4>Released: {movieData[0].release_date}</h4>
+                  <h3>{movieData.title}</h3>
+                  <h4>Released: {movieData.release_date}</h4>
                   {/* <h4>Add to your Favorites</h4> */}
                 </Carousel.Caption>
               </Carousel.Item>
