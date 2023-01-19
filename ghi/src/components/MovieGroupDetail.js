@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -9,14 +10,26 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
 
-  const handleDeleteMovie = async (movieId) => {
-    try {
-      await fetch(`http://localhost:8000/movie_items/${id}/movie/${movieId}`, {
-        method: "DELETE",
-      });
-      setMovies(movies.filter((movie) => movie.id !== movieId));
-    } catch (error) {
-      console.error(error);
+  const [token] = useContext(UserContext);
+
+  const handleDeleteMovie = async (items, movieId) => {
+    for (let item of items) {
+      if (item.movie_id === movieId) {
+        try {
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item.id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setMovies(movies.filter((movie) => movie.id !== movieId));
+        } catch (error) {
+          console.error(error);
+        }
+      }
     }
   };
 
@@ -24,7 +37,7 @@ const MovieGroupDetail = () => {
     const fetchMovieGroups = async () => {
       try {
         const movieGroupsResponse = await fetch(
-          `http://localhost:8000/movie-groups/${id}`
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${id}`
         );
         const movieGroupData = await movieGroupsResponse.json();
         setMovieGroup(movieGroupData);
@@ -42,7 +55,7 @@ const MovieGroupDetail = () => {
     const fetchMovieItems = async () => {
       try {
         const movieItemsResponse = await fetch(
-          `http://localhost:8000/movie_items/${id}`
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
         );
         const movieItemsData = await movieItemsResponse.json();
         setMovieItems(movieItemsData);
@@ -55,17 +68,17 @@ const MovieGroupDetail = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      if (movieItems.length === 0) {
+        return;
+      }
       try {
         const movieIdList = movieItems.map((item) => item.movie_id);
-        const movieList = [];
-        for (let movie_id of movieIdList) {
-          let movieResponse = await fetch(
-            `http://localhost:8000/movies/id/${movie_id}`
-          );
-          const movieData = await movieResponse.json();
-          movieList.push(movieData);
-        }
-        setMovies(movieList);
+        const movieIds = movieIdList.join(",");
+        const movieResponse = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/ids/${movieIds}`
+        );
+        const movieData = await movieResponse.json();
+        setMovies(movieData);
       } catch (error) {
         console.error(error);
       }
