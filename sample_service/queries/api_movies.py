@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 import requests
 import os
+import random
 
 api_key = os.environ["THE_MOVIE_DB_API_KEY"]
 
@@ -21,9 +22,23 @@ class ApiMovieQueries:
         return data
 
     def get_home_page_movie_trailers_with_movie_data(self):
-        sampleMovieIds = [315162, 299534, 675353, 76600, 809]
+        sampleMovieIds = [
+            315162,
+            299534,
+            675353,
+            76600,
+            181812,
+            661374,
+            568124,
+            634649,
+            361743,
+            550988,
+        ]
+
+        random.shuffle(sampleMovieIds)
+        usedIds = sampleMovieIds[:5]
         results = []
-        for id in sampleMovieIds:
+        for id in usedIds:
             movie_results = requests.get(
                 f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}"
             )

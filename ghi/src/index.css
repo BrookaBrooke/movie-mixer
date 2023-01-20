@@ -181,6 +181,15 @@ code {
   min-height: 150px;
 }
 
+.video-player {
+  margin: auto;
+  width: 50%;
+}
+
+.video {
+  margin: auto;
+}
+
 /* .btn btn-outline-info btn-lg {
   position: relative;
   align-items: center;

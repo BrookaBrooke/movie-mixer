@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 // import "./VideoCarousel.css";
@@ -17,6 +17,7 @@ function MainPage() {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setMovieData(data);
       }
     };
@@ -51,7 +52,7 @@ function MainPage() {
       >
         {movieData.map((movie) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={movie.id}>
               <img
                 className="poster-image"
                 src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
@@ -70,7 +71,6 @@ function MainPage() {
       <div>
         <div className="pb-3 d-flex justify-content-center">
           <div className="p-2">
-            {" "}
             <h2 className="text-center">Search Movies</h2>
             <form
               className="d-flex container"
@@ -96,30 +96,33 @@ function MainPage() {
           </div>
         </div>
       </div>
-      <div className="">
-        <Carousel>
-          {movieData.map((movieData) => {
-            return (
-              <Carousel.Item key={movieData.id}>
-                <ReactPlayer
-                  url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
-                  playing={true}
-                  width="100%"
-                  height="540px"
-                  pip={true}
-                  // fullscreen={true}
-                  muted={true}
-                  // hover={true}
-                  controls={false}
-                />
-                <Carousel.Caption>
-                  <h3>{movieData.title}</h3>
-                  <h4>Released: {movieData.release_date}</h4>
-                  {/* <h4>Add to your Favorites</h4> */}
-                </Carousel.Caption>
-              </Carousel.Item>
-            );
-          })}
+      <div className="video-player">
+        <Carousel interval={null}>
+          {movieData
+            ? movieData.map((movieData) => {
+                return (
+                  <Carousel.Item key={movieData.id}>
+                    <ReactPlayer
+                      className="video"
+                      url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
+                      width="960px"
+                      height="540px"
+                      margin="auto"
+                      pip={true}
+                      playing={true}
+                      loop={true}
+                      muted={true}
+                      controls={false}
+                    />
+                    <Carousel.Caption>
+                      <h3>{movieData.title}</h3>
+                      <h4>Released: {movieData.release_date}</h4>
+                      {/* <h4>Add to your Favorites</h4> */}
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })
+            : null}
         </Carousel>
       </div>
     </div>
