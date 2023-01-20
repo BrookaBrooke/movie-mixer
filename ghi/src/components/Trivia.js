@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import he from "he";
 
 const Trivia = () => {
@@ -45,7 +45,7 @@ const Trivia = () => {
         return s + 1;
       });
     } else {
-      setAnswerCheck("Wrong!");
+      setAnswerCheck(`Wrong! the correct answer was ${correct_answer}`);
       setShowModal(true);
     }
     if (currentQuestionIndex < questions.length - 1) {
@@ -79,49 +79,53 @@ const Trivia = () => {
     <div className="container">
       <h1 className="text-center my-3">Movie Trivia</h1>
       <div className="card">
-        <div className="card-header">
-          <h2>{question}</h2>
-        </div>
-        <div className="card-body">
-          {answers.map((answer, index) => (
-            <button
-              key={index}
-              className="btn btn-primary m-2"
-              onClick={() => handleAnswerClick(answer)}
-            >
-              {answer}
-            </button>
-          ))}
-        </div>
         {gameOver ? (
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>{answerCheck}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p>Game Over!</p>
-              <p>
-                Final score: {score}/{questions.length}
-              </p>
-            </Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal>
+          <>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>{answerCheck}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>Game Over!</p>
+                <p>
+                  Final score: {score}/{questions.length}
+                </p>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={() => window.location.reload()}>
+                  Play Again
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            <Button onClick={() => window.location.reload()}>Play Again</Button>
+          </>
         ) : (
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>{answerCheck}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Current score: {score}/{questions.length}
-            </Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal>
+          <>
+            <div className="card-header">
+              <h2>{question}</h2>
+            </div>
+            <div className="card-body">
+              {answers.map((answer, index) => (
+                <button
+                  key={index}
+                  className="btn btn-primary m-2"
+                  onClick={() => handleAnswerClick(answer)}
+                >
+                  {answer}
+                </button>
+              ))}
+            </div>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>{answerCheck}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Current score: {score}/{questions.length}
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal>
+          </>
         )}
-
-        {/*
-        <div className="card-footer">
-          <p className="text-center">{status}</p>
-        </div> */}
       </div>
     </div>
   );
