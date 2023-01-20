@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router";
+import Dropdown from "react-bootstrap/Dropdown";
+import { UserContext } from "../context/UserContext";
+import { NavLink } from "react-router-dom";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
+  const [movieCreated, setMovieCreated] = useState(false);
+  const [selectedGroupId, setSelectedGroupId] = useState(1);
+  const [movieGroups, setMovieGroups] = useState([]);
 
   const { id } = useParams();
+
+  const [token] = useContext(UserContext);
 
   useEffect(() => {
     async function getMovies() {
@@ -14,12 +21,133 @@ const MovieDetail = () => {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
+
         setDetails(data);
         setLoaded(false);
       }
     }
     getMovies();
   }, []);
+
+  useEffect(() => {
+    async function fetchMovieGroups() {
+      if (token !== "null") {
+        const response = await fetch(
+          `http://localhost:8000/movie-groups-by-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setMovieGroups(data);
+      }
+    }
+    fetchMovieGroups();
+  }, []);
+
+  useEffect(() => {
+    if (movieCreated) {
+      handleCreateMovie(details, token);
+      setMovieCreated(false);
+    }
+  }, [movieCreated]);
+
+  const createMovieItem = async (movieItem, token) => {
+    let data;
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
+      );
+      data = await response.json();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+    let movieItemExists = false;
+    for (let item of data) {
+      if (item.movie_id === movieItem.movie_id) {
+        alert("Movie is already in this list!");
+        movieItemExists = true;
+        break;
+      }
+    }
+    if (!movieItemExists) {
+      try {
+        await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movieItem),
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleCreateMovie = async (details, token) => {
+    const movie_details = {
+      title: details.title,
+      released: details.release_date,
+      plot: details.overview,
+      imdbID: details.imdb_id,
+      poster: details.poster_path,
+      vote_avr: details.vote_average,
+      api3_id: details.id,
+    };
+    const movieExistResponse = await fetch(
+      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
+    );
+    if (movieExistResponse.status === 404) {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movie_details),
+          }
+        );
+        if (response.ok) {
+          const movieData = await response.json();
+          createMovieItem(
+            {
+              movie_id: movieData.id,
+              movie_group_id: selectedGroupId,
+              item_position: 0,
+            },
+            token
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (movieExistResponse.status === 200) {
+      const movieExistData = await movieExistResponse.json();
+      createMovieItem(
+        {
+          movie_id: movieExistData.id,
+          movie_group_id: selectedGroupId,
+          item_position: 0,
+        },
+        token
+      );
+    }
+  };
+
+  const handleGroupSelection = (event) => {
+    setSelectedGroupId(Number(event.target.getAttribute("value")));
+  };
 
   if (loaded) {
     return (
@@ -36,7 +164,7 @@ const MovieDetail = () => {
   return (
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
-        <div className="row d-flex justify-content-center">
+        <div className="row">
           <div id="poster-detail" className="col-auto px-5 mb-4">
             <div className="d-flex justify-content-center">
               <img
@@ -46,9 +174,48 @@ const MovieDetail = () => {
             </div>
 
             <div className="d-flex justify-content-center pt-4">
-              <a href="#" className="btn btn-outline-info btn-lg" type="button">
+              {token !== "null" ? (
+                <Dropdown>
+                  <Dropdown.Toggle
+                    className="btn btn-outline-success bg-transparent"
+                    id="dropdown-basic"
+                  >
+                    Add to List
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    {movieGroups.map((movieGroup) => (
+                      <Dropdown.Item
+                        key={movieGroup.id}
+                        onClick={(event) => {
+                          setMovieCreated(true);
+                          handleGroupSelection(event);
+                        }}
+                        value={movieGroup.id}
+                      >
+                        {movieGroup.name}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <NavLink
+                  className="btn btn-outline-success bg-transparent"
+                  to={"/login"}
+                >
+                  Login to add to list
+                </NavLink>
+              )}
+
+              {/*
+              Couldn't get the hover effect to match what this one had, will circle back
+              <button
+                className="btn btn-outline-info btn-lg"
+                type="button"
+                onClick={() => setMovieCreated(true)}
+              >
                 Add to List
-              </a>
+              </button> */}
             </div>
           </div>
           <div id="genres-div" className="col-auto align-self-center pb-1">
