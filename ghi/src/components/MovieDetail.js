@@ -165,12 +165,13 @@ const MovieDetail = () => {
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
         <div className="row justify-content-center">
-          <div id="poster-detail" className="col-auto justify-content-center">
-            <img
-                  className="poster-image"
-                  src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
-                />
-              <div className="d-flex justify-content-center p-3">
+          <div id="poster-detail" className="col-auto px-5 mb-4">
+            <div className="d-flex justify-content-center">
+              <img
+                className="poster-image"
+                src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
+              />
+            </div>
 
             <div className="d-flex justify-content-center pt-4">
               {token !== "null" ? (
@@ -238,7 +239,7 @@ const MovieDetail = () => {
         </div>
       </div>
     </div>
-  </div>
+
   );
 };
 
