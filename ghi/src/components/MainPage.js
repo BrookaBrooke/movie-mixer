@@ -17,8 +17,8 @@ function MainPage() {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        setMovieData(data);
+        console.log(data.results);
+        setMovieData(data.results);
       }
     };
     getMovieInfoWithTrailers();
