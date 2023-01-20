@@ -57,8 +57,7 @@ I feel personally that I've done a fair amount, but I wouldn't take it personall
 
 # 1-20-23
 
-I decided to just go for the trivia page and it was a lot easier then I expected, got a lot of it done in less than a day.
-I started out with the page just sending alerts if a question was right or wrong and, after a lot of troubleshooting, I learned that alert is a `blocking function` which halts the execution of code so I moved them to console.logs.
+I decided to just go for the trivia page and it was a lot easier then I expected, got a lot of it done in less than a day. I started out with the page just sending alerts if a question was right or wrong and, after a lot of troubleshooting, I learned that alert is a `blocking function` which halts the execution of code so I moved them to console.logs.
 
 It wasn't as easy to see right away but it worked and didn't mess up everything. The alerts made me think states weren't updating correctly because if you answered the last question correctly it would not update the state for score before showing you your final score via the alert. Getting rid of the alerts and putting the neccessary functions in the setScore function made everything work as it should.
 
