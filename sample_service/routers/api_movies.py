@@ -15,6 +15,6 @@ def get_movie(id: str, repo: ApiMovieQueries = Depends()):
     return repo.get_one_movie(id)
 
 
-@router.get("/api-movies/trailer/{id}", response_model=dict)
-def get_trailer(id: str, repo: ApiMovieQueries = Depends()):
-    return {"video": repo.get_one_trailer(id)}
+@router.get("/api-movies/trailers", response_model=List)
+def get_movie_trailer_info(repo: ApiMovieQueries = Depends()):
+    return repo.get_home_page_movie_trailers_with_movie_data()
