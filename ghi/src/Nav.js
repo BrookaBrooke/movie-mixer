@@ -49,7 +49,7 @@ function Nav() {
             </NavLink>
           </li>
           <li>
-            <NavLink className="dropdown-item" to="/">
+            <NavLink className="dropdown-item" to="/trivia">
               Movie Trivia (home)
             </NavLink>
           </li>

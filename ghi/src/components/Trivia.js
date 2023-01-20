@@ -1,0 +1,129 @@
+import React, { useState, useEffect } from "react";
+import { Modal } from "react-bootstrap";
+import he from "he";
+
+const Trivia = () => {
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [answerCheck, setAnswerCheck] = useState("");
+  const [gameOver, setGameOver] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch(
+          "https://opentdb.com/api.php?amount=3&category=11"
+        );
+        const { results } = await response.json();
+        setQuestions(
+          results.map((question) => ({
+            ...question,
+            question: he.decode(question.question),
+            correct_answer: he.decode(question.correct_answer),
+            incorrect_answers: question.incorrect_answers.map((answer) =>
+              he.decode(answer)
+            ),
+          }))
+        );
+
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchQuestions();
+  }, []);
+
+  const handleAnswerClick = (answer) => {
+    if (answer === correct_answer) {
+      setScore((s) => {
+        setAnswerCheck("Correct!");
+        setShowModal(true);
+        return s + 1;
+      });
+    } else {
+      setAnswerCheck("Wrong!");
+      setShowModal(true);
+    }
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setScore((s) => {
+        setGameOver(true);
+        setShowModal(true);
+        return s;
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const { question, correct_answer, incorrect_answers } = currentQuestion;
+
+  const answers = [correct_answer, ...incorrect_answers];
+  answers.sort(() => Math.random() - 0.5);
+
+  return (
+    <div className="container">
+      <h1 className="text-center my-3">Movie Trivia</h1>
+      <div className="card">
+        <div className="card-header">
+          <h2>{question}</h2>
+        </div>
+        <div className="card-body">
+          {answers.map((answer, index) => (
+            <button
+              key={index}
+              className="btn btn-primary m-2"
+              onClick={() => handleAnswerClick(answer)}
+            >
+              {answer}
+            </button>
+          ))}
+        </div>
+        {gameOver ? (
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>{answerCheck}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Game Over!</p>
+              <p>
+                Final score: {score}/{questions.length}
+              </p>
+            </Modal.Body>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+        ) : (
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>{answerCheck}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Current score: {score}/{questions.length}
+            </Modal.Body>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+        )}
+
+        {/*
+        <div className="card-footer">
+          <p className="text-center">{status}</p>
+        </div> */}
+      </div>
+    </div>
+  );
+};
+export default Trivia;
