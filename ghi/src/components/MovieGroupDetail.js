@@ -40,6 +40,7 @@ const MovieGroupDetail = () => {
         );
         const movieItemsData = await movieItemsResponse.json();
         setMovieItems(movieItemsData);
+        console.log("movieItemsData: ",movieItemsData);
       } catch (error) {
         console.error(error);
       }
@@ -59,6 +60,7 @@ const MovieGroupDetail = () => {
       );
       const movieData = await movieResponse.json();
       setMovies(movieData);
+      console.log("movieData: ",movieData)
     } catch (error) {
       console.error(error);
     }
@@ -66,7 +68,7 @@ const MovieGroupDetail = () => {
 
   useEffect(() => {
 
-    fetchMovies();
+
     setLoading(false);
   }, [movieItems]);
 
@@ -118,11 +120,11 @@ const MovieGroupDetail = () => {
       if (sourceElement !== event.target) {
 
         /* remove dragged item from list */
-        const list = movies.filter((item, i) =>
+        const list = movieItems.filter((item, i) =>
           i.toString() !== sourceElement.id)
 
         /* this is the removed item */
-        const removed = movies.filter((item, i) =>
+        const removed = movieItems.filter((item, i) =>
           i.toString() === sourceElement.id)[0]
 
         /* insert removed item after this number. */
@@ -138,7 +140,7 @@ const MovieGroupDetail = () => {
            max-index is arr.length */
         if (insertAt >= list.length) {
           tempList = list.slice(0).concat(removed)
-          setMovies(tempList)
+          setMovieItems(tempList)
           event.target.classList.remove('over')
         } else
         if ((insertAt < list.length)) {
@@ -154,7 +156,7 @@ const MovieGroupDetail = () => {
           // console.log('newList', newList)
 
           /* set state to display on page */
-          setMovies(newList)
+          setMovieItems(newList)
           event.target.classList.remove('over')
         }
       }
@@ -174,16 +176,16 @@ const MovieGroupDetail = () => {
 
       /* create new list where everything stays the same except that the current
       item replaces the existing value at this index */
-      const list = movies.map((item, i) => {
+      const list = movieItems.map((item, i) => {
         if (i !== Number(event.target.id)) {
           return item }
         else return event.target.value
       })
-      setMovies(list)
+      setMovieItems(list)
     }
 
     const handleUpdate = async () => {
-      const ordered_data = movies.map( (item, i) => ( {"id": item.id, "item_position": i,} ) )
+      const ordered_data = movieItems.map( (item, i) => ( {"id": item.id, "item_position": i,} ) )
 
         try {
           const response = await fetch(
@@ -228,14 +230,14 @@ const MovieGroupDetail = () => {
     /* filter list where only items with id unequal to current id's are allowed */
     const handleDelete = (event) => {
       event.preventDefault()
-      const item_id = movies[event.target.id].id
+      const item_id = movieItems[event.target.id].id
       deleteQueue.push(item_id);
       console.log("deleteQueue: ",deleteQueue)
-      const list = movies.filter((item, i) =>
+      const list = movieItems.filter((item, i) =>
         i !== Number(event.target.id))
 
 
-      setMovies(list)
+      setMovieItems(list)
     }
     const handleEditMode = (event) => {
       event.preventDefault();
@@ -245,7 +247,7 @@ const MovieGroupDetail = () => {
       event.preventDefault()
       setEditMode(false);
       setDeleteQueue([]);
-      fetchMovies();
+
       // fetch data again
 
     }
@@ -253,7 +255,7 @@ const MovieGroupDetail = () => {
     /* create list of items */
     const listItems = () => {
 
-      return movies?.map((item, i) => (
+      return movieItems?.map((item, i) => (
         <div key={i} className='dnd-list'>
        <div className="number-movies">
         {i+1}
