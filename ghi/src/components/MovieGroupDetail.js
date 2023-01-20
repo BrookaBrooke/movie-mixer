@@ -9,9 +9,9 @@ const MovieGroupDetail = () => {
   const [movies, setMovies] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-
+  const [editMode, setEditMode] = useState(false);
   const [token] = useContext(UserContext);
-
+  const [queueDelete, setQueueDelete] = useState([]);
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -199,63 +199,119 @@ const MovieGroupDetail = () => {
         } catch (error) {
           console.error(error);
         }
-
+        setEditMode(false);
     };
 
     /* filter list where only items with id unequal to current id's are allowed */
     const handleDelete = async (event) => {
       event.preventDefault()
+      queueDelete.push(event.target.id);
+
       const item_id = movies[event.target.id].id
       console.log(item_id)
       const list = movies.filter((item, i) =>
         i !== Number(event.target.id))
       console.log(event.target.id)
-      try {
-        await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   await fetch(
+      //     `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
+      //     {
+      //       method: "DELETE",
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   );
+      // } catch (error) {
+      //   console.error(error);
+      // }
       setMovies(list)
     }
 
     /* create list of items */
-    const listItems = () => {
+    // const editList = () => {
 
-      return movies?.map((item, i) => (
-        <div key={i} className='dnd-list'>
-       <div className="number-movies">
-        {i+1}
-        </div>
-          <span
-            id={i}
-            className='input-item'
-            draggable='true'
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onDragEnd={handleDragEnd}
-            onChange={handleChange}
-          >
-          {/* <Link className="text-secondary text-decoration-none h5"
-                          to={`/movie-detail/${item.api3_id}`}> */}
-                          {item.title}
-          {/* </Link> */}
-          </span>
-          <div id={i} className='delButton' onClick={handleDelete}>X</div>
-        </div>
-      )
-      )
+    //   return movies?.map((item, i) => (
+    //     <div key={i} className='dnd-list'>
+    //    <div className="number-movies">
+    //     {i+1}
+    //     </div>
+    //       <span
+    //         id={i}
+    //         className='input-item'
+    //         draggable='true'
+    //         onDragStart={handleDragStart}
+    //         onDragOver={handleDragOver}
+    //         onDragEnter={handleDragEnter}
+    //         onDragLeave={handleDragLeave}
+    //         onDrop={handleDrop}
+    //         onDragEnd={handleDragEnd}
+    //         onChange={handleChange}
+    //       >
+    //       {/* <Link className="text-secondary text-decoration-none h5"
+    //                       to={`/movie-detail/${item.api3_id}`}> */}
+    //                       {item.title}
+    //       {/* </Link> */}
+    //       </span>
+    //       <div id={i} className='delButton' onClick={handleDelete}>X</div>
+    //     </div>
+    //   )
+    //   )
+    // }
+
+    const listItems = () => {
+      if (editMode === false) {
+        return movies?.map((item, i) => (
+          <div key={i} className='dnd-list'>
+        <div className="number-movies">
+          {i+1}
+          </div>
+            <span
+              id={i}
+              className='input-item'
+            >
+            <Link className="text-secondary text-decoration-none h5"
+                            to={`/movie-detail/${item.api3_id}`}>
+              {item.title}
+            </Link>
+            </span>
+            {/* <div id={i} className='delButton' onClick={handleDelete}>X</div> */}
+          </div>
+        )
+        )
+      }
+      else {
+        return movies?.map((item, i) => (
+          <div key={i} className='dnd-list'>
+         <div className="number-movies">
+          {i+1}
+          </div>
+            <span
+              id={i}
+              className='input-item'
+              draggable='true'
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onDragEnd={handleDragEnd}
+              onChange={handleChange}
+            >
+            {/* <Link className="text-secondary text-decoration-none h5"
+                            to={`/movie-detail/${item.api3_id}`}> */}
+                            {item.title}
+            {/* </Link> */}
+            </span>
+            <div id={i} className='delButton' onClick={handleDelete}>X</div>
+          </div>
+        )
+        )
+
+      }
     }
+
+
 
 
     console.log('sorted', movies)
@@ -288,7 +344,7 @@ const MovieGroupDetail = () => {
       <div className='page'>
         <div className='container'>
           <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
-          {listItems()}
+          { listItems }
           {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
           <button className="btn btn-success" onClick={handleUpdate}>
                       Save order
