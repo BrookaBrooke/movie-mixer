@@ -128,9 +128,9 @@ const MovieGroupDetail = () => {
         /* insert removed item after this number. */
         let insertAt = Number(event.target.id)
 
-        console.log('list with item removed', list)
-        console.log('removed:  line', removed)
-        console.log('insertAt index', insertAt)
+        // console.log('list with item removed', list)
+        // console.log('removed:  line', removed)
+        // console.log('insertAt index', insertAt)
 
         let tempList = []
 
@@ -145,13 +145,13 @@ const MovieGroupDetail = () => {
         /* original list without removed item until the index it was removed at */
           tempList = list.slice(0,insertAt).concat(removed)
 
-          console.log('tempList', tempList)
-          console.log('insert the rest: ', list.slice(insertAt))
+          // console.log('tempList', tempList)
+          // console.log('insert the rest: ', list.slice(insertAt))
 
           /* add the remaining items to the list */
           const newList = tempList.concat(list.slice(
             insertAt))
-          console.log('newList', newList)
+          // console.log('newList', newList)
 
           /* set state to display on page */
           setMovies(newList)
@@ -170,7 +170,7 @@ const MovieGroupDetail = () => {
     /* log changes in current input field */
     const handleChange = (event) => {
       event.preventDefault()
-      console.log('event.target.value', event.target.value)
+      // console.log('event.target.value', event.target.value)
 
       /* create new list where everything stays the same except that the current
       item replaces the existing value at this index */
@@ -184,7 +184,7 @@ const MovieGroupDetail = () => {
 
     const handleUpdate = async () => {
       const ordered_data = movies.map( (item, i) => ( {"id": item.id, "item_position": i,} ) )
-        console.log(ordered_data)
+
         try {
           const response = await fetch(
             `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
@@ -202,7 +202,7 @@ const MovieGroupDetail = () => {
         } catch (error) {
           console.error(error);
         }
-      console.log(deleteQueue)
+
       deleteQueue?.map( async (item_id) => {
         try {
           console.log("deleting item id: ",item_id)
@@ -229,12 +229,11 @@ const MovieGroupDetail = () => {
     const handleDelete = (event) => {
       event.preventDefault()
       const item_id = movies[event.target.id].id
-      console.log(item_id)
       deleteQueue.push(item_id);
       console.log("deleteQueue: ",deleteQueue)
       const list = movies.filter((item, i) =>
         i !== Number(event.target.id))
-      console.log(event.target.id)
+
 
       setMovies(list)
     }
@@ -296,7 +295,6 @@ const MovieGroupDetail = () => {
     }
 
 
-    console.log('sorted', movies)
 
     // return (
     //   <div className='page'>
