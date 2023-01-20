@@ -162,7 +162,7 @@ const MovieDetail = () => {
   };
 
   return (
-
+    <div className="banner" style={divStyle}>
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div id="poster-detail" className="col-auto justify-content-center">
@@ -238,6 +238,7 @@ const MovieDetail = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

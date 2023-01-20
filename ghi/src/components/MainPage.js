@@ -4,6 +4,9 @@ import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper';
 // import "./VideoCarousel.css";
 
 function MainPage() {
@@ -23,9 +26,6 @@ function MainPage() {
     getMovieInfoWithTrailers();
   }, []);
 
-  const movieDataWithKey = movies.map((x, i) => {
-    return [x, videoLinks[i].key];
-  });
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -46,24 +46,45 @@ function MainPage() {
   ];
 
   return (
-    <div className="banner-search text-light">
+    <div className="main-slider">
       <Swiper
-        spaceBetween={50}
+        modules={[EffectCoverflow, Pagination, Autoplay]}
+        effect={"coverflow"}
+        centeredSlides={true}
+        spaceBetween={30}
         slidesPerView={1}
+        autoplay={{delay: 4000}}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
+        className="mySwiper"
       >
-        {movieData.map((movie) => {
+        {movieData.map((movie, i) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={i}>
               <img
                 className="poster-image"
                 src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
               />
+              <div className="slide-item-container">
+              <div className="slide-item-content">
+            <h2 className="slide-title">{movie.title}</h2>
+        </div>
+        </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
+      {/* <div className="slide-item-container"> */}
+        {/* <div className="slide-item-content">
+          {movieData.map((movie) => {
+            return (
+            <h2 className="slide-title">{movie.title}</h2>
+          )
+          })}
+        </div> */}
+      {/* </div> */}
+    <div className="banner-search text-light">
+
       <div>
         <h1 className="home-header">MovieMixer</h1>
         <p className="text-center">
@@ -102,11 +123,11 @@ function MainPage() {
       </div>
       <div className="">
         <Carousel>
-          {movieDataWithKey.map((movieData) => {
+          {movieData.map((movieData) => {
             return (
-              <Carousel.Item key={movieData[0].id}>
+              <Carousel.Item key={movieData.id}>
                 <ReactPlayer
-                  url={`https://www.youtube.com/watch?v=${movieData[1]}`}
+                  url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
                   playing={true}
                   width="100%"
                   height="540px"
@@ -117,8 +138,8 @@ function MainPage() {
                   controls={false}
                 />
                 <Carousel.Caption>
-                  <h3>{movieData[0].title}</h3>
-                  <h4>Released: {movieData[0].release_date}</h4>
+                  <h3>{movieData.title}</h3>
+                  <h4>Released: {movieData.release_date}</h4>
                   {/* <h4>Add to your Favorites</h4> */}
                 </Carousel.Caption>
               </Carousel.Item>
@@ -126,6 +147,7 @@ function MainPage() {
           })}
         </Carousel>
       </div>
+    </div>
     </div>
   );
 }
