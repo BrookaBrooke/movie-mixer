@@ -9,7 +9,7 @@ const MovieGroupDetail = () => {
   const [movies, setMovies] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-
+  const [editMode, setEditMode] = useState(false);
   const [token] = useContext(UserContext);
 
 
@@ -46,23 +46,25 @@ const MovieGroupDetail = () => {
     fetchMovieItems();
   }, [movieGroup, id]);
 
+  const fetchMovies = async () => {
+    if (movieItems.length === 0) {
+      return;
+    }
+    try {
+      const movieIdList = movieItems.map((item) => item.movie_id);
+      const movieIds = movieIdList.join(",");
+      const movieResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/ids/${movieIds}`
+      );
+      const movieData = await movieResponse.json();
+      setMovies(movieData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchMovies = async () => {
-      if (movieItems.length === 0) {
-        return;
-      }
-      try {
-        const movieIdList = movieItems.map((item) => item.movie_id);
-        const movieIds = movieIdList.join(",");
-        const movieResponse = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/ids/${movieIds}`
-        );
-        const movieData = await movieResponse.json();
-        setMovies(movieData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+
     fetchMovies();
     setLoading(false);
   }, [movieItems]);
@@ -225,6 +227,17 @@ const MovieGroupDetail = () => {
       }
       setMovies(list)
     }
+    const handleEditMode = (event) => {
+      event.preventDefault();
+      setEditMode(true);}
+
+    const handleCancel = async (event) => {
+      event.preventDefault()
+      setEditMode(false);
+      fetchMovies();
+      // fetch data again
+
+    }
 
     /* create list of items */
     const listItems = () => {
@@ -234,6 +247,7 @@ const MovieGroupDetail = () => {
        <div className="number-movies">
         {i+1}
         </div>
+        { editMode && (
           <span
             id={i}
             className='input-item'
@@ -251,7 +265,19 @@ const MovieGroupDetail = () => {
                           {item.title}
           {/* </Link> */}
           </span>
-          <div id={i} className='delButton' onClick={handleDelete}>X</div>
+          )}
+          { !editMode && (
+          <span
+            id={i}
+            className='input-item'
+          >
+          <Link className="text-secondary text-decoration-none h5"
+                          to={`/movie-detail/${item.api3_id}`}>
+                          {item.title}
+          </Link>
+          </span>
+          )}
+          { editMode && (<div id={i} className='delButton' onClick={handleDelete}>X</div>) }
         </div>
       )
       )
@@ -290,9 +316,17 @@ const MovieGroupDetail = () => {
           <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
           {listItems()}
           {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
-          <button className="btn btn-success" onClick={handleUpdate}>
-                      Save order
-                    </button>
+          { !editMode && (<button className="btn btn-primary" onClick={handleEditMode}>
+            Edit List
+            </button> ) }
+          { editMode && (<button className="btn btn-success" onClick={handleUpdate}>
+            Save order
+            </button> ) }
+            <p></p>
+          { editMode && (<button className="btn btn-secondary" onClick={handleCancel}>
+            Cancel
+            </button>) }
+
         </div>
       </div>
     )
