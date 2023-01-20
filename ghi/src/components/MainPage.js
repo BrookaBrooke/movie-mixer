@@ -2,44 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 // import "./VideoCarousel.css";
 
 function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const sampleMovieIds = [315162, 299534, 675353, 76600, 809];
-  const [movies, setMovies] = useState([]);
-  const [videoLinks, setVideoLinks] = useState([]);
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
-    const getMovieData = async () => {
-      const tempList = [];
-      for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          tempList.push(data);
-        }
+    const getMovieInfoWithTrailers = async () => {
+      const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailers`;
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setMovieData(data);
       }
-      setMovies(tempList);
     };
-
-    const getMovieTrailers = async () => {
-      const tempList = [];
-      for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailer/${id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          tempList.push(data.video);
-        }
-      }
-      setVideoLinks(tempList);
-    };
-    getMovieData();
-    getMovieTrailers();
+    getMovieInfoWithTrailers();
   }, []);
 
   const movieDataWithKey = movies.map((x, i) => {
@@ -66,6 +47,23 @@ function MainPage() {
 
   return (
     <div className="banner-search text-light">
+      <Swiper
+        spaceBetween={50}
+        slidesPerView={1}
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
+        {movieData.map((movie) => {
+          return (
+            <SwiperSlide>
+              <img
+                className="poster-image"
+                src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
+              />
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
       <div>
         <h1 className="home-header">MovieMixer</h1>
         <p className="text-center">
@@ -102,7 +100,6 @@ function MainPage() {
           </div>
         </div>
       </div>
-
       <div className="">
         <Carousel>
           {movieDataWithKey.map((movieData) => {
