@@ -11,6 +11,7 @@ const MovieGroupDetail = () => {
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [token] = useContext(UserContext);
+  const [deleteQueue, setDeleteQueue] = useState([]);
 
 
   useEffect(() => {
@@ -201,30 +202,40 @@ const MovieGroupDetail = () => {
         } catch (error) {
           console.error(error);
         }
+      console.log(deleteQueue)
+      deleteQueue?.map( async (item_id) => {
+        try {
+          console.log("deleting item id: ",item_id)
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+              },
+            }
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      })
+
+      setDeleteQueue([]);
+      setEditMode(false);
 
     };
 
     /* filter list where only items with id unequal to current id's are allowed */
-    const handleDelete = async (event) => {
+    const handleDelete = (event) => {
       event.preventDefault()
       const item_id = movies[event.target.id].id
       console.log(item_id)
+      deleteQueue.push(item_id);
+      console.log("deleteQueue: ",deleteQueue)
       const list = movies.filter((item, i) =>
         i !== Number(event.target.id))
       console.log(event.target.id)
-      try {
-        await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
+
       setMovies(list)
     }
     const handleEditMode = (event) => {
@@ -234,6 +245,7 @@ const MovieGroupDetail = () => {
     const handleCancel = async (event) => {
       event.preventDefault()
       setEditMode(false);
+      setDeleteQueue([]);
       fetchMovies();
       // fetch data again
 
@@ -320,7 +332,7 @@ const MovieGroupDetail = () => {
             Edit List
             </button> ) }
           { editMode && (<button className="btn btn-success" onClick={handleUpdate}>
-            Save order
+            Save changes
             </button> ) }
             <p></p>
           { editMode && (<button className="btn btn-secondary" onClick={handleCancel}>
