@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
-import HeroSlider from 'HeroSlider'
+
 // import "./VideoCarousel.css";
 
 function MainPage() {
