@@ -8,20 +8,20 @@ from fastapi import HTTPException
 class MovieOut(BaseModel):
     id: int
     title: str
-    released: date
+    released: date | None
     plot: str
-    imdbID: str
-    poster: str
+    imdbID: str | None
+    poster: str | None
     vote_avr: float
     api3_id: int
 
 
 class MovieIn(BaseModel):
     title: str
-    released: date
+    released: date | None
     plot: str
-    imdbID: str
-    poster: str
+    imdbID: str | None
+    poster: str | None
     vote_avr: float
     api3_id: int
 

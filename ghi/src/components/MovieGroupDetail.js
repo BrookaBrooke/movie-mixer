@@ -39,7 +39,9 @@ const MovieGroupDetail = () => {
         const movieGroupsResponse = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${id}`
         );
+        console.log(movieGroupsResponse);
         const movieGroupData = await movieGroupsResponse.json();
+        console.log(movieGroupData);
         setMovieGroup(movieGroupData);
       } catch (error) {
         console.error(error);
@@ -119,9 +121,9 @@ const MovieGroupDetail = () => {
                   {movie.title}
                 </Link>
               </td>
-              <td>{movie.released}</td>
+              <td>{movie.released != "1900-01-01" ? movie.released : "N/A"}</td>
               <td>{movie.plot}</td>
-              <td>{movie.vote_avr}</td>
+              <td>{movie.vote_avr != 0 ? movie.vote_avr : "N/A"}</td>
               <td>
                 <button
                   className="btn btn-danger"

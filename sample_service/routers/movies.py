@@ -11,7 +11,6 @@ def create_movie(
     movie: MovieIn,
     repo: MovieRepository = Depends(),
 ):
-
     return repo.create(movie)
 
 
