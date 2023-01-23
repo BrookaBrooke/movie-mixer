@@ -1,13 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
-import {
-  Button,
-  Dropdown,
-  Popover,
-  Modal,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
@@ -27,6 +20,10 @@ function MovieSearch() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(null);
+
+  const [showSuccessAlert, setSuccessAlert] = useState(false);
+  const [showErrorAlert, setErrorAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [token] = useContext(UserContext);
 
@@ -101,14 +98,18 @@ function MovieSearch() {
     let movieItemExists = false;
     for (let item of data) {
       if (item.movie_id === movieItem.movie_id) {
-        alert("Movie is already in this list!");
+        setAlertMessage("Movie is already in this list!");
+        setErrorAlert(true);
+        setTimeout(() => {
+          setErrorAlert(false);
+        }, 5000);
         movieItemExists = true;
         break;
       }
     }
     if (!movieItemExists) {
       try {
-        await fetch(
+        const response = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
           {
             method: "POST",
@@ -119,6 +120,10 @@ function MovieSearch() {
             body: JSON.stringify(movieItem),
           }
         );
+        if (response.ok) {
+          setAlertMessage("The movie has been successfully added to the list.");
+          setSuccessAlert(true);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -250,7 +255,11 @@ function MovieSearch() {
                 />
                 <Modal
                   show={modalId == modalOpen}
-                  onHide={() => setModalOpen(null)}
+                  onHide={() => {
+                    setModalOpen(null);
+                    setSuccessAlert(false);
+                    setErrorAlert(false);
+                  }}
                   contentClassName="bg-dark text-light text-center"
                   centered
                 >
@@ -314,6 +323,24 @@ function MovieSearch() {
                       </NavLink>
                     )}
                   </Modal.Footer>
+                  <Alert
+                    show={showSuccessAlert}
+                    variant="success"
+                    className="m-3"
+                    onClose={() => setSuccessAlert(false)}
+                    dismissible
+                  >
+                    <p>{alertMessage}</p>
+                    <hr />
+                    <div className="d-flex justify-content-end">
+                      <NavLink className="btn btn-primary" to="/my-groups">
+                        View my lists
+                      </NavLink>
+                    </div>
+                  </Alert>
+                  <Alert show={showErrorAlert} variant="danger" className="m-3">
+                    <p>{alertMessage}</p>
+                  </Alert>
                 </Modal>
               </div>
               <div>
