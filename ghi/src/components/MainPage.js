@@ -45,6 +45,8 @@ function MainPage() {
     },
   ];
 
+
+
   return (
     <div className="main-slider">
       <Swiper
@@ -59,15 +61,22 @@ function MainPage() {
         className="mySwiper"
       >
         {movieData.map((movie, i) => {
+        // const divStyle = {
+        //   backgroundImage: `(to left, rgba(94, 39, 87, 0.493), rgba(51, 26, 26, 0.287)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
+        // };
           return (
             <SwiperSlide key={i}>
+
+              {/* <div className="poster-image" style={divStyle}></div> */}
               <img
                 className="poster-image"
-                src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
-              />
-              <div className="slide-item-container">
-              <div className="slide-item-content">
+                 src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
+               />
+
+              <div className="slide-item-container" >
+              <div className="slide-item-content" >
             <h2 className="slide-title">{movie.title}</h2>
+
         </div>
         </div>
             </SwiperSlide>
