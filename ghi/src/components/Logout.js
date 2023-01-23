@@ -22,7 +22,8 @@ const Logout = () => {
       if (!response.ok) {
         setToken(null);
       }
-      localStorage.removeItem("leadsToken");
+      localStorage.setItem("leadsToken", "null");
+      localStorage.setItem("user_id", "null");
       navigate("/");
       window.location.reload(false);
     };

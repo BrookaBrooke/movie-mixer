@@ -27,9 +27,11 @@ function MovieSearch() {
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/search/${searchQuery}?page_num=${pageNumber}`
       );
       const data = await response.json();
-      console.log(data);
-      setMovies(data.results);
-      setResults(data.total_results);
+      if (response.ok) {
+        console.log(data);
+        setMovies(data.results);
+        setResults(data.total_results);
+      }
     };
     if (searchQuery && pageNumber) {
       getResults();
@@ -48,7 +50,7 @@ function MovieSearch() {
   useEffect(() => {
     async function fetchMovieGroups() {
       const response = await fetch(
-        `http://localhost:8000/movie-groups-by-user`,
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +78,7 @@ function MovieSearch() {
     let data;
     try {
       const response = await fetch(
-        `http://localhost:8000/movie_items/${selectedGroupId}`
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
       );
       data = await response.json();
     } catch (error) {
@@ -93,14 +95,17 @@ function MovieSearch() {
     }
     if (!movieItemExists) {
       try {
-        await fetch(`http://localhost:8000/movie_items`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movieItem),
-        });
+        await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movieItem),
+          }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -119,19 +124,22 @@ function MovieSearch() {
     };
 
     const movieExistResponse = await fetch(
-      `http://localhost:8000/movies/${details.imdb_id}`
+      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
     );
 
     if (movieExistResponse.status === 404) {
       try {
-        const response = await fetch(`http://localhost:8000/movies`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(movie_details),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(movie_details),
+          }
+        );
         if (response.ok) {
           const movieData = await response.json();
           createMovieItem(
@@ -176,10 +184,6 @@ function MovieSearch() {
 
   function goToMovieDetail(id) {
     return navigate(`/movie-detail/${id}`);
-  }
-
-  function posterMovieDetail(poster_path) {
-    return navigate(`/movie/detail/${poster_path}`);
   }
 
   async function onSubmit(event) {
@@ -272,31 +276,32 @@ function MovieSearch() {
                         >
                           View more details
                         </button>
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            as={Button}
-                            className="btn btn-outline-success bg-transparent"
-                            id="dropdown-basic"
-                          >
-                            Add to List
-                          </Dropdown.Toggle>
+                        {token !== "null" ? (
+                          <Dropdown>
+                            <Dropdown.Toggle
+                              as={Button}
+                              className="btn btn-outline-success bg-transparent"
+                              id="dropdown-basic"
+                            >
+                              Add to List
+                            </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            {" "}
-                            {movieGroups.map((movieGroup) => (
-                              <Dropdown.Item
-                                key={movieGroup.id}
-                                onClick={(event) => {
-                                  setMovieCreated(true);
-                                  handleGroupSelection(event);
-                                }}
-                                value={movieGroup.id}
-                              >
-                                {movieGroup.name}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
+                            <Dropdown.Menu>
+                              {movieGroups.map((movieGroup) => (
+                                <Dropdown.Item
+                                  key={movieGroup.id}
+                                  onClick={(event) => {
+                                    setMovieCreated(true);
+                                    handleGroupSelection(event);
+                                  }}
+                                  value={movieGroup.id}
+                                >
+                                  {movieGroup.name}
+                                </Dropdown.Item>
+                              ))}
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        ) : null}
                       </div>
                     </div>
                   </div>
