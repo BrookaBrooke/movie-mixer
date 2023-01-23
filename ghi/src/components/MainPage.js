@@ -2,51 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
-import { Swiper, SwiperSlide, SwiperSlider } from 'swiper/react'
-import SwiperCore, { Autoplay } from 'swiper';
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper';
 // import "./VideoCarousel.css";
 
 function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const sampleMovieIds = [315162, 299534, 675353, 76600, 809];
-  const [movies, setMovies] = useState([]);
-  const [videoLinks, setVideoLinks] = useState([]);
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
-    const getMovieData = async () => {
-      const tempList = [];
-      for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          tempList.push(data);
-        }
+    const getMovieInfoWithTrailers = async () => {
+      const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailers`;
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setMovieData(data);
       }
-      setMovies(tempList);
     };
-
-    const getMovieTrailers = async () => {
-      const tempList = [];
-      for (const id of sampleMovieIds) {
-        const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailer/${id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          tempList.push(data.video);
-        }
-      }
-      setVideoLinks(tempList);
-    };
-    getMovieData();
-    getMovieTrailers();
+    getMovieInfoWithTrailers();
   }, []);
 
-  const movieDataWithKey = movies.map((x, i) => {
-    return [x, videoLinks[i].key];
-  });
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -67,26 +46,55 @@ function MainPage() {
     },
   ];
 
+
+
   return (
-    <div className="hero-slide">
+    <div className="main-slider">
       <Swiper
-        modules={[Autoplay]}
-        grabCursor={true}
-        spaceBetween={true}
-        slidesPerView={5}
-        autplay={{delay: 3000}}
+        modules={[EffectCoverflow, Pagination, Autoplay]}
+        effect={"coverflow"}
+        centeredSlides={true}
+        spaceBetween={30}
+        slidesPerView={1}
+        autoplay={{delay: 4000}}
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+        className="mySwiper"
       >
-        {
-          movies.map((movie, i) => (
-            <SwiperSlide key={movie.id}>
-              {({ isActive }) => (
-                <img src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`} />
-              )}
+        {movieData.map((movie, i) => {
+        // const divStyle = {
+        //   backgroundImage: `(to left, rgba(94, 39, 87, 0.493), rgba(51, 26, 26, 0.287)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
+        // };
+          return (
+            <SwiperSlide key={i}>
+
+              {/* <div className="poster-image" style={divStyle}></div> */}
+              <img
+                className="poster-image"
+                 src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
+               />
+
+              <div className="slide-item-container" >
+              <div className="slide-item-content" >
+            <h2 className="slide-title">{movie.title}</h2>
+
+        </div>
+        </div>
             </SwiperSlide>
-          ))
-        }
+          );
+        })}
       </Swiper>
+      {/* <div className="slide-item-container"> */}
+        {/* <div className="slide-item-content">
+          {movieData.map((movie) => {
+            return (
+            <h2 className="slide-title">{movie.title}</h2>
+          )
+          })}
+        </div> */}
+      {/* </div> */}
     <div className="banner-search text-light">
+
       <div>
         <h1 className="home-header">MovieMixer</h1>
         <p className="text-center">
@@ -123,14 +131,13 @@ function MainPage() {
           </div>
         </div>
       </div>
-
       <div className="">
         <Carousel>
-          {movieDataWithKey.map((movieData) => {
+          {movieData.map((movieData) => {
             return (
-              <Carousel.Item key={movieData[0].id}>
+              <Carousel.Item key={movieData.id}>
                 <ReactPlayer
-                  url={`https://www.youtube.com/watch?v=${movieData[1]}`}
+                  url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
                   playing={true}
                   width="100%"
                   height="540px"
@@ -141,8 +148,8 @@ function MainPage() {
                   controls={false}
                 />
                 <Carousel.Caption>
-                  <h3>{movieData[0].title}</h3>
-                  <h4>Released: {movieData[0].release_date}</h4>
+                  <h3>{movieData.title}</h3>
+                  <h4>Released: {movieData.release_date}</h4>
                   {/* <h4>Add to your Favorites</h4> */}
                 </Carousel.Caption>
               </Carousel.Item>
