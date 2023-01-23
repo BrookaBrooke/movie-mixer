@@ -22,6 +22,7 @@ class MovieGroupItem(BaseModel):
     item_position: int
     movie_id: int
     title: str
+    api3_id: int
 
 
 class ItemPosition(BaseModel):
@@ -46,7 +47,7 @@ class MovieItemRepository:
                     [
                         movieitem.movie_id,
                         movieitem.movie_group_id,
-                        movieitem.item_position,
+                        999,
                     ],
                 )
                 id = result.fetchone()[0]
@@ -98,7 +99,7 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT movie_items.id, movie_items.item_position, movie_items.movie_id, movies.title
+                    SELECT movie_items.id, movie_items.item_position, movie_items.movie_id, movies.title, movies.api3_id
                     FROM movie_items
                     INNER JOIN movies ON movies.id = movie_items.movie_id
                     WHERE movie_items.movie_group_id = %s
@@ -113,6 +114,7 @@ class MovieItemRepository:
                         item_position=record[1],
                         movie_id=record[2],
                         title=record[3],
+                        api3_id=record[4],
                     )
                     result.append(movieitem)
                 return result

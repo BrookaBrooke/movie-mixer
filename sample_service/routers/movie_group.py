@@ -26,15 +26,6 @@ def get_username(
     return repo.get_user()
 
 
-# account_data: dict = Depends(authenticator.get_current_account_data)
-# ):
-# if account_data is None:
-#     raise HTTPException(
-#         status_code=401, detail="Not logged in"
-#     )
-# else:
-
-
 @router.get("/movie-groups-by-user")
 def get_groups_by_user(
     repo: MovieGroupRepository = Depends(),
