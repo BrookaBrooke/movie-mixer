@@ -33,4 +33,17 @@ Worked on authentication for front-end with Jesse.  Saved token to localStorage 
 
 # 2023-01-17
 
-Fixed a bug that allowed non-owners of movie items to delete movie-items.
+Worked with Jesse on the cascade delete problem for deleting movie-groups, fixed.  Improved the movie-group list view and functionality to edit,create,delete movie groups to your own list.
+Fixed a bug that allowed non-owners of movie items to delete movie-items.  Added cancel buttons to the user list view of favorites, so if you wanted to edit or create a new list, you could cancel and the input field disappears.  Fixed some bugs in the process.
+
+# 2023-01-18
+
+Worked with Jesse and Jalen (Jesse driver, Jalen & I nav) to get the list of movies to be draggable to reorder the list of movies in a favorite list (movie-group).  Functional to the point where you can reorder the list on the front end.  Back end had already been set up for this feature.s
+
+# 2023-01-20
+
+Finished editing feature for movie items in Favorite list.  Edit mode will allow you to make changes (reorder and delete) but will not execute any changes to the database until confirmation, a cancel button will revert the changes and reload the data.
+
+Fixed a serious bug in the Favorites list view because the movie_id from the movie database was used instead of the movie_item_id so it would not update or delete correctly.
+
+
