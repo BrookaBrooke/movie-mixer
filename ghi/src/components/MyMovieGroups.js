@@ -137,7 +137,6 @@ const MyMovieGroups = () => {
       <div className="row justify-content-center m-5">
         <div className="spinner-border alignt-center" role="status">
           <span className="visually-hidden">Error...</span>
-          <h1> yOU aRe Not Logged in! </h1>
         </div>
       </div>
     );

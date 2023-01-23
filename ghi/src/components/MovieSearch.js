@@ -26,12 +26,13 @@ function MovieSearch() {
   const [movieGroups, setMovieGroups] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(null);
 
   const [token] = useContext(UserContext);
 
   useEffect(() => {
     const getResults = async () => {
+      setLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/search/${searchQuery}?page_num=${pageNumber}`
       );
@@ -46,7 +47,7 @@ function MovieSearch() {
       getResults();
       setTimeout(() => {
         setLoading(false);
-      }, 175);
+      }, 300);
     }
   }, [searchQuery, pageNumber]);
 
@@ -196,7 +197,7 @@ function MovieSearch() {
     }
     const swiper = useSwiper();
 
-    return <Button onClick={goToLastPage}>Previous Page</Button>;
+    return <Button onClick={goToLastPage}>Load Previous Movies</Button>;
   }
   function NextPageButton() {
     function goToNextPage() {
@@ -208,7 +209,7 @@ function MovieSearch() {
     }
     const swiper = useSwiper();
 
-    return <Button onClick={goToNextPage}>Next Page</Button>;
+    return <Button onClick={goToNextPage}>Load More Movies</Button>;
   }
 
   function goToMovieDetail(id) {
@@ -250,13 +251,23 @@ function MovieSearch() {
                 <Modal
                   show={modalId == modalOpen}
                   onHide={() => setModalOpen(null)}
+                  contentClassName="bg-dark text-light text-center"
+                  centered
                 >
                   <Modal.Header closeButton>
                     <Modal.Title id={modalId}>{result.title}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>{result.overview}</Modal.Body>
                   <Modal.Footer>
-                    <Button onClick={() => setModalOpen(null)}>Close</Button>
+                    <Button
+                      onClick={() => setModalOpen(null)}
+                      className="btn-secondary bg-transparent"
+                    >
+                      Close
+                    </Button>
+                    <Button onClick={() => goToMovieDetail(result.id)}>
+                      View more details
+                    </Button>
                     {token !== "null" ? (
                       <Dropdown>
                         <Dropdown.Toggle
@@ -268,18 +279,30 @@ function MovieSearch() {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          {movieGroups.map((movieGroup) => (
-                            <Dropdown.Item
-                              key={movieGroup.id}
-                              onClick={(event) => {
-                                setMovieCreated(true);
-                                handleGroupSelection(event);
-                              }}
-                              value={movieGroup.id}
-                            >
-                              {movieGroup.name}
-                            </Dropdown.Item>
-                          ))}
+                          {movieGroups.length > 0 ? (
+                            movieGroups.map((movieGroup) => (
+                              <Dropdown.Item
+                                key={movieGroup.id}
+                                onClick={(event) => {
+                                  setMovieCreated(true);
+                                  handleGroupSelection(event);
+                                }}
+                                value={movieGroup.id}
+                              >
+                                {movieGroup.name}
+                              </Dropdown.Item>
+                            ))
+                          ) : (
+                            <div className="text-center p-3">
+                              <p>You have no movie groups.</p>
+                              <NavLink
+                                className="btn btn-primary"
+                                to="/my-groups"
+                              >
+                                Click here to make one!
+                              </NavLink>
+                            </div>
+                          )}
                         </Dropdown.Menu>
                       </Dropdown>
                     ) : (
@@ -300,6 +323,11 @@ function MovieSearch() {
           );
         })
       : null;
+
+  const currentResults =
+    results / pageNumber > 20
+      ? `${20 * (pageNumber - 1) + 1} - ${pageNumber * 20}`
+      : `${20 * (pageNumber - 1) + 1} - ${results}`;
 
   return (
     <div className="banner-search">
@@ -332,45 +360,50 @@ function MovieSearch() {
         </div>
         <div className="text-center text-light m-3">
           {results !== undefined ? (
-            <p>Found {results} results matching your search</p>
+            results !== 0 ? (
+              <>
+                <p>
+                  Showing {currentResults} of {results} results
+                </p>
+                <h1 className="text-light text-center">Swipe to see results</h1>
+              </>
+            ) : (
+              <p>There are no results that match your search query</p>
+            )
           ) : null}
         </div>
-        <h1 className="text-light text-center">Swipe to see more movies</h1>
-        {!loading ? (
-          <Swiper
-            spaceBetween={50}
-            slidesPerView={4}
-            initialSlide="1"
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            {movieList}
-            {pageNumber ? (
-              <div className="d-flex justify-content-center p-5">
-                {pageNumber > 1 ? (
-                  <div className="p-2 d-flex justify-content-center">
-                    <LastPageButton />
-                  </div>
-                ) : null}
-                {results / pageNumber > 20 ? (
-                  <div className="p-2 d-flex justify-content-center">
-                    <NextPageButton />
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </Swiper>
-        ) : (
-          <div className="d-flex justify-content-center p-5">
-            <div
-              className="spinner-border text-light"
-              role="status"
-              style={{ height: "10em", width: "10em", alignSelf: "center" }}
-            >
-              <span className="visually-hidden">Loading...</span>
+
+        <Swiper
+          spaceBetween={50}
+          slidesPerView={4}
+          initialSlide="1"
+          className={loading ? "d-none" : ""}
+        >
+          {movieList}
+          {pageNumber ? (
+            <div className="d-flex justify-content-center p-5">
+              {pageNumber > 1 ? (
+                <div className="p-2 d-flex justify-content-center">
+                  <LastPageButton />
+                </div>
+              ) : null}
+              {results / pageNumber > 20 ? (
+                <div className="p-2 d-flex justify-content-center">
+                  <NextPageButton />
+                </div>
+              ) : null}
             </div>
+          ) : null}
+        </Swiper>
+        <div className="d-flex justify-content-center p-5">
+          <div
+            className={loading ? "spinner-border text-light" : "d-none"}
+            role="status"
+            style={{ height: "10em", width: "10em", alignSelf: "center" }}
+          >
+            <span className="visually-hidden">Loading...</span>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
