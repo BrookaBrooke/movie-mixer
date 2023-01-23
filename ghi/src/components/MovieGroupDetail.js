@@ -6,13 +6,28 @@ import { UserContext } from "../context/UserContext";
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
   const [movieItems, setMovieItems] = useState([]);
-  const [movies, setMovies] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [token] = useContext(UserContext);
   const [deleteQueue, setDeleteQueue] = useState([]);
+  const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
 
+  const fetchMovieItems = async () => {
+    try {
+      const movieItemsResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
+      );
+      const movieItemsData = await movieItemsResponse.json();
+      setMovieItems(movieItemsData);
+      console.log("movieItemsData: ",movieItemsData);
+
+    } catch (error) {
+      console.error(error);
+    }
+
+
+  }
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -22,61 +37,41 @@ const MovieGroupDetail = () => {
         );
         const movieGroupData = await movieGroupsResponse.json();
         setMovieGroup(movieGroupData);
+        console.log("movieGroupData: ",movieGroupData);
       } catch (error) {
         console.error(error);
       }
+
     };
     fetchMovieGroups();
+    fetchMovieItems();
+    setLoading(false);
+
+
   }, [id]);
+
+
+
+
 
   useEffect(() => {
     if (!movieGroup) {
       return;
     }
-    const fetchMovieItems = async () => {
-      try {
-        const movieItemsResponse = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
-        );
-        const movieItemsData = await movieItemsResponse.json();
-        setMovieItems(movieItemsData);
-        console.log("movieItemsData: ",movieItemsData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchMovieItems();
+    console.log("movieGroup.owner: ", movieGroup.owner);
+    console.log("localstorage.owner: ", localStorage.getItem("user_id"));
+    if ( movieGroup.owner == localStorage.getItem("user_id")) {
+      setOwnerEditAllowed(true);
+      console.log("show edit button: make true", ownerEditAllowed);
+    }
+    else {
+      setOwnerEditAllowed(false);
+      console.log("show edit button: make false", ownerEditAllowed);
+    };
   }, [movieGroup, id]);
 
-  const fetchMovies = async () => {
-    if (movieItems.length === 0) {
-      return;
-    }
-    try {
-      const movieIdList = movieItems.map((item) => item.movie_id);
-      const movieIds = movieIdList.join(",");
-      const movieResponse = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/ids/${movieIds}`
-      );
-      const movieData = await movieResponse.json();
-      setMovies(movieData);
-      console.log("movieData: ",movieData)
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  useEffect(() => {
-
-
-    setLoading(false);
-  }, [movieItems]);
-
-
-
-
-
-    // let list = [1,2,3,4,5,6,7,'']
     let sourceElement = null
 
     // const [sortedList, setMovies] = React.useState(list)
@@ -248,7 +243,7 @@ const MovieGroupDetail = () => {
       setEditMode(false);
       setDeleteQueue([]);
 
-      // fetch data again
+      fetchMovieItems();
 
     }
 
@@ -273,10 +268,7 @@ const MovieGroupDetail = () => {
             onDragEnd={handleDragEnd}
             onChange={handleChange}
           >
-          {/* <Link className="text-secondary text-decoration-none h5"
-                          to={`/movie-detail/${item.api3_id}`}> */}
-                          {item.title}
-          {/* </Link> */}
+            {item.title}
           </span>
           )}
           { !editMode && (
@@ -297,21 +289,6 @@ const MovieGroupDetail = () => {
     }
 
 
-
-    // return (
-    //   <div className='page'>
-    //     <div className='container'>
-    //       <h1 style={{ color: "white", textAlign: "center" }}>Today</h1>
-    //       {listItems()}
-    //       <button className='addButton' onClick={() => newLine()}>+</button>
-    //     </div>
-    //   </div>
-    // )
-
-
-
-  // ReactDOM.render(<App />, document.getElementById("root"));
-
   if (loading) {
     return (
       <div className="spinner-border" role="status">
@@ -327,8 +304,11 @@ const MovieGroupDetail = () => {
         <div className='container'>
           <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
           {listItems()}
+          {movieItems.length === 0 && (
+         <div className="text-center">No movies in this group yet</div>
+       )}
           {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
-          { !editMode && (<button className="btn btn-primary" onClick={handleEditMode}>
+          { !editMode && ownerEditAllowed && movieItems.length > 0 &&(<button className="btn btn-primary" onClick={handleEditMode}>
             Edit List
             </button> ) }
           { editMode && (<button className="btn btn-success" onClick={handleUpdate}>
@@ -348,49 +328,6 @@ const MovieGroupDetail = () => {
 
 
   };
-//     <div className="container">
-//       <h1 className="mb-3">{movieGroup && movieGroup.name}</h1>
-//       <table className="table table-striped table-responsive">
-//         <thead>
-//           <tr>
-//             <th>Title</th>
-//             <th>Released</th>
-//             <th>Plot</th>
-//             <th>Rated</th>
-//             <th></th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {movies.map((movie) => (
-//             <tr key={movie.id}>
-//               <td>
-//                 <Link
-//                   className="text-secondary text-decoration-none h5"
-//                   to={`/movie-detail/${movie.imdbID}`}
-//                 >
-//                   {movie.title}
-//                 </Link>
-//               </td>
-//               <td>{movie.released}</td>
-//               <td>{movie.plot}</td>
-//               <td>{movie.vote_avr}</td>
-//               <td>
-//                 <button
-//                   className="btn btn-danger"
-//                   onClick={() => handleDeleteMovie(movie.id)}
-//                 >
-//                   Delete
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//       {movieItems.length === 0 && (
-//         <div className="text-center">No movies in this group yet</div>
-//       )}
-//     </div>
-//   );
-// };
+
 
 export default MovieGroupDetail;
