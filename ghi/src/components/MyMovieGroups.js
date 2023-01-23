@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "./ErrorMessage";
 
 const MyMovieGroups = () => {
@@ -11,6 +11,7 @@ const MyMovieGroups = () => {
     name: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,12 +134,19 @@ const MyMovieGroups = () => {
   };
 
   if (Object.keys(groups).includes("detail")) {
+    if (groups.detail == "Invalid token") {
+      navigate("/login");
+    } else {
+      console.log("error: ",groups.detail);
+    navigate("/groups");
+    }
     return (
       <div className="row justify-content-center m-5">
         <div className="spinner-border alignt-center" role="status">
           <span className="visually-hidden">Error...</span>
-          <h1> yOU aRe Not Logged in! </h1>
+
         </div>
+        <h1> yOU aRe Not Logged in! </h1>
       </div>
     );
   }
@@ -150,12 +158,15 @@ const MyMovieGroups = () => {
     );
   }
 
+  const goBack = () => {
+		navigate(-1);
+	}
+
   return (
     <>
-      <section className="container">
-        <h2 className="mb-5">
-          {localStorage.getItem("username")}'s Favorites List
-        </h2>
+      <div className="page">
+        <section className="container">
+        <h2 style={{ color: "white", textAlign: "center" }}>{localStorage.getItem("username")}'s Favorites List</h2>
         <table className="table table-dark table-hover">
           <thead>
             <tr>
@@ -201,7 +212,8 @@ const MyMovieGroups = () => {
                   ) : (
                     <>
                       <td>
-                        <Link to={`/groups/${group.id}`}>{group.name}</Link>
+                        <Link className="text-secondary text-decoration-none h5"
+                        to={`/groups/${group.id}`}>{group.name}</Link>
                       </td>
 
                       <td></td>
@@ -271,7 +283,12 @@ const MyMovieGroups = () => {
           </tbody>
         </table>
         <ErrorMessage message={errorMessage} />
-      </section>
+        <div>
+            <button type="button" onClick={goBack} class="btn btn-dark">Go back</button>
+            </div>
+        </section>
+
+      </div>
     </>
   );
 };

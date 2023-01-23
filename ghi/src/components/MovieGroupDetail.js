@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
@@ -12,6 +12,7 @@ const MovieGroupDetail = () => {
   const [token] = useContext(UserContext);
   const [deleteQueue, setDeleteQueue] = useState([]);
   const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
+  const navigate = useNavigate();
 
   const fetchMovieItems = async () => {
     try {
@@ -298,6 +299,10 @@ const MovieGroupDetail = () => {
   }
 
 
+	const goBack = () => {
+		navigate(-1);
+	}
+
 
     return (
       <div className='page'>
@@ -305,21 +310,28 @@ const MovieGroupDetail = () => {
           <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
           {listItems()}
           {movieItems.length === 0 && (
-         <div className="text-center">No movies in this group yet</div>
+         <div className="text-center text-light">No movies in this group yet
+
+         </div>
        )}
           {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
-          { !editMode && ownerEditAllowed && movieItems.length > 0 &&(<button className="btn btn-primary" onClick={handleEditMode}>
+          <span>{ !editMode && ownerEditAllowed && movieItems.length > 0 &&(<button className="btn btn-primary" onClick={handleEditMode}>
             Edit List
             </button> ) }
           { editMode && (<button className="btn btn-success" onClick={handleUpdate}>
             Save changes
             </button> ) }
-            <p></p>
+            <span>.  </span>
           { editMode && (<button className="btn btn-secondary" onClick={handleCancel}>
             Cancel
             </button>) }
-
+            </span>
+            <div>
+            <p></p>
+            <button type="button" onClick={goBack} class="btn btn-dark">Go back</button>
+            </div>
         </div>
+
       </div>
     )
 
