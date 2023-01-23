@@ -21,6 +21,14 @@ code {
     monospace;
 }
 
+/* .swiper-slide {
+  display: grid;
+  text-align: center;
+  background-size: cover;
+  width: 100%;
+
+} */
+
 .navbar {
   /* opacity: 0.9; */
   letter-spacing: 1px;

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player";
-import HeroSlider from 'HeroSlider'
+import { Swiper, SwiperSlide, SwiperSlider } from 'swiper/react'
+import SwiperCore, { Autoplay } from 'swiper';
+
 // import "./VideoCarousel.css";
 
 function MainPage() {
@@ -55,6 +57,7 @@ function MainPage() {
     return navigate(`/search/${query}/1`);
   }
 
+
   const videoProperties = [
     {
       id: 76600,
@@ -65,6 +68,24 @@ function MainPage() {
   ];
 
   return (
+    <div className="hero-slide">
+      <Swiper
+        modules={[Autoplay]}
+        grabCursor={true}
+        spaceBetween={true}
+        slidesPerView={5}
+        autplay={{delay: 3000}}
+      >
+        {
+          movies.map((movie, i) => (
+            <SwiperSlide key={movie.id}>
+              {({ isActive }) => (
+                <img src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`} />
+              )}
+            </SwiperSlide>
+          ))
+        }
+      </Swiper>
     <div className="banner-search text-light">
       <div>
         <h1 className="home-header">MovieMixer</h1>
@@ -129,6 +150,7 @@ function MainPage() {
           })}
         </Carousel>
       </div>
+    </div>
     </div>
   );
 }
