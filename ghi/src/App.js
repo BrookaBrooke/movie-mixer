@@ -16,6 +16,8 @@ import Logout from "./components/Logout";
 import Login from "./components/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Trivia from "./components/Trivia";
+import TriviaLimited from "./components/TriviaLimited";
+import TriviaEndless from "./components/TriviaEndless";
 
 function App(props) {
   return (
@@ -45,7 +47,14 @@ function App(props) {
             <Route path="/groups/:id" element={<MovieGroupDetail />} />
           </Route>
         </Route>
-        <Route path="/trivia" element={<Trivia />} />
+        <Route path="/trivia">
+          <Route index element={<Trivia />} />
+          <Route
+            path="/trivia/limited/:numQuestions"
+            element={<TriviaLimited />}
+          />
+          <Route path="/trivia/endless" element={<TriviaEndless />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
