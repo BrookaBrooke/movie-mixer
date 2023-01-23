@@ -78,7 +78,7 @@ class MovieGroupRepository:
                 if not group:
                     return None
                 return MovieGroupOut(
-                    id=group[0], name=group[1], owner=group[2]
+                    id=group[0], name=group[1], owner=group[2], username=group[3]
                 )
 
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:
