@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import he from "he";
+import { Link } from "react-router-dom";
 
 const TriviaLimited = () => {
   const [questions, setQuestions] = useState([]);
@@ -99,9 +100,15 @@ const TriviaLimited = () => {
                 <Button onClick={() => window.location.reload()}>
                   Play Again
                 </Button>
+                <Link to="/trivia/">
+                  <Button>Trivia Home</Button>
+                </Link>
               </Modal.Footer>
             </Modal>
             <Button onClick={() => window.location.reload()}>Play Again</Button>
+            <Link to="/trivia/">
+              <Button>Trivia Home</Button>
+            </Link>
           </>
         ) : (
           <>

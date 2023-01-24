@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import he from "he";
+import { Link } from "react-router-dom";
 
 const TriviaEndless = () => {
   const [questions, setQuestions] = useState([]);
@@ -98,9 +99,15 @@ const TriviaEndless = () => {
                 <Button onClick={() => window.location.reload()}>
                   Play Again
                 </Button>
+                <Link to="/trivia/">
+                  <Button>Trivia Home</Button>
+                </Link>
               </Modal.Footer>
             </Modal>
             <Button onClick={() => window.location.reload()}>Play Again</Button>
+            <Link to="/trivia/">
+              <Button>Trivia Home</Button>
+            </Link>
           </>
         ) : (
           <>
