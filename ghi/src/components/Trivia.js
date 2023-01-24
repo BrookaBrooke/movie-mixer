@@ -13,11 +13,9 @@ const Trivia = () => {
       <Form>
         <div className="text-center">
           <div>
-            <Form.Group controlId="numQuestions">
-              <Form.Label>Number of Questions</Form.Label>
+            <Form.Group controlId="numQuestions" className="col-sm-2 mx-auto">
+              <Form.Label>Number of Questions: </Form.Label>
               <Form.Control
-                as="input"
-                htmlSize="5"
                 type="number"
                 min="1"
                 onChange={(e) => setNumQuestions(e.target.value)}
