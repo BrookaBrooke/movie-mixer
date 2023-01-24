@@ -68,6 +68,8 @@ code {
   text-align: center;
   font-weight: 500;
   font-family: 'Quicksand', sans-serif;
+  background-color: rgb(25, 25, 25);
+
 }
 .login-button {
   padding-bottom: 10px;
@@ -77,6 +79,7 @@ code {
   text-align: center;
   padding-top: 250px;
   padding-bottom: 250px;
+  background-color: rgb(25, 25, 25);
 }
 
 .parallax {
@@ -115,10 +118,10 @@ code {
 .parallax-content {
   padding: 9rem 0;
   width: 100%;
-  position: relative;
+  /* position: relative;
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 
@@ -139,6 +142,7 @@ code {
 
 .bottom-div {
   height: 1200px;
+  background-color: rgb(25, 25, 25);
 }
 
 .signup-button {
