@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -9,6 +9,7 @@ const MovieGroups = () => {
   const [formValues, setFormValues] = useState({
     name: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,10 +57,15 @@ const MovieGroups = () => {
     );
   }
 
+  const goBack = () => {
+		navigate(-1);
+	}
+
   return (
     <>
+      <div className="page">
       <section className="container">
-        <h2 className="mb-5">All Favorites List</h2>
+      <h2 style={{ color: "white", textAlign: "center" }}>All Favorites List</h2>
         <table className="table table-dark table-hover">
           <thead>
             <tr>
@@ -90,7 +96,11 @@ const MovieGroups = () => {
             })}
           </tbody>
         </table>
+        <div>
+            <button type="button" onClick={goBack} class="btn btn-dark">Go back</button>
+            </div>
       </section>
+      </div>
     </>
   );
 };

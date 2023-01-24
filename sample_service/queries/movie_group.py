@@ -73,12 +73,20 @@ class MovieGroupRepository:
     def get(self, id: int) -> MovieGroupOut | None:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT * FROM movie_groups WHERE id = %s", (id,))
+                db.execute(
+                    """
+                    SELECT movie_groups.id, movie_groups.name, movie_groups.owner, accounts.username
+                    FROM accounts
+                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id
+                    WHERE movie_groups.id = %s;
+                    """
+                    ,[id]
+                    )
                 group = db.fetchone()
                 if not group:
                     return None
-                return MovieGroupOut(
-                    id=group[0], name=group[1], owner=group[2]
+                return GroupUserItem(
+                    id=group[0], name=group[1], owner=group[2], username=group[3],
                 )
 
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:

@@ -9,23 +9,34 @@ from main import app
 client = TestClient(app=app)
 
 
+def get_current_account_data_mock():
+    return {
+        "id": 17,
+        "username": "kramer",
+    }
+
+
 class MovieGroupRepositoryMock:
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:
         movie_group_dict = movie_group.dict()
         return MovieGroupOut(id=1, **movie_group_dict)
 
-    def get(self) -> List[MovieGroupOut]:
+    def list(self) -> List[MovieGroupOut]:
         return []
 
-    def get_one(self, id) -> MovieGroupOut:
+    def get(self, id) -> MovieGroupOut:
         return id
 
 
 def test_create_movie_group():
     # Arrange
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
+
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = get_current_account_data_mock
+
     movie_group_body = {
-        "id": 1,
         "name": "group",
         "owner": 1,
     }
@@ -35,6 +46,8 @@ def test_create_movie_group():
 
     # Assert
     assert res.status_code == 200
+    assert res.json()["id"] == 1
+    assert res.json()["owner"] == 17
 
     # A cleanup
     app.dependency_overrides = {}

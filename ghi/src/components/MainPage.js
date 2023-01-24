@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -20,7 +20,8 @@ function MainPage() {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setMovieData(data);
+        console.log(data.results);
+        setMovieData(data.results);
       }
     };
     getMovieInfoWithTrailers();

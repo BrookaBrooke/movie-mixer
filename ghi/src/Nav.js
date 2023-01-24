@@ -5,7 +5,7 @@ import { UserContext } from "./context/UserContext";
 function Nav() {
   const user = useContext(UserContext);
   console.log(user);
-  const userToken = localStorage.getItem("leadsToken");
+  const userToken = user[0];
   console.log(typeof userToken);
 
   const LoggedOutNavOptions = (
