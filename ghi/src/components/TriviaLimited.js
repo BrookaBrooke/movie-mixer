@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import he from "he";
 
@@ -96,7 +96,7 @@ const TriviaLimited = () => {
 
   const answers = [correct_answer, ...incorrect_answers];
   answers.sort(() => Math.random() - 0.5);
-  //navigate(`/trivia/limited/${newNumQuestions}`)
+
   return (
     <div className="container">
       <h1 className="text-center my-3">Movie Trivia</h1>
@@ -123,25 +123,29 @@ const TriviaLimited = () => {
                   Limited Mode
                 </Button>
 
-                <label htmlFor="numQuestions">Number of Questions:</label>
-                <input
-                  type="number"
-                  min="1"
-                  onChange={(e) => setNewNumQuestions(e.target.value)}
-                  value={newNumQuestions}
-                ></input>
-                <Link to="/trivia/">
-                  <Button>Trivia Home</Button>
-                </Link>
+                <Form.Group controlId="numQuestions">
+                  <Form.Label>Number of Questions</Form.Label>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    onChange={(e) => setNewNumQuestions(e.target.value)}
+                    value={newNumQuestions}
+                    placeholder="Enter number of questions"
+                  />
+                </Form.Group>
+                <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
               </Modal.Footer>
             </Modal>
-            <label htmlFor="numQuestions">Number of Questions:</label>
-            <input
-              type="number"
-              min="1"
-              onChange={(e) => setNewNumQuestions(e.target.value)}
-              value={newNumQuestions}
-            ></input>
+            <Form.Group controlId="numQuestions">
+              <Form.Label>Number of Questions</Form.Label>
+              <Form.Control
+                type="number"
+                min="1"
+                onChange={(e) => setNewNumQuestions(e.target.value)}
+                value={newNumQuestions}
+                placeholder="Enter number of questions"
+              />
+            </Form.Group>
             <Button
               onClick={() => {
                 navigate(`/trivia/limited/${newNumQuestions}`);
@@ -151,14 +155,7 @@ const TriviaLimited = () => {
               Play Again
             </Button>
 
-            <Button
-              onClick={() => {
-                navigate(`/trivia/limited/${newNumQuestions}`);
-                window.location.reload();
-              }}
-            >
-              Trivia Home
-            </Button>
+            <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
           </>
         ) : (
           <>
