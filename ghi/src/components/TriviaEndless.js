@@ -12,6 +12,7 @@ const TriviaEndless = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [numWrong, setNumWrong] = useState(0);
+  const [usedQuestions, setUsedQuestions] = useState([]);
 
   useEffect(() => {
     fetchQuestions();
@@ -23,17 +24,24 @@ const TriviaEndless = () => {
         "https://opentdb.com/api.php?amount=50&category=11"
       );
       const { results } = await response.json();
-      setQuestions(
-        results.map((question) => ({
-          ...question,
-          question: he.decode(question.question),
-          correct_answer: he.decode(question.correct_answer),
-          incorrect_answers: question.incorrect_answers.map((answer) =>
-            he.decode(answer)
-          ),
-        }))
+      const newQuestions = results.filter(
+        (question) =>
+          !usedQuestions.map((q) => q.question).includes(question.question)
       );
 
+      setUsedQuestions((prevQuestions) => {
+        setQuestions(
+          newQuestions.map((question) => ({
+            ...question,
+            question: he.decode(question.question),
+            correct_answer: he.decode(question.correct_answer),
+            incorrect_answers: question.incorrect_answers.map((answer) =>
+              he.decode(answer)
+            ),
+          }))
+        );
+        return [...prevQuestions, ...newQuestions];
+      });
       setLoading(false);
     } catch (error) {
       console.error(error);
