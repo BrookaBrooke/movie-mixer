@@ -86,7 +86,6 @@ class MovieItemRepository:
                     [item_id],
                 )
                 record = db.fetchone()
-                print(record)
                 return MovieItemOut(
                     id=record[0],
                     movie_id=record[1],

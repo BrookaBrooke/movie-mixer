@@ -21,7 +21,7 @@ const MovieGroupDetail = () => {
       );
       const movieItemsData = await movieItemsResponse.json();
       setMovieItems(movieItemsData);
-      console.log("movieItemsData: ", movieItemsData);
+
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +37,6 @@ const MovieGroupDetail = () => {
         const movieGroupData = await movieGroupsResponse.json();
         console.log(movieGroupData);
         setMovieGroup(movieGroupData);
-        console.log("movieGroupData: ", movieGroupData);
       } catch (error) {
         console.error(error);
       }
@@ -52,27 +51,17 @@ const MovieGroupDetail = () => {
       return;
     }
     fetchMovieItems();
-    console.log("movieGroup.owner: ", movieGroup.owner, "1");
-    console.log("localstorage.owner: ", parseInt(localStorage.getItem("user_id")) );
+
     if ( movieGroup.owner === parseInt(localStorage.getItem("user_id"))) {
       setOwnerEditAllowed(true);
-      console.log("show edit button: make true", ownerEditAllowed, movieGroup.owner, localStorage.getItem("user_id") );
     }
     else {
       setOwnerEditAllowed(false);
-      console.log("show edit button: make false", ownerEditAllowed, movieGroup.owner, parseInt(localStorage.getItem("user_id")) );
     };
   }, [movieGroup, id]);
 
-  let sourceElement = null;
 
-  // const [sortedList, setMovies] = React.useState(list)
-
-  /* add a new entry at the end of the list.  */
-  // const newLine = () => {
-  //   console.log(sortedList)
-  //   setMovies(sortedList.concat(''))
-  // }
+    let sourceElement = null
 
   /* change opacity for the dragged item.
     remember the source item for the drop later */
@@ -115,12 +104,8 @@ const MovieGroupDetail = () => {
         (item, i) => i.toString() === sourceElement.id
       )[0];
 
-      /* insert removed item after this number. */
-      let insertAt = Number(event.target.id);
-
-      // console.log('list with item removed', list)
-      // console.log('removed:  line', removed)
-      // console.log('insertAt index', insertAt)
+        /* insert removed item after this number. */
+        let insertAt = Number(event.target.id)
 
       let tempList = [];
 
@@ -132,14 +117,11 @@ const MovieGroupDetail = () => {
         event.target.classList.remove("over");
       } else if (insertAt < list.length) {
         /* original list without removed item until the index it was removed at */
-        tempList = list.slice(0, insertAt).concat(removed);
+          tempList = list.slice(0,insertAt).concat(removed)
 
-        // console.log('tempList', tempList)
-        // console.log('insert the rest: ', list.slice(insertAt))
-
-        /* add the remaining items to the list */
-        const newList = tempList.concat(list.slice(insertAt));
-        // console.log('newList', newList)
+          /* add the remaining items to the list */
+          const newList = tempList.concat(list.slice(
+            insertAt))
 
         /* set state to display on page */
         setMovieItems(newList);
@@ -149,17 +131,13 @@ const MovieGroupDetail = () => {
     event.target.classList.remove("over");
   };
 
-  const handleDragEnd = (event) => {
-    event.target.style.opacity = 1;
-    console.log(
-      "-------------------------------------------------------------"
-    );
-  };
+    const handleDragEnd = (event) => {
+      event.target.style.opacity = 1
+    }
 
-  /* log changes in current input field */
-  const handleChange = (event) => {
-    event.preventDefault();
-    // console.log('event.target.value', event.target.value)
+    /* log changes in current input field */
+    const handleChange = (event) => {
+      event.preventDefault()
 
     /* create new list where everything stays the same except that the current
       item replaces the existing value at this index */
@@ -194,34 +172,34 @@ const MovieGroupDetail = () => {
       console.error(error);
     }
 
-    deleteQueue?.map(async (item_id) => {
-      try {
-        console.log("deleting item id: ", item_id);
-        await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    });
+      deleteQueue?.map( async (item_id) => {
+        try {
+
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("leadsToken")}`,
+              },
+            }
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      })
 
     setDeleteQueue([]);
     setEditMode(false);
   };
 
-  /* filter list where only items with id unequal to current id's are allowed */
-  const handleDelete = (event) => {
-    event.preventDefault();
-    const item_id = movieItems[event.target.id].id;
-    deleteQueue.push(item_id);
-    console.log("deleteQueue: ", deleteQueue);
-    const list = movieItems.filter((item, i) => i !== Number(event.target.id));
+    /* filter list where only items with id unequal to current id's are allowed */
+    const handleDelete = (event) => {
+      event.preventDefault()
+      const item_id = movieItems[event.target.id].id
+      deleteQueue.push(item_id);
+      const list = movieItems.filter((item, i) =>
+        i !== Number(event.target.id))
 
     setMovieItems(list);
   };
@@ -290,46 +268,35 @@ const MovieGroupDetail = () => {
     navigate(-1);
   };
 
-  return (
-    <div className="page">
-      <div className="container">
-        <h1 style={{ color: "white", textAlign: "center" }}>
-          {movieGroup?.name}
-        </h1>
-        {listItems()}
-        {movieItems.length === 0 && (
-          <div className="text-center text-light">
-            No movies in this group yet
-          </div>
-        )}
-        {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
-        <span>
-          {!editMode && ownerEditAllowed && movieItems.length > 0 && (
-            <button className="btn btn-primary" onClick={handleEditMode}>
-              Edit List
-            </button>
-          )}
-          {editMode && (
-            <button className="btn btn-success" onClick={handleUpdate}>
-              Save changes
-            </button>
-          )}
-          <span>. </span>
-          {editMode && (
-            <button className="btn btn-secondary" onClick={handleCancel}>
-              Cancel
-            </button>
-          )}
-        </span>
-        <div>
-          <p></p>
-          <button type="button" onClick={goBack} class="btn btn-dark">
-            Go back
-          </button>
+    return (
+      <div className='page'>
+        <div className='container'>
+          <h1 style={{ color: "white", textAlign: "center" }}>{movieGroup?.name}</h1>
+          {listItems()}
+          {movieItems.length === 0 && (
+         <div className="text-center text-light">No movies in this group yet
+
+         </div>
+       )}
+          <span>{ !editMode && ownerEditAllowed && movieItems.length > 0 &&(<button className="btn btn-primary" onClick={handleEditMode}>
+            Edit List
+            </button> ) }
+          { editMode && (<button className="btn btn-success" onClick={handleUpdate}>
+            Save changes
+            </button> ) }
+            <span>.  </span>
+          { editMode && (<button className="btn btn-secondary" onClick={handleCancel}>
+            Cancel
+            </button>) }
+            </span>
+            <div>
+            <p></p>
+            <button type="button" onClick={goBack} class="btn btn-dark">Go back</button>
+            </div>
         </div>
       </div>
-    </div>
-  );
-};
+    )
+
+  };
 
 export default MovieGroupDetail;
