@@ -103,7 +103,7 @@ function MainPage() {
                           required
                           onChange={onChange}
                         />
-                        <button className="btn btn-outline-danger" type="submit">
+                        <button className="btn btn-lg btn-outline-danger mx-2" type="submit">
                           Search
                         </button>
                       </form>
@@ -127,7 +127,7 @@ function MainPage() {
         <div className="pb-3 d-flex justify-content-center">
           <div className="text-center p-2">
             <h4 className="login-button">Log in to get started!</h4>
-            <button className="btn btn-outline-danger">Log in</button>
+            <button className="btn btn-lg btn-outline-danger">Log in</button>
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@ function MainPage() {
               </p>
             <div className="pb-3 d-flex justify-content-center">
               <div className="text-center p-2">
-                <button className="btn btn-outline-danger">See Favorite Movies</button>
+                <button className="btn btn-lg btn-outline-danger">See Favorite Movies</button>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ function MainPage() {
               <div className="parallax-content">
                 <h1 className="text-box-main">Discover New Movies</h1>
                 <div className="signup-button">
-                <button className="btn btn-outline-danger">Register Today</button>
+                <button className="btn btn-lg btn-outline-danger">Register Today</button>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@ function MainPage() {
                   </p>
                 <div className="pb-3 col-auto">
                   <div className="text-center p-2">
-                    <button className="btn btn-outline-danger">Movie Trivia</button>
+                    <button className="btn btn-lg btn-outline-danger">Movie Trivia</button>
                   </div>
                 </div>
               </div>
