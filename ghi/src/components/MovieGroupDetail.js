@@ -21,7 +21,6 @@ const MovieGroupDetail = () => {
       );
       const movieItemsData = await movieItemsResponse.json();
       setMovieItems(movieItemsData);
-      console.log("movieItemsData: ",movieItemsData);
 
     } catch (error) {
       console.error(error);
@@ -38,7 +37,6 @@ const MovieGroupDetail = () => {
         );
         const movieGroupData = await movieGroupsResponse.json();
         setMovieGroup(movieGroupData);
-        console.log("movieGroupData: ",movieGroupData);
       } catch (error) {
         console.error(error);
       }
@@ -60,28 +58,17 @@ const MovieGroupDetail = () => {
       return;
     }
     fetchMovieItems();
-    console.log("movieGroup.owner: ", movieGroup.owner, "1");
-    console.log("localstorage.owner: ", parseInt(localStorage.getItem("user_id")) );
+
     if ( movieGroup.owner === parseInt(localStorage.getItem("user_id"))) {
       setOwnerEditAllowed(true);
-      console.log("show edit button: make true", ownerEditAllowed, movieGroup.owner, localStorage.getItem("user_id") );
     }
     else {
       setOwnerEditAllowed(false);
-      console.log("show edit button: make false", ownerEditAllowed, movieGroup.owner, parseInt(localStorage.getItem("user_id")) );
     };
   }, [movieGroup, id]);
 
 
     let sourceElement = null
-
-    // const [sortedList, setMovies] = React.useState(list)
-
-    /* add a new entry at the end of the list.  */
-    // const newLine = () => {
-    //   console.log(sortedList)
-    //   setMovies(sortedList.concat(''))
-    // }
 
     /* change opacity for the dragged item.
     remember the source item for the drop later */
@@ -126,10 +113,6 @@ const MovieGroupDetail = () => {
         /* insert removed item after this number. */
         let insertAt = Number(event.target.id)
 
-        // console.log('list with item removed', list)
-        // console.log('removed:  line', removed)
-        // console.log('insertAt index', insertAt)
-
         let tempList = []
 
         /* if dropped at last item, don't increase target id by +1.
@@ -143,13 +126,9 @@ const MovieGroupDetail = () => {
         /* original list without removed item until the index it was removed at */
           tempList = list.slice(0,insertAt).concat(removed)
 
-          // console.log('tempList', tempList)
-          // console.log('insert the rest: ', list.slice(insertAt))
-
           /* add the remaining items to the list */
           const newList = tempList.concat(list.slice(
             insertAt))
-          // console.log('newList', newList)
 
           /* set state to display on page */
           setMovieItems(newList)
@@ -162,13 +141,11 @@ const MovieGroupDetail = () => {
 
     const handleDragEnd = (event) => {
       event.target.style.opacity = 1
-      console.log('-------------------------------------------------------------')
     }
 
     /* log changes in current input field */
     const handleChange = (event) => {
       event.preventDefault()
-      // console.log('event.target.value', event.target.value)
 
       /* create new list where everything stays the same except that the current
       item replaces the existing value at this index */
@@ -203,7 +180,7 @@ const MovieGroupDetail = () => {
 
       deleteQueue?.map( async (item_id) => {
         try {
-          console.log("deleting item id: ",item_id)
+
           await fetch(
             `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${item_id}`,
             {
@@ -228,7 +205,6 @@ const MovieGroupDetail = () => {
       event.preventDefault()
       const item_id = movieItems[event.target.id].id
       deleteQueue.push(item_id);
-      console.log("deleteQueue: ",deleteQueue)
       const list = movieItems.filter((item, i) =>
         i !== Number(event.target.id))
 
@@ -314,7 +290,6 @@ const MovieGroupDetail = () => {
 
          </div>
        )}
-          {/* <button className='addButton' onClick={() => newLine()}>+</button> */}
           <span>{ !editMode && ownerEditAllowed && movieItems.length > 0 &&(<button className="btn btn-primary" onClick={handleEditMode}>
             Edit List
             </button> ) }
@@ -334,10 +309,6 @@ const MovieGroupDetail = () => {
 
       </div>
     )
-
-
-
-
 
   };
 

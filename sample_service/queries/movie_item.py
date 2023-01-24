@@ -52,7 +52,6 @@ class MovieItemRepository:
                 )
                 id = result.fetchone()[0]
                 data = movieitem.dict()
-                print(result.fetchone())
                 return MovieItemOut(id=id, **data)
 
     def get(self) -> List[MovieItemOut]:
@@ -86,7 +85,6 @@ class MovieItemRepository:
                     """,[item_id]
                 )
                 record = db.fetchone()
-                print(record)
                 return MovieItemOut(
                         id=record[0],
                         movie_id=record[1],

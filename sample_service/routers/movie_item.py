@@ -72,7 +72,7 @@ def delete_movie_item(
     movie_group_owner = group.get(
         item.get_detail(item_id).movie_group_id
     ).owner
-    print(movie_group_owner)
+
     if account_data is None:
         raise HTTPException(status_code=401, detail="Not logged in")
     elif movie_group_owner == account_data["id"]:
