@@ -91,7 +91,10 @@ code {
 .parallax:nth-of-type(1) {
   background: url("https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   background-position: relative;
-  background-size: 100%;
+  background-size:cover;
+  height: 800px;
+  transform-origin: top;
+  transform: translateZ(10px) scale(1.2);
 }
 
 .section, .parallax {
