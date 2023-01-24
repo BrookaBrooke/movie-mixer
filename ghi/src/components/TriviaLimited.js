@@ -12,35 +12,43 @@ const TriviaLimited = () => {
   const [gameOver, setGameOver] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [questionNum, setQuestionNum] = useState(1);
+  const [usedQuestions, setUsedQuestions] = useState([]);
   const { numQuestions } = useParams();
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      if (numQuestions !== undefined && !isNaN(numQuestions)) {
-        try {
-          const response = await fetch(
-            `https://opentdb.com/api.php?amount=${numQuestions}&category=11`
-          );
-          const { results } = await response.json();
-          setQuestions(
-            results.map((question) => ({
-              ...question,
-              question: he.decode(question.question),
-              correct_answer: he.decode(question.correct_answer),
-              incorrect_answers: question.incorrect_answers.map((answer) =>
-                he.decode(answer)
-              ),
-            }))
-          );
-
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
     fetchQuestions();
   }, [numQuestions]);
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await fetch(
+        `https://opentdb.com/api.php?amount=${numQuestions}&category=11`
+      );
+      const { results } = await response.json();
+      const newQuestions = results.filter(
+        (question) =>
+          !usedQuestions.map((q) => q.question).includes(question.question)
+      );
+
+      setUsedQuestions((prevQuestions) => {
+        setQuestions(
+          newQuestions.map((question) => ({
+            ...question,
+            question: he.decode(question.question),
+            correct_answer: he.decode(question.correct_answer),
+            incorrect_answers: question.incorrect_answers.map((answer) =>
+              he.decode(answer)
+            ),
+          }))
+        );
+        return [...prevQuestions, ...newQuestions];
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleAnswerClick = (answer) => {
     if (answer === correct_answer) {
@@ -53,14 +61,22 @@ const TriviaLimited = () => {
       setAnswerCheck(`Wrong! the correct answer was ${correct_answer}`);
       setShowModal(true);
     }
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
+
+    if (questionNum > numQuestions - 1) {
       setScore((s) => {
         setGameOver(true);
         setShowModal(true);
         return s;
       });
+    }
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setQuestionNum((n) => n + 1);
+    } else {
+      fetchQuestions();
+      setCurrentQuestionIndex(0);
+      setQuestionNum((n) => n + 1);
     }
   };
 
@@ -93,7 +109,7 @@ const TriviaLimited = () => {
               <Modal.Body>
                 <p>Game Over!</p>
                 <p>
-                  Final score: {score}/{questions.length}
+                  Final score: {score}/{numQuestions}
                 </p>
               </Modal.Body>
               <Modal.Footer>
@@ -113,7 +129,9 @@ const TriviaLimited = () => {
         ) : (
           <>
             <div className="card-header">
-              <h2>{question}</h2>
+              <h2>
+                {questionNum}. {question}
+              </h2>
             </div>
             <div className="card-body">
               {answers.map((answer, index) => (
@@ -131,7 +149,7 @@ const TriviaLimited = () => {
                 <Modal.Title>{answerCheck}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                Current score: {score}/{questions.length}
+                Current score: {score}/{numQuestions}
               </Modal.Body>
               <Modal.Footer></Modal.Footer>
             </Modal>

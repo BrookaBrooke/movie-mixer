@@ -11,13 +11,10 @@ const Trivia = () => {
           Limited Mode
         </Button>
       </Link>
-      <label htmlFor="numQuestions">
-        Number of Questions (min: 1 max: 50):{" "}
-      </label>
+      <label htmlFor="numQuestions">Number of Questions:</label>
       <input
         type="number"
         min="1"
-        max="50"
         onChange={(e) => setNumQuestions(e.target.value)}
         value={numQuestions}
       ></input>
