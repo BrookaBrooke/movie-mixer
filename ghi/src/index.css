@@ -1,3 +1,6 @@
+
+
+
 @viewport {
   width: device-width;
   zoom: 1;
@@ -10,7 +13,7 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue"
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,20 +36,148 @@ code {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
 }
 
-.main-slider {
+
+.backdrop-image {
+  background-size: cover;
   position: relative;
+  width: 100%;
+  height: 720px;
+  background-position: center;
 
 }
+
+.search-bar-main {
+  z-index: 1;
+  position: absolute;
+  top:20%;
+}
+
+.home-header {
+  color: white;
+  line-height: 80px;
+  font-weight: 500;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.movie-info {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+  font-weight: 500;
+  font-family: 'Quicksand', sans-serif;
+}
+.login-button {
+  padding-bottom: 10px;
+}
+
+.all-favorites-section {
+  text-align: center;
+  padding-top: 250px;
+  padding-bottom: 250px;
+}
+
+.parallax {
+  width: 100%;
+  height: 70vh;
+  position: relative;
+  background-position: center;
+
+  /* background-repeat: no-repeat; */
+}
+
+.parallax:nth-of-type(1) {
+  background: url("https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-position: relative;
+  background-size: 100%;
+}
+
+.section, .parallax {
+  background-position: center;
+}
+
+.parallax-container {
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
+  padding: 10px;
+  border-radius: 25px;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  z-index: 1;
+}
+
+.parallax-content {
+  padding: 9rem 0;
+  width: 100%;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+
+.text-box-main {
+  color: whitesmoke;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 2);
+  /* background-color: black; */
+  opacity: 0.6;
+  font-size: 50px;
+  background-color: black;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  font-family: 'Quicksand', sans-serif;
+
+}
+
+.bottom-div {
+  height: 1200px;
+}
+
+.signup-button {
+  margin-top: 170px;
+}
+
+
+/* .main-slider, .main-slider-image {
+  position: relative;
+  background-image: linear-gradient(to left, rgba(228, 69, 206, 0.673), rgba(232, 55, 55, 0.753)), var(--img);
+  background-attachment: fixed;
+  background-position: center top;
+  background-size: cover;
+} */
 
 .slide-item-container {
   position: absolute;
-  top: 15%;
-  left: 20%;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
+  width: 70%;
   z-index: 1;
 }
+
+input, .form-control, .me-2 {
+  opacity: 0.6;
+  color: black;
+}
+
+.slide-title {
+  color: black;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 100px;
+}
+
+.search-movies {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  color: black;
+}
+
 
 .swiper-slide {
   text-align: center;
@@ -178,11 +309,12 @@ code {
 } */
 
 .poster-image {
-  /* border-radius: 25px; */
+  border-radius: 25px;
   box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.8);
-  /* margin-top: 120px; */
+  margin-top: 120px;
   /* margin-right: 15px; */
   /* margin-left: 5px; */
+  /* height: 1280px; */
 
 }
 
@@ -335,7 +467,7 @@ div #genres-div .col-align-self-end pb-5{
   height: 100%;
 }
 
-.container {
+.p-2, .container {
   margin: 2rem auto;
   width: 60%;
   height: 90%;
@@ -378,6 +510,7 @@ div #genres-div .col-align-self-end pb-5{
 .over {
   transform: scale(1.01);
   border: 1px dashed #eee;
+  /* background-color: linear-gradient(to left, rgba(46, 21, 27, 0.712), rgba(161, 81, 44, 0.489); */
 }
 
 .addButton {

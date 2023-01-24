@@ -162,7 +162,7 @@ const MovieDetail = () => {
   };
 
   return (
-
+    <div className="banner" style={divStyle}>
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div id="poster-detail" className="col-auto px-5 mb-4">
@@ -177,7 +177,7 @@ const MovieDetail = () => {
               {token !== "null" ? (
                 <Dropdown>
                   <Dropdown.Toggle
-                    className="btn btn-outline-success bg-transparent"
+                    className="btn btn-outline-info bg-transparent"
                     id="dropdown-basic"
                   >
                     Add to List
