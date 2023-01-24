@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Dropdown, Button } from "react-bootstrap";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
+import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
 function MovieSearch() {
   const { searchQuery, pageNumber } = useParams();
@@ -11,18 +12,24 @@ function MovieSearch() {
   const [pageNum, setPageNum] = useState(pageNumber);
   const [movies, setMovies] = useState([]);
   const [results, setResults] = useState();
-
   const [details, setDetails] = useState([]);
+
   const [movieCreated, setMovieCreated] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState(1);
   const [movieGroups, setMovieGroups] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(null);
+
+  const [showSuccessAlert, setSuccessAlert] = useState(false);
+  const [showErrorAlert, setErrorAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [token] = useContext(UserContext);
 
   useEffect(() => {
     const getResults = async () => {
+      setLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/search/${searchQuery}?page_num=${pageNumber}`
       );
@@ -35,6 +42,9 @@ function MovieSearch() {
     };
     if (searchQuery && pageNumber) {
       getResults();
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   }, [searchQuery, pageNumber]);
 
@@ -88,14 +98,18 @@ function MovieSearch() {
     let movieItemExists = false;
     for (let item of data) {
       if (item.movie_id === movieItem.movie_id) {
-        alert("Movie is already in this list!");
+        setAlertMessage("Movie is already in this list!");
+        setErrorAlert(true);
+        setTimeout(() => {
+          setErrorAlert(false);
+        }, 5000);
         movieItemExists = true;
         break;
       }
     }
     if (!movieItemExists) {
       try {
-        await fetch(
+        const response = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
           {
             method: "POST",
@@ -106,6 +120,10 @@ function MovieSearch() {
             body: JSON.stringify(movieItem),
           }
         );
+        if (response.ok) {
+          setAlertMessage("The movie has been successfully added to the list.");
+          setSuccessAlert(true);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -115,7 +133,7 @@ function MovieSearch() {
   const handleCreateMovie = async (details, token) => {
     const movie_details = {
       title: details.title,
-      released: details.release_date,
+      released: details.release_date ? details.release_date : null,
       plot: details.overview,
       imdbID: details.imdb_id,
       poster: details.poster_path,
@@ -123,11 +141,14 @@ function MovieSearch() {
       api3_id: details.id,
     };
 
+    console.log(movie_details);
+
     const movieExistResponse = await fetch(
       `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
     );
 
     if (movieExistResponse.status === 404) {
+      console.log("this code runs");
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
@@ -171,15 +192,29 @@ function MovieSearch() {
     setQuery(event.target.value);
   }
 
-  function lastPage() {
-    console.log("lastPage called");
-    const number = parseInt(pageNumber) - 1;
-    return navigate(`/search/${searchQuery}/${number}`);
+  function LastPageButton() {
+    function goToLastPage() {
+      console.log("lastPage called");
+      const number = parseInt(pageNumber) - 1;
+      swiper.slideTo(0, 500);
+      setLoading(true);
+      return navigate(`/search/${searchQuery}/${number}`);
+    }
+    const swiper = useSwiper();
+
+    return <Button onClick={goToLastPage}>Load Previous Movies</Button>;
   }
-  function nextPage() {
-    console.log("nextPage called");
-    const number = parseInt(pageNumber) + 1;
-    return navigate(`/search/${searchQuery}/${number}`);
+  function NextPageButton() {
+    function goToNextPage() {
+      console.log("nextPage called");
+      const number = parseInt(pageNumber) + 1;
+      swiper.slideTo(0, 500);
+      setLoading(true);
+      return navigate(`/search/${searchQuery}/${number}`);
+    }
+    const swiper = useSwiper();
+
+    return <Button onClick={goToNextPage}>Load More Movies</Button>;
   }
 
   function goToMovieDetail(id) {
@@ -200,122 +235,126 @@ function MovieSearch() {
       ? movies.map((result) => {
           const modalId = result.id;
           const target = "#" + modalId;
+
           return (
-            <div className="col-sm-3" key={result.id} value={result.id}>
+            <SwiperSlide key={result.id} value={result.id}>
               <div
-                className="d-flex justify-content-center"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target={target}
+                className="d-flex justify-content-center modal-container"
                 onClick={(e) => getMovies(modalId)}
               >
                 <img
                   className="search-poster-image"
                   src={
                     result.poster_path
-                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
-                      : `https://via.placeholder.com/185x276/FFFFFF/000000/?text=No%20Image%20Available`
+                      ? `https://image.tmdb.org/t/p/w300${result.poster_path}`
+                      : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
                   }
+                  onClick={() => {
+                    setModalOpen(modalId);
+                  }}
                 />
-                <div
-                  className={`modal ${modalOpen ? "show" : ""}`}
-                  id={modalId}
-                  tabIndex="-1"
-                  role="dialog"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
+                <Modal
+                  show={modalId == modalOpen}
+                  onHide={() => {
+                    setModalOpen(null);
+                    setSuccessAlert(false);
+                    setErrorAlert(false);
+                  }}
+                  contentClassName="bg-dark text-light text-center"
+                  centered
                 >
-                  <div className="modal-dialog" role="document">
-                    <div
-                      className="modal-content bg-dark"
-                      onClick={(e) => e.stopPropagation()}
+                  <Modal.Header closeButton>
+                    <Modal.Title id={modalId}>{result.title}</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>{result.overview}</Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      onClick={() => setModalOpen(null)}
+                      className="btn-secondary bg-transparent"
                     >
-                      <div className="modal-header text-center text-light">
-                        <h5
-                          className="modal-title w-100"
-                          id="exampleModalLabel"
+                      Close
+                    </Button>
+                    <Button onClick={() => goToMovieDetail(result.id)}>
+                      View more details
+                    </Button>
+                    {token !== "null" ? (
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          as={Button}
+                          className="btn btn-outline-success bg-transparent"
+                          id="dropdown-basic"
                         >
-                          {result.title}
-                        </h5>
-                        <button
-                          type="button"
-                          className="close btn btn-outline-secondary"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body text-light d-flex justify-content-center">
-                        <img
-                          className="search-poster-image"
-                          src={
-                            result.poster_path
-                              ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
-                              : `https://via.placeholder.com/185x276/FFFFFF/000000/?text=No%20Image%20Available`
-                          }
-                        />
-                      </div>
-                      <div className="text-light text-center">
-                        <p>{result.title}</p>
-                        <p>
-                          Released on:{" "}
-                          {result.release_date
-                            ? result.release_date
-                            : "Unknown"}
-                        </p>
-                      </div>
-                      <div className="modal-footer d-flex justify-content-center">
-                        <button
-                          type="button"
-                          className="btn btn-outline-primary"
-                          data-bs-dismiss="modal"
-                          onClick={() => {
-                            goToMovieDetail(result.id);
-                          }}
-                        >
-                          View more details
-                        </button>
-                        {token !== "null" ? (
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              as={Button}
-                              className="btn btn-outline-success bg-transparent"
-                              id="dropdown-basic"
-                            >
-                              Add to List
-                            </Dropdown.Toggle>
+                          Add to List
+                        </Dropdown.Toggle>
 
-                            <Dropdown.Menu>
-                              {movieGroups.map((movieGroup) => (
-                                <Dropdown.Item
-                                  key={movieGroup.id}
-                                  onClick={(event) => {
-                                    setMovieCreated(true);
-                                    handleGroupSelection(event);
-                                  }}
-                                  value={movieGroup.id}
-                                >
-                                  {movieGroup.name}
-                                </Dropdown.Item>
-                              ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        ) : null}
-                      </div>
+                        <Dropdown.Menu>
+                          {movieGroups.length > 0 ? (
+                            movieGroups.map((movieGroup) => (
+                              <Dropdown.Item
+                                key={movieGroup.id}
+                                onClick={(event) => {
+                                  setMovieCreated(true);
+                                  handleGroupSelection(event);
+                                }}
+                                value={movieGroup.id}
+                              >
+                                {movieGroup.name}
+                              </Dropdown.Item>
+                            ))
+                          ) : (
+                            <div className="text-center p-3">
+                              <p>You have no movie groups.</p>
+                              <NavLink
+                                className="btn btn-primary"
+                                to="/my-groups"
+                              >
+                                Click here to make one!
+                              </NavLink>
+                            </div>
+                          )}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    ) : (
+                      <NavLink
+                        className="btn btn-outline-success bg-transparent"
+                        to={"/login"}
+                      >
+                        Login to add to list
+                      </NavLink>
+                    )}
+                  </Modal.Footer>
+                  <Alert
+                    show={showSuccessAlert}
+                    variant="success"
+                    className="m-3"
+                    onClose={() => setSuccessAlert(false)}
+                    dismissible
+                  >
+                    <p>{alertMessage}</p>
+                    <hr />
+                    <div className="d-flex justify-content-end">
+                      <NavLink className="btn btn-primary" to="/my-groups">
+                        View my lists
+                      </NavLink>
                     </div>
-                  </div>
-                </div>
+                  </Alert>
+                  <Alert show={showErrorAlert} variant="danger" className="m-3">
+                    <p>{alertMessage}</p>
+                  </Alert>
+                </Modal>
               </div>
-              <div className="row">
-                <div className="col-sm text-center text-light m-3">
-                  {result.title}
-                </div>
+              <div>
+                <div className="text-center text-light">{result.title}</div>
               </div>
-            </div>
+            </SwiperSlide>
           );
         })
       : null;
+
+  const currentResults =
+    results / pageNumber > 20
+      ? `${20 * (pageNumber - 1) + 1} - ${pageNumber * 20}`
+      : `${20 * (pageNumber - 1) + 1} - ${results}`;
 
   return (
     <div className="banner-search">
@@ -345,39 +384,52 @@ function MovieSearch() {
               </button>
             </div>
           </form>
-          <div className="text-center text-light m-3">
-            {results !== undefined ? (
-              <p>Found {results} results matching your search</p>
-            ) : null}
-          </div>
-          <div className="row">{movieList}</div>
+        </div>
+        <div className="text-center text-light m-3">
+          {results !== undefined ? (
+            results !== 0 ? (
+              <>
+                <p>
+                  Showing {currentResults} of {results} results
+                </p>
+                <h1 className="text-light text-center">Swipe to see results</h1>
+              </>
+            ) : (
+              <p>There are no results that match your search query</p>
+            )
+          ) : null}
+        </div>
 
+        <Swiper
+          spaceBetween={50}
+          slidesPerView={4}
+          initialSlide="1"
+          className={loading ? "d-none" : ""}
+        >
+          {movieList}
           {pageNumber ? (
-            <>
+            <div className="d-flex justify-content-center p-5">
               {pageNumber > 1 ? (
                 <div className="p-2 d-flex justify-content-center">
-                  <button
-                    className="btn btn-outline-primary"
-                    type="button"
-                    onClick={lastPage}
-                  >
-                    Previous Page
-                  </button>
+                  <LastPageButton />
                 </div>
               ) : null}
               {results / pageNumber > 20 ? (
                 <div className="p-2 d-flex justify-content-center">
-                  <button
-                    className="btn btn-outline-primary"
-                    type="button"
-                    onClick={nextPage}
-                  >
-                    Next Page
-                  </button>
+                  <NextPageButton />
                 </div>
               ) : null}
-            </>
+            </div>
           ) : null}
+        </Swiper>
+        <div className="d-flex justify-content-center p-5">
+          <div
+            className={loading ? "spinner-border text-light" : "d-none"}
+            role="status"
+            style={{ height: "10em", width: "10em", alignSelf: "center" }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
     </div>

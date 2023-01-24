@@ -22,6 +22,7 @@ class MovieGroupItem(BaseModel):
     item_position: int
     movie_id: int
     title: str
+    api3_id: int
 
 
 class ItemPosition(BaseModel):
@@ -46,12 +47,11 @@ class MovieItemRepository:
                     [
                         movieitem.movie_id,
                         movieitem.movie_group_id,
-                        movieitem.item_position,
+                        999,
                     ],
                 )
                 id = result.fetchone()[0]
                 data = movieitem.dict()
-                print(result.fetchone())
                 return MovieItemOut(id=id, **data)
 
     def get(self) -> List[MovieItemOut]:
@@ -73,32 +73,32 @@ class MovieItemRepository:
                     )
                     result.append(movieitem)
                 return result
-            
-    def get_detail(self,item_id: int) -> MovieItemOut:
+
+    def get_detail(self, item_id: int) -> MovieItemOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT * 
+                    SELECT *
                     FROM movie_items
                     WHERE id = %s;
-                    """,[item_id]
+                    """,
+                    [item_id],
                 )
                 record = db.fetchone()
-                print(record)
                 return MovieItemOut(
-                        id=record[0],
-                        movie_id=record[1],
-                        movie_group_id=record[2],
-                        item_position=record[3]
-                        )
+                    id=record[0],
+                    movie_id=record[1],
+                    movie_group_id=record[2],
+                    item_position=record[3],
+                )
 
     def get_list(self, movie_group_id) -> List[MovieGroupItem]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT movie_items.id, movie_items.item_position, movie_items.movie_id, movies.title
+                    SELECT movie_items.id, movie_items.item_position, movie_items.movie_id, movies.title, movies.api3_id
                     FROM movie_items
                     INNER JOIN movies ON movies.id = movie_items.movie_id
                     WHERE movie_items.movie_group_id = %s
@@ -113,6 +113,7 @@ class MovieItemRepository:
                         item_position=record[1],
                         movie_id=record[2],
                         title=record[3],
+                        api3_id=record[4],
                     )
                     result.append(movieitem)
                 return result

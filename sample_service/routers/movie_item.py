@@ -23,7 +23,8 @@ def create_movie_item(
     owner: MovieGroupRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    movie_group_data = owner.get(account_data["id"])
+    movie_dict = movie.dict()
+    movie_group_data = owner.get(movie_dict["movie_group_id"])
     if account_data is None:
         raise HTTPException(status_code=401, detail="Not logged in")
     elif movie_group_data.owner == account_data["id"]:
@@ -50,7 +51,7 @@ def get_movie_group_items(
     return repo.get_list(movie_group_id)
 
 
-@router.put("/movie_items/", response_model=List[ItemPosition])
+@router.put("/movie_items", response_model=List[ItemPosition])
 def update_movie_items(
     items: List[ItemPosition], repo: MovieItemRepository = Depends()
 ):
@@ -72,7 +73,7 @@ def delete_movie_item(
     movie_group_owner = group.get(
         item.get_detail(item_id).movie_group_id
     ).owner
-    print(movie_group_owner)
+
     if account_data is None:
         raise HTTPException(status_code=401, detail="Not logged in")
     elif movie_group_owner == account_data["id"]:

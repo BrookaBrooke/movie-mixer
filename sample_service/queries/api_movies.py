@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 import requests
 import os
+import random
 
 api_key = os.environ["THE_MOVIE_DB_API_KEY"]
 
@@ -21,26 +22,27 @@ class ApiMovieQueries:
         return data
 
     def get_home_page_movie_trailers_with_movie_data(self):
-        sampleMovieIds = [315162, 299534, 675353, 76600, 809]
-        results = []
-        for id in sampleMovieIds:
-            movie_results = requests.get(
-                f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}"
-            )
+        movie_results = requests.get(
+            f"https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page=1"
+        )
+        movie_data = movie_results.json()
+        random.shuffle(movie_data["results"])
+        movie_data["results"] = movie_data["results"][:5]
+        for movie in movie_data["results"]:
+            id = movie["id"]
             trailer_results = requests.get(
                 f"https://api.themoviedb.org/3/movie/{id}/videos?api_key={api_key}&language=en-US"
             )
-
-            movie_data = movie_results.json()
             trailer_data = trailer_results.json()
-            for result in trailer_data["results"]:
-                if result["type"] == "Trailer":
-                    trailer_data = result
+            movie_trailer = None
+            for trailer in trailer_data["results"]:
+                if trailer["type"] == "Trailer":
+                    movie_trailer = trailer
                     break
-            movie_data["trailer"] = trailer_data
-            results.append(movie_data)
+
+            movie["trailer"] = movie_trailer
 
         # trailer = None
         # while not trailer:
 
-        return results
+        return movie_data

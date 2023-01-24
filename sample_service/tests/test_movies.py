@@ -31,6 +31,7 @@ def test_create_movie():
         "imdbID": "tt1956834",
         "poster": "/thisisapath3943234",
         "vote_avr": 7.9,
+        "api3_id": 3,
     }
 
     # Act

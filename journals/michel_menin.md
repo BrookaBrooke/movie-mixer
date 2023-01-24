@@ -30,3 +30,27 @@ Worked on authentication for back-end.  Implemented authentication on 'edit' fea
 # 2023-01-16
 
 Worked on authentication for front-end with Jesse.  Saved token to localStorage and user_id.  Authentication was implemented to allow for requests to pass through as authorized.  We identified a bug, which does not allow to delete movie-groups because of the relationship with the items tied to them.  (this is an 'on delete cascade or protect' issue).  Login/Logout/Signup are functional, but ugly.  Favorites list for user view is functional.
+
+# 2023-01-17
+
+Worked with Jesse on the cascade delete problem for deleting movie-groups, fixed.  Improved the movie-group list view and functionality to edit,create,delete movie groups to your own list.
+Fixed a bug that allowed non-owners of movie items to delete movie-items.  Added cancel buttons to the user list view of favorites, so if you wanted to edit or create a new list, you could cancel and the input field disappears.  Fixed some bugs in the process.
+
+# 2023-01-18
+
+Worked with Jesse and Jalen (Jesse driver, Jalen & I nav) to get the list of movies to be draggable to reorder the list of movies in a favorite list (movie-group).  Functional to the point where you can reorder the list on the front end.  Back end had already been set up for this feature.s
+
+# 2023-01-20
+
+Finished editing feature for movie items in Favorite list.  Edit mode will allow you to make changes (reorder and delete) but will not execute any changes to the database until confirmation, a cancel button will revert the changes and reload the data.
+
+Fixed a serious bug in the Favorites list view because the movie_id from the movie database was used instead of the movie_item_id so it would not update or delete correctly.
+
+
+# 2023-01-23
+
+Fixed bug when not logged in, now redirects to login page if needed, added other navigation buttons, fixed some visual aspects and user controls for list view.  Jalen found a bug with some backend auth stuff I did for creating movie_item.  I had fixed the delete issue but had not tested the create.
+
+# 2024-01-24
+
+Fixed allow showing edit button to correctly show when owner of the list is logged in.
