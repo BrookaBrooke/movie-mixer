@@ -47,3 +47,10 @@ Finished editing feature for movie items in Favorite list.  Edit mode will allow
 Fixed a serious bug in the Favorites list view because the movie_id from the movie database was used instead of the movie_item_id so it would not update or delete correctly.
 
 
+# 2023-01-23
+
+Fixed bug when not logged in, now redirects to login page if needed, added other navigation buttons, fixed some visual aspects and user controls for list view.  Jalen found a bug with some backend auth stuff I did for creating movie_item.  I had fixed the delete issue but had not tested the create.
+
+# 2024-01-24
+
+Fixed allow showing edit button to correctly show when owner of the list is logged in.
