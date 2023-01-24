@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
 import { NavLink } from "react-router-dom";
+import ReactPlayer from "react-player/lazy";
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -17,7 +18,7 @@ const MovieDetail = () => {
 
   useEffect(() => {
     async function getMovies() {
-      const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${id}`;
+      const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail-with-trailer/${id}`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
@@ -158,55 +159,54 @@ const MovieDetail = () => {
   }
 
   const divStyle = {
-    backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .6), rgba(0, 0, 0, .4)), url(https://image.tmdb.org/t/p/w1280/${details.backdrop_path})`,
+    backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, .6), rgba(0, 0, 0, .4)), url(${
+      details.backdrop_path
+        ? `https://image.tmdb.org/t/p/w1280/${details.backdrop_path}`
+        : null
+    })`,
   };
 
   return (
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
-        <div className="row">
-          <div id="poster-detail" className="col-auto px-5 mb-4">
-            <div className="d-flex justify-content-center">
-              <img
-                className="poster-image"
-                src={`https://image.tmdb.org/t/p/w400${details.poster_path}`}
-              />
+        <div className="row justify-content-center">
+          <div id="poster-detail" className="col-auto justify-content-center">
+            <img
+              className="poster-image"
+              src={
+                details.poster_path
+                  ? `https://image.tmdb.org/t/p/w400${details.poster_path}`
+                  : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+              }
+            />
+            <div className="d-flex justify-content-center p-3">
+              <Dropdown>
+                <Dropdown.Toggle
+                  className="btn btn-outline-info btn-lg bg-transparent mt-4"
+                  id="dropdown-basic"
+                >
+                  Add to List
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {" "}
+                  {movieGroups.map((movieGroup) => (
+                    <Dropdown.Item
+                      key={movieGroup.id}
+                      onClick={(event) => {
+                        setMovieCreated(true);
+                        handleGroupSelection(event);
+                      }}
+                      value={movieGroup.id}
+                    >
+                      {movieGroup.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
 
-            <div className="d-flex justify-content-center pt-4">
-              {token !== "null" ? (
-                <Dropdown>
-                  <Dropdown.Toggle
-                    className="btn btn-outline-success bg-transparent"
-                    id="dropdown-basic"
-                  >
-                    Add to List
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {movieGroups.map((movieGroup) => (
-                      <Dropdown.Item
-                        key={movieGroup.id}
-                        onClick={(event) => {
-                          setMovieCreated(true);
-                          handleGroupSelection(event);
-                        }}
-                        value={movieGroup.id}
-                      >
-                        {movieGroup.name}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
-                <NavLink
-                  className="btn btn-outline-success bg-transparent"
-                  to={"/login"}
-                >
-                  Login to add to list
-                </NavLink>
-              )}
-
+            <div className="col-auto justify-content-center pt-4">
               {/*
               Couldn't get the hover effect to match what this one had, will circle back
               <button
@@ -233,9 +233,26 @@ const MovieDetail = () => {
             <h4 id="detail-text"> Released: {details.release_date} </h4>
             <h4 id="detail-text">
               {" "}
-              Rating: {details.vote_average?.toFixed(1)}{" "}
+              Rating:{" "}
+              {details.vote_average > 0
+                ? details.vote_average.toFixed(1)
+                : "N/A"}
             </h4>
           </div>
+          {details.trailer ? (
+            <ReactPlayer
+              className="video"
+              url={`https://www.youtube.com/embed/${details.trailer.key}`}
+              width="720px"
+              height="405px"
+              margin="auto"
+              pip={true}
+              playing={false}
+              loop={true}
+              muted={false}
+              controls={true}
+            />
+          ) : null}
         </div>
       </div>
     </div>
