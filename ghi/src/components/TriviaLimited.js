@@ -63,7 +63,7 @@ const TriviaLimited = () => {
       setShowModal(true);
     }
 
-    if (questionNum > numQuestions - 1) {
+    if (questionNum >= numQuestions) {
       setScore((s) => {
         setGameOver(true);
         setShowModal(true);
@@ -71,7 +71,7 @@ const TriviaLimited = () => {
       });
     }
 
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < numQuestions) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setQuestionNum((n) => n + 1);
     } else {
