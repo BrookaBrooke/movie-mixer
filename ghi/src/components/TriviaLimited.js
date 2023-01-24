@@ -71,7 +71,7 @@ const TriviaLimited = () => {
       });
     }
 
-    if (currentQuestionIndex < numQuestions) {
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setQuestionNum((n) => n + 1);
     } else {
