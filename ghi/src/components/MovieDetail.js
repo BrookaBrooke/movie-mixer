@@ -170,7 +170,8 @@ const MovieDetail = () => {
     <div className="banner" style={divStyle}>
       <div className="container-fluid">
         <div className="row justify-content-center">
-          <div id="poster-detail" className="col-auto justify-content-center">
+          <div id="poster-detail" className="col-auto px-5 mb-4">
+            {/* <div className="d-flex justify-content-center"> */}
             <img
               className="poster-image"
               src={
@@ -179,7 +180,7 @@ const MovieDetail = () => {
                   : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
               }
             />
-            <div className="d-flex justify-content-center p-3">
+            {/* <div className="d-flex justify-content-center p-3">
               <Dropdown>
                 <Dropdown.Toggle
                   className="btn btn-outline-info btn-lg bg-transparent mt-4"
@@ -204,9 +205,42 @@ const MovieDetail = () => {
                   ))}
                 </Dropdown.Menu>
               </Dropdown>
-            </div>
+            </div> */}
 
-            <div className="col-auto justify-content-center pt-4">
+            <div className="d-flex justify-content-center pt-4">
+              {token !== "null" ? (
+                <Dropdown>
+                  <Dropdown.Toggle
+                    className="btn btn-outline-info btn-lg bg-transparent"
+                    id="dropdown-basic"
+                  >
+                    Add to List
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    {movieGroups.map((movieGroup) => (
+                      <Dropdown.Item
+                        key={movieGroup.id}
+                        onClick={(event) => {
+                          setMovieCreated(true);
+                          handleGroupSelection(event);
+                        }}
+                        value={movieGroup.id}
+                      >
+                        {movieGroup.name}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <NavLink
+                  className="btn btn-outline-success bg-transparent"
+                  to={"/login"}
+                >
+                  Login to add to list
+                </NavLink>
+              )}
+
               {/*
               Couldn't get the hover effect to match what this one had, will circle back
               <button
@@ -239,23 +273,28 @@ const MovieDetail = () => {
                 : "N/A"}
             </h4>
           </div>
-          {details.trailer ? (
-            <ReactPlayer
-              className="video"
-              url={`https://www.youtube.com/embed/${details.trailer.key}`}
-              width="720px"
-              height="405px"
-              margin="auto"
-              pip={true}
-              playing={false}
-              loop={true}
-              muted={false}
-              controls={true}
-            />
-          ) : null}
+
         </div>
       </div>
+      <div className="detail-trailer">
+      <h1 className="trailer-text">Watch the Trailer</h1>
+            {details.trailer ? (
+              <ReactPlayer
+                className="video"
+                url={`https://www.youtube.com/embed/${details.trailer.key}`}
+                width="720px"
+                height="405px"
+                margin="auto"
+                pip={true}
+                playing={false}
+                loop={true}
+                muted={false}
+                controls={true}
+              />
+            ) : null}
+          </div>
     </div>
+
   );
 };
 
