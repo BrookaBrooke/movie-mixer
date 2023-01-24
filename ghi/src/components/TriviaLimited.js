@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import he from "he";
-import { Link } from "react-router-dom";
 
 const TriviaLimited = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,7 +13,9 @@ const TriviaLimited = () => {
   const [showModal, setShowModal] = useState(false);
   const [questionNum, setQuestionNum] = useState(1);
   const [usedQuestions, setUsedQuestions] = useState([]);
+  const [newNumQuestions, setNewNumQuestions] = useState(1);
   const { numQuestions } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuestions();
@@ -95,7 +96,7 @@ const TriviaLimited = () => {
 
   const answers = [correct_answer, ...incorrect_answers];
   answers.sort(() => Math.random() - 0.5);
-
+  //navigate(`/trivia/limited/${newNumQuestions}`)
   return (
     <div className="container">
       <h1 className="text-center my-3">Movie Trivia</h1>
@@ -113,18 +114,51 @@ const TriviaLimited = () => {
                 </p>
               </Modal.Body>
               <Modal.Footer>
-                <Button onClick={() => window.location.reload()}>
-                  Play Again
+                <Button
+                  onClick={() => {
+                    navigate(`/trivia/limited/${newNumQuestions}`);
+                    window.location.reload();
+                  }}
+                >
+                  Limited Mode
                 </Button>
+
+                <label htmlFor="numQuestions">Number of Questions:</label>
+                <input
+                  type="number"
+                  min="1"
+                  onChange={(e) => setNewNumQuestions(e.target.value)}
+                  value={newNumQuestions}
+                ></input>
                 <Link to="/trivia/">
                   <Button>Trivia Home</Button>
                 </Link>
               </Modal.Footer>
             </Modal>
-            <Button onClick={() => window.location.reload()}>Play Again</Button>
-            <Link to="/trivia/">
-              <Button>Trivia Home</Button>
-            </Link>
+            <label htmlFor="numQuestions">Number of Questions:</label>
+            <input
+              type="number"
+              min="1"
+              onChange={(e) => setNewNumQuestions(e.target.value)}
+              value={newNumQuestions}
+            ></input>
+            <Button
+              onClick={() => {
+                navigate(`/trivia/limited/${newNumQuestions}`);
+                window.location.reload();
+              }}
+            >
+              Play Again
+            </Button>
+
+            <Button
+              onClick={() => {
+                navigate(`/trivia/limited/${newNumQuestions}`);
+                window.location.reload();
+              }}
+            >
+              Trivia Home
+            </Button>
           </>
         ) : (
           <>
