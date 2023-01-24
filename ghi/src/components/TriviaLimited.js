@@ -120,7 +120,7 @@ const TriviaLimited = () => {
                     window.location.reload();
                   }}
                 >
-                  Limited Mode
+                  Play Again
                 </Button>
 
                 <Form.Group controlId="numQuestions">
