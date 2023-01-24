@@ -170,8 +170,8 @@ function MainPage() {
               </div>
             </div>
           </div>
-          <section className="parallax" data-speed=".8">
-            <h1 className="parallax-header"></h1>
+          <section className="parallax" data-speed=".009">
+            {/* <h1 className="parallax-header"></h1> */}
             <div className="parallax-container">
               <div className="parallax-content">
                 <h1 className="text-box-main">Discover New Movies</h1>
@@ -181,10 +181,22 @@ function MainPage() {
               </div>
             </div>
           </section>
-          <div>
-            <p className="bottom-div">Insert text</p>
+          <div className="bottom-div row justify-content-center">
+            <div className="movie-trivia-image col-auto pb-4">
+              </div>
+              <div className="movie-trivia-home col-auto">
+                <h2 className="">Play Movie Trivia</h2>
+                  <p className="">
+                    Test your knowledge with a quick Movie Trivia Game! How many questions can you answer correctly?
+                  </p>
+                <div className="pb-3 col-auto">
+                  <div className="text-center p-2">
+                    <button className="btn btn-outline-danger">Movie Trivia</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
 
     <footer className="bg-dark text-center text-white">
       <div className="container p-4">
@@ -236,8 +248,8 @@ function MainPage() {
                     </div>
                   </div>
 
-                  <div className="col-auto">
-                    <button type="submit" className="btn btn-outline-light mb-4 pt-3">
+                  <div className="col-auto pb-4">
+                    <button type="submit" className="btn btn-outline-light mb-4">
                       Contact Today
                     </button>
                   </div>
