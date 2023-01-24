@@ -14,30 +14,31 @@ const TriviaEndless = () => {
   const [numWrong, setNumWrong] = useState(0);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await fetch(
-          "https://opentdb.com/api.php?amount=50&category=11"
-        );
-        const { results } = await response.json();
-        setQuestions(
-          results.map((question) => ({
-            ...question,
-            question: he.decode(question.question),
-            correct_answer: he.decode(question.correct_answer),
-            incorrect_answers: question.incorrect_answers.map((answer) =>
-              he.decode(answer)
-            ),
-          }))
-        );
-
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchQuestions();
   }, []);
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await fetch(
+        "https://opentdb.com/api.php?amount=50&category=11"
+      );
+      const { results } = await response.json();
+      setQuestions(
+        results.map((question) => ({
+          ...question,
+          question: he.decode(question.question),
+          correct_answer: he.decode(question.correct_answer),
+          incorrect_answers: question.incorrect_answers.map((answer) =>
+            he.decode(answer)
+          ),
+        }))
+      );
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleAnswerClick = (answer) => {
     if (answer === correct_answer) {
@@ -57,11 +58,8 @@ const TriviaEndless = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setScore((s) => {
-        setGameOver(true);
-        setShowModal(true);
-        return s;
-      });
+      fetchQuestions();
+      setCurrentQuestionIndex(0);
     }
   };
 
