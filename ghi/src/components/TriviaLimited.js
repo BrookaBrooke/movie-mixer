@@ -32,6 +32,13 @@ const TriviaLimited = () => {
           !usedQuestions.map((q) => q.question).includes(question.question)
       );
 
+      newQuestions.forEach((question) => {
+        const { correct_answer, incorrect_answers } = question;
+        const answers = [correct_answer, ...incorrect_answers];
+        answers.sort(() => Math.random() - 0.5);
+        question.answers = answers;
+      });
+
       setUsedQuestions((prevQuestions) => {
         setQuestions(
           newQuestions.map((question) => ({
@@ -41,6 +48,7 @@ const TriviaLimited = () => {
             incorrect_answers: question.incorrect_answers.map((answer) =>
               he.decode(answer)
             ),
+            answers: question.answers.map((answer) => he.decode(answer)),
           }))
         );
         return [...prevQuestions, ...newQuestions];
@@ -92,10 +100,7 @@ const TriviaLimited = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-  const { question, correct_answer, incorrect_answers } = currentQuestion;
-
-  const answers = [correct_answer, ...incorrect_answers];
-  answers.sort(() => Math.random() - 0.5);
+  const { question, correct_answer, answers } = currentQuestion;
 
   return (
     <div className="container">
