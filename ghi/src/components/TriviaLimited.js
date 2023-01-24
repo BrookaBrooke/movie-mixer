@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import he from "he";
 
 const TriviaLimited = () => {
