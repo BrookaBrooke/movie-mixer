@@ -52,15 +52,16 @@ const MovieGroupDetail = () => {
       return;
     }
     fetchMovieItems();
-    console.log("movieGroup.owner: ", movieGroup.owner);
-    console.log("localstorage.owner: ", localStorage.getItem("user_id"));
-    if (movieGroup.owner == localStorage.getItem("user_id")) {
+    console.log("movieGroup.owner: ", movieGroup.owner, "1");
+    console.log("localstorage.owner: ", parseInt(localStorage.getItem("user_id")) );
+    if ( movieGroup.owner === parseInt(localStorage.getItem("user_id"))) {
       setOwnerEditAllowed(true);
-      console.log("show edit button: make true", ownerEditAllowed);
-    } else {
-      setOwnerEditAllowed(false);
-      console.log("show edit button: make false", ownerEditAllowed);
+      console.log("show edit button: make true", ownerEditAllowed, movieGroup.owner, localStorage.getItem("user_id") );
     }
+    else {
+      setOwnerEditAllowed(false);
+      console.log("show edit button: make false", ownerEditAllowed, movieGroup.owner, parseInt(localStorage.getItem("user_id")) );
+    };
   }, [movieGroup, id]);
 
   let sourceElement = null;
