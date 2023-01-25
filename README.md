@@ -41,6 +41,9 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 7. Run `python -m migrations up`
 8. Run `python -m migrations populate` to add some data
 9. Exit the container's CLI, and enjoy MovieMixer!
+10. Try logging in with one of the sample users:
+    * * user: `one`
+    * * password: `pass`
 
 * Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
 * Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
@@ -58,10 +61,6 @@ The following project files have been created as a minimal
 starting point. Please follow the guidance for each one for
 a most successful project.
 
-* `docker-compose.yaml`: there isn't much in here, just a
-  **really** simple UI and FastAPI service. Add services
-  (like a database) to this file as you did with previous
-  projects in module #2.
 * `.gitlab-ci.yml`: This is your "ci/cd" file where you will
   configure automated unit tests, code quality checks, and
   the building and deployment of your production system.
