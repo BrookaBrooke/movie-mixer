@@ -1,4 +1,13 @@
-# Module3 Project Gamma
+# MovieMixer
+
+* Jesse Morris
+* Jalen Gill
+* Ben Gerber
+* Brooke Vonderheid
+* Michel Menin
+
+MovieMixer - Movies for fans.
+MovieMixer - Collect and share your favorites.
 
 ## Getting started
 
@@ -7,7 +16,30 @@ lists all of the deliverables that are due at the end of the
 week. Below is some guidance for getting started on the
 tasks for this week.
 
-## Install Extensions
+## Intended Market
+
+Movie fans, amateurs or newbies who want to find something else to watch.
+
+## Functionality
+
+* Vistors who are not registered can search for movie titles.
+* Visitors can open (register) an account on the site which will give them access to creating/editing personalized lists of favorites.
+* Registered users can add movies to their own lists from either the search results page or the movie detail page.
+* Users can edit the order of their movies in their list, but not other users' lists.
+* Movie detail page shows a short description taken from a 3rd party API and has a trailer available to see.
+* Movie trivia game with multiple-choice answers.
+
+## Project Initialization
+
+1. Clone the repo to your local machine.
+2. CD into the new project directory.
+3. Run docker volume create smelli-db
+4. Run docker compose build
+5. Run `docker compose up`
+6. Run docker exec -it smelli-belli-inventory-api-1 bash
+7. Run python -m migrations up
+8. Run python -m migrations populate to add some data
+9. Exit the container's CLI, and enjoy Smelli Belli to its fullest!
 
 * Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
 * Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
