@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Trivia = () => {
   const [numQuestions, setNumQuestions] = useState(1);
+  const [difficulty, setDifficulty] = useState("medium");
   const navigate = useNavigate();
 
   return (
@@ -13,6 +14,7 @@ const Trivia = () => {
       <Form>
         <div className="text-center">
           <div>
+            <h3>Limited mode</h3>
             <Form.Group controlId="numQuestions" className="col-sm-2 mx-auto">
               <Form.Label>Number of Questions: </Form.Label>
               <Form.Control
@@ -27,19 +29,56 @@ const Trivia = () => {
               variant="primary"
               size="lg"
               className="m-2"
-              onClick={() => navigate(`/trivia/limited/${numQuestions}`)}
+              onClick={() => navigate(`/trivia/limited/${numQuestions}/easy`)}
             >
-              Limited Mode
+              Easy
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              className="m-2"
+              onClick={() => navigate(`/trivia/limited/${numQuestions}/medium`)}
+            >
+              Medium
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              className="m-2"
+              onClick={() => navigate(`/trivia/limited/${numQuestions}/hard`)}
+            >
+              Hard
             </Button>
             <p>
               Enter a number of questions and see how many you can get right!
             </p>
+            <h3>Endless Mode</h3>
           </div>
-          <Link to="/trivia/endless">
-            <Button variant="primary" size="lg" className="m-2">
-              Endless Mode
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/easy`)}
+          >
+            Easy
+          </Button>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/medium`)}
+          >
+            Medium
+          </Button>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/hard`)}
+          >
+            Hard
+          </Button>
+
           <p>Answer as many questions as you can before getting three wrong!</p>
         </div>
       </Form>

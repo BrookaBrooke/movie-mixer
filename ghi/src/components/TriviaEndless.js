@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 import he from "he";
-import { Link } from "react-router-dom";
 
 const TriviaEndless = () => {
   const [questions, setQuestions] = useState([]);
@@ -13,6 +13,7 @@ const TriviaEndless = () => {
   const [showModal, setShowModal] = useState(false);
   const [numWrong, setNumWrong] = useState(0);
   const [usedQuestions, setUsedQuestions] = useState([]);
+  const { difficulty } = useParams();
 
   useEffect(() => {
     fetchQuestions();
@@ -21,7 +22,7 @@ const TriviaEndless = () => {
   const fetchQuestions = async () => {
     try {
       const response = await fetch(
-        "https://opentdb.com/api.php?amount=50&category=11"
+        `https://opentdb.com/api.php?amount=50&category=11&difficulty=${difficulty}`
       );
       const { results } = await response.json();
       const newQuestions = results.filter(
@@ -61,7 +62,13 @@ const TriviaEndless = () => {
       setScore((s) => {
         setAnswerCheck("Correct!");
         setShowModal(true);
-        return s + 1;
+        if (difficulty === "easy") {
+          return s + 100;
+        } else if (difficulty === "medium") {
+          return s + 300;
+        } else if (difficulty === "hard") {
+          return s + 500;
+        }
       });
     } else {
       setAnswerCheck(`Wrong! the correct answer was ${correct_answer}`);

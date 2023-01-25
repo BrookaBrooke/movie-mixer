@@ -99,4 +99,4 @@ Found a way to get new questions without repeating by keeping track of the old q
 
 # 1-25-23
 
-Realized I only made the change to prevent the double sorting of answers into one of the game modes, now it's added to the other.
+Realized I only made the change to prevent the double sorting of answers into one of the game modes, now it's added to the other. Pushed trivia game to main, with all the deployment stuff to worry about I'm not sure if there will be time before Friday to add the difficulty setting stuff. To do that I may need to create new routes for each difficulty if it's something I want to pass through the URL as a parameter like `trivia/endless/medium` or `trivia/limited/10/medium`. If I can find a different way to do it it might be easier.
