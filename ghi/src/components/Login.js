@@ -15,7 +15,6 @@ const Login = () => {
     const form = new FormData();
     form.append("username", username);
     form.append("password", password);
-    console.log(form);
     const response = await fetch(url, {
       method: "post",
       credentials: "include",
@@ -77,9 +76,9 @@ const Login = () => {
   };
 
   return (
-    <div className="row">
+    <div className="banner-search row">
       <div className="offset-3 col-6">
-        <div className="shadow p-4 mt-4">
+        <div className="bg-dark text-light shadow p-4 mt-4">
           <h1 id="">Login</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-floating mb-3">
@@ -112,17 +111,19 @@ const Login = () => {
                 />
               </div>
             </div>
-
             <ErrorMessage message={errorMessage} />
             <br />
-            <button className="btn btn-primary me-5" type="submit">
-              Login
-            </button>
-            <button className="btn btn-success me-5" type="submit">
-              <NavLink className="nav-link active" to="/register">
-                Register
-              </NavLink>
-            </button>
+            <div>
+              <button className="btn btn-primary me-5" type="submit">
+                Login
+              </button>
+              <div className="d-inline me-3">Don't have an account?</div>
+              <button className="btn btn-success me-5" type="submit">
+                <NavLink className="nav-link active" to="/register">
+                  Register
+                </NavLink>
+              </button>
+            </div>
           </form>
         </div>
       </div>

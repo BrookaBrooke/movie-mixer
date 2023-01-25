@@ -53,16 +53,18 @@ def test_create_movie_group():
     app.dependency_overrides = {}
 
 
-def test_get_movie_groups():
+def test_get_movie_group():
     # Arrange
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
 
+    id = 1
+
     # Act
-    res = client.get("/movie-groups")
+    res = client.get(f"/movie-groups/{id}")
 
     # Assert
     assert res.status_code == 200
-    assert res.json() == []
+    assert res.json() == id
 
     # A cleanup
     app.dependency_overrides = {}

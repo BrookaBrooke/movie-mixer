@@ -25,7 +25,6 @@ def create_movie_item(
 ):
     movie_dict = movie.dict()
     movie_group_data = owner.get(movie_dict["movie_group_id"])
-    print(movie_group_data)
     if account_data is None:
         raise HTTPException(status_code=401, detail="Not logged in")
     elif movie_group_data.owner == account_data["id"]:
