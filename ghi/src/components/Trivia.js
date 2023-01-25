@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Trivia = () => {
   const [numQuestions, setNumQuestions] = useState(1);
@@ -30,7 +30,13 @@ const Trivia = () => {
               variant="primary"
               size="lg"
               className="m-2"
-              onClick={() => navigate(`/trivia/limited/${numQuestions}/easy`)}
+              onClick={() => {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/easy`);
+                }
+              }}
             >
               Easy
             </Button>
@@ -38,7 +44,13 @@ const Trivia = () => {
               variant="primary"
               size="lg"
               className="m-2"
-              onClick={() => navigate(`/trivia/limited/${numQuestions}/medium`)}
+              onClick={() => {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/medium`);
+                }
+              }}
             >
               Medium
             </Button>
@@ -47,7 +59,9 @@ const Trivia = () => {
               size="lg"
               className="m-2"
               onClick={() => {
-                if (numQuestions <= 42) {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
                   navigate(`/trivia/limited/${numQuestions}/hard`);
                 } else {
                   alert("max number of questions for hard difficulty is 42!");
