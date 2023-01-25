@@ -6,19 +6,21 @@ export const UserProvider = (props) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`;
-      const response = await fetch(url);
-      if (!response.ok) {
-        setToken(null);
-      }
+      try {
+        const response = await fetch(url, {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          if (data === null) {
+            setToken("null");
+          } else {
+            setToken(data.access_token);
+          }
+        }
+      } catch (e) {}
       localStorage.setItem("leadsToken", token);
     };
     fetchUser();

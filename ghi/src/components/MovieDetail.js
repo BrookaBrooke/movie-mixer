@@ -273,28 +273,27 @@ const MovieDetail = () => {
                 : "N/A"}
             </h4>
           </div>
-
         </div>
       </div>
-      <div className="detail-trailer">
-      <h1 className="trailer-text">Watch the Trailer</h1>
-            {details.trailer ? (
-              <ReactPlayer
-                className="video"
-                url={`https://www.youtube.com/embed/${details.trailer.key}`}
-                width="720px"
-                height="405px"
-                margin="auto"
-                pip={true}
-                playing={false}
-                loop={true}
-                muted={false}
-                controls={true}
-              />
-            ) : null}
-          </div>
-    </div>
 
+      {details.trailer ? (
+        <div className="detail-trailer">
+          <h1 className="trailer-text">Watch the Trailer</h1>
+          <ReactPlayer
+            className="video"
+            url={`https://www.youtube.com/embed/${details.trailer.key}`}
+            width="720px"
+            height="405px"
+            margin="auto"
+            pip={true}
+            playing={false}
+            loop={true}
+            muted={false}
+            controls={true}
+          />
+        </div>
+      ) : null}
+    </div>
   );
 };
 

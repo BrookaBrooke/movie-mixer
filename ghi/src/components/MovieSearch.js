@@ -4,6 +4,14 @@ import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/grid";
+
+import SwiperCore, { Grid, Pagination } from "swiper";
+
+SwiperCore.use([Pagination]);
+
 function MovieSearch() {
   const { searchQuery, pageNumber } = useParams();
   const navigate = useNavigate();
@@ -58,16 +66,20 @@ function MovieSearch() {
 
   useEffect(() => {
     async function fetchMovieGroups() {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      if (token !== "null") {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setMovieGroups(data);
         }
-      );
-      const data = await response.json();
-      setMovieGroups(data);
+      }
     }
     fetchMovieGroups();
   }, []);
@@ -243,7 +255,7 @@ function MovieSearch() {
                   className="search-poster-image"
                   src={
                     result.poster_path
-                      ? `https://image.tmdb.org/t/p/w300${result.poster_path}`
+                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
                       : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
                   }
                   onClick={() => {
@@ -357,13 +369,13 @@ function MovieSearch() {
     <div className="banner-search">
       <div className="">
         <div className="search-bar-height"></div>
-        <div className="container search-bar">
+        <div className="search-bar">
           <form
             className="d-flex justify-content-center"
             role="search"
             onSubmit={onSubmit}
           >
-            <div className="container w-50 d-flex justify-content-center">
+            <div className="w-75 d-flex justify-content-center">
               <input
                 className="form-control m-3"
                 type="search"
@@ -398,9 +410,14 @@ function MovieSearch() {
         </div>
 
         <Swiper
-          spaceBetween={50}
+          modules={[Grid]}
           slidesPerView={4}
-          initialSlide="1"
+          slidesPerGroup={2}
+          spaceBetween={0}
+          grid={{ rows: 2, fill: "row" }}
+          pagination={{
+            clickable: true,
+          }}
           className={loading ? "d-none" : ""}
         >
           {movieList}
