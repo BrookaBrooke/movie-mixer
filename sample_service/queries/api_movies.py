@@ -21,6 +21,28 @@ class ApiMovieQueries:
         data = results.json()
         return data
 
+    def get_one_movie_with_trailer(self, id: str):
+        movie_results = requests.get(
+            f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}"
+        )
+        movie_data = movie_results.json()
+        trailer_results = requests.get(
+            f"https://api.themoviedb.org/3/movie/{id}/videos?api_key={api_key}&language=en-US"
+        )
+        trailer_data = trailer_results.json()
+        movie_trailer = None
+        for trailer in trailer_data["results"]:
+            if trailer["type"] == "Trailer":
+                movie_trailer = trailer
+                break
+
+        movie_data["trailer"] = movie_trailer
+
+        # trailer = None
+        # while not trailer:
+
+        return movie_data
+
     def get_home_page_movie_trailers_with_movie_data(self):
         movie_results = requests.get(
             f"https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page=1"

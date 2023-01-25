@@ -23,7 +23,6 @@ function MovieSearch() {
 
   const [showSuccessAlert, setSuccessAlert] = useState(false);
   const [showErrorAlert, setErrorAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
 
   const [token] = useContext(UserContext);
 
@@ -98,7 +97,6 @@ function MovieSearch() {
     let movieItemExists = false;
     for (let item of data) {
       if (item.movie_id === movieItem.movie_id) {
-        setAlertMessage("Movie is already in this list!");
         setErrorAlert(true);
         setTimeout(() => {
           setErrorAlert(false);
@@ -121,7 +119,6 @@ function MovieSearch() {
           }
         );
         if (response.ok) {
-          setAlertMessage("The movie has been successfully added to the list.");
           setSuccessAlert(true);
         }
       } catch (error) {
@@ -330,7 +327,7 @@ function MovieSearch() {
                     onClose={() => setSuccessAlert(false)}
                     dismissible
                   >
-                    <p>{alertMessage}</p>
+                    <p>Movie has been successfully added to list</p>
                     <hr />
                     <div className="d-flex justify-content-end">
                       <NavLink className="btn btn-primary" to="/my-groups">
@@ -339,7 +336,7 @@ function MovieSearch() {
                     </div>
                   </Alert>
                   <Alert show={showErrorAlert} variant="danger" className="m-3">
-                    <p>{alertMessage}</p>
+                    <p>Movie is already in this list!</p>
                   </Alert>
                 </Modal>
               </div>
