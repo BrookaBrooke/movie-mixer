@@ -31,12 +31,16 @@ const Trivia = () => {
             >
               Limited Mode
             </Button>
+            <p>
+              Enter a number of questions and see how many you can get right!
+            </p>
           </div>
           <Link to="/trivia/endless">
             <Button variant="primary" size="lg" className="m-2">
               Endless Mode
             </Button>
           </Link>
+          <p>Answer as many questions as you can before getting three wrong!</p>
         </div>
       </Form>
     </div>
