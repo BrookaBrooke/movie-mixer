@@ -3,6 +3,8 @@ import { useNavigate, NavLink, renderMatches } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import ErrorMessage from "./ErrorMessage";
 
+let now = new Date();
+
 const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,6 +34,8 @@ const Login = () => {
           localStorage.setItem("leadsToken", data.access_token);
           localStorage.setItem("user_id", data.account.id);
           localStorage.setItem("username", data.account.username);
+          let expiryTime = new Date(now.getTime() + 2000000 );
+          localStorage.setItem("loginExp", expiryTime);
           navigate("/");
           window.location.reload(false);
         }
