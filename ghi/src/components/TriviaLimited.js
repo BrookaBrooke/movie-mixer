@@ -14,7 +14,7 @@ const TriviaLimited = () => {
   const [questionNum, setQuestionNum] = useState(1);
   const [usedQuestions, setUsedQuestions] = useState([]);
   const [newNumQuestions, setNewNumQuestions] = useState(1);
-  const { numQuestions } = useParams();
+  const { numQuestions, difficulty } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const TriviaLimited = () => {
   const fetchQuestions = async () => {
     try {
       const response = await fetch(
-        `https://opentdb.com/api.php?amount=${numQuestions}&category=11`
+        `https://opentdb.com/api.php?amount=${numQuestions}&category=11&difficulty=${difficulty}`
       );
       const { results } = await response.json();
       const newQuestions = results.filter(
