@@ -42,15 +42,15 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 8. Run `python -m migrations populate` to add some data
 9. Exit the container's CLI, and enjoy MovieMixer!
 10. Try logging in with one of the sample users:
-    * * user: `one`
-    * * password: `pass`
+    * user :  `one`
+    * password : `pass`
 
 * Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
 * Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
 
 ## Deliverables
 
-* [y] Wire-frame diagrams
+* [x] Wire-frame diagrams
 * [ ] API documentation
 * [ ] Project is deployed to ______Render.com/GitLab-pages______
 * [ ] Journals
