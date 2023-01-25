@@ -13,7 +13,9 @@ const Trivia = () => {
       <Form>
         <div className="text-center">
           <div>
-            <h3>Limited mode</h3>
+            <h3>
+              <u>Limited Mode</u>
+            </h3>
             <Form.Group controlId="numQuestions" className="col-sm-2 mx-auto">
               <Form.Label>Number of Questions: </Form.Label>
               <Form.Control
@@ -51,7 +53,9 @@ const Trivia = () => {
             <p>
               Enter a number of questions and see how many you can get right!
             </p>
-            <h3>Endless Mode</h3>
+            <h3>
+              <u>Endless Mode</u>
+            </h3>
           </div>
           <Button
             variant="primary"
