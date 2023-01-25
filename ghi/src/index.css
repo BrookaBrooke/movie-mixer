@@ -277,8 +277,8 @@ input, .form-control, .me-2 {
 
 .swiper-slide img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   object-fit: cover;
 }
 
@@ -462,7 +462,7 @@ input, .form-control, .me-2 {
 }
 
 .banner-search {
-  background-color: black;
+  background-color: rgb(50, 50, 50);
   height: cover;
   min-height: 1280px;
 }
@@ -477,7 +477,7 @@ input, .form-control, .me-2 {
 }
 
 .search-bar-height {
-  min-height: 150px;
+  min-height: 25px;
 }
 
 .video-player {
