@@ -46,12 +46,21 @@ const Trivia = () => {
               variant="primary"
               size="lg"
               className="m-2"
-              onClick={() => navigate(`/trivia/limited/${numQuestions}/hard`)}
+              onClick={() => {
+                if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/hard`);
+                } else {
+                  alert("max number of questions for hard difficulty is 42!");
+                }
+              }}
             >
               Hard
             </Button>
             <p>
               Enter a number of questions and see how many you can get right!
+            </p>
+            <p>
+              (The max amount of questions for hard difficulty is currently 42)
             </p>
             <h3>
               <u>Endless Mode</u>
