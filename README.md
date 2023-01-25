@@ -7,6 +7,7 @@
 * Michel Menin
 
 MovieMixer - Movies for fans.
+
 MovieMixer - Collect and share your favorites.
 
 ## Getting started
@@ -32,70 +33,24 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 ## Project Initialization
 
 1. Clone the repo to your local machine.
-2. CD into the new project directory.
-3. Run docker volume create smelli-db
-4. Run docker compose build
+2. `cd` into the new project directory.
+3. Run `docker volume create postgres-data`
+4. Run `docker compose build`
 5. Run `docker compose up`
-6. Run docker exec -it smelli-belli-inventory-api-1 bash
-7. Run python -m migrations up
-8. Run python -m migrations populate to add some data
-9. Exit the container's CLI, and enjoy Smelli Belli to its fullest!
+6. Run `docker exec -it module3-project-gamma-fastapi-1 bash`
+7. Run `python -m migrations up`
+8. Run `python -m migrations populate` to add some data
+9. Exit the container's CLI, and enjoy MovieMixer!
 
 * Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
 * Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
 
 ## Deliverables
 
-* [ ] Wire-frame diagrams
+* [y] Wire-frame diagrams
 * [ ] API documentation
-* [ ] Project is deployed to Render.com/GitLab-pages
-* [ ] GitLab issue board is setup and in use
+* [ ] Project is deployed to ______Render.com/GitLab-pages______
 * [ ] Journals
-
-## Project layout
-
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
-
-### Directories
-
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
-
-The other directories, `ghi` and `sample_service`, are
-sample services, that you can start building off of or use
-as a reference point.
-
-Inside of `ghi` is a minimal React app that has an "under
-construction" page. It is setup similarly to all of the
-other React projects that you have worked on.
-
-Inside of `sample_service` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
-
-Also in `sample_service` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
-
-The sample Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
 
 ### Other files
 
@@ -148,23 +103,6 @@ then your GitLab pages URL will be
 
 https://GROUP_NAME.gitlab.io/PROJECT_NAME
 
-### Create render.com account and application
-
-* create account on render.com
-* one person create a group and invite all other members
-* create a new "Web Service"
-  * authenticate with GitLab and choose your project
-  * Enter fields:
-    * Name: name of your service
-    * Root Directory: the directory of your service in your git repo.
-      For this example use "sample_service".
-    * Environment: Docker
-    * Plan Type: Free
-  * click the "Create Web Service" button to create it
-  * the build will succeed and it will look like the server is running,
-    most likely, in 6-10 minutes, it will fail.
-  * click "Manual Deploy" -> "Deploy latest commit" and the service
-    should deploy successfully.
 
 ### Update GitLab CI/CD variables
 
