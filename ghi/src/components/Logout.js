@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 const Logout = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("leadsToken"));
+  const [token] = useContext(UserContext);
 
   useEffect(() => {
     const logout = async () => {
@@ -15,17 +15,17 @@ const Logout = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       };
 
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`;
-      const response = await fetch(url);
-      if (!response.ok) {
-        setToken(null);
+      const response = await fetch(url, requestOptions);
+      if (response.ok) {
+        localStorage.setItem("leadsToken", "null");
+        localStorage.setItem("user_id", "null");
+        navigate("/");
+        window.location.reload(false);
       }
-      localStorage.setItem("leadsToken", "null");
-      localStorage.setItem("user_id", "null");
-      navigate("/");
-      window.location.reload(false);
     };
     logout();
   }, [token]);
