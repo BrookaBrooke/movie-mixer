@@ -177,7 +177,7 @@ const MovieDetail = () => {
               src={
                 details.poster_path
                   ? `https://image.tmdb.org/t/p/w400${details.poster_path}`
-                  : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+                  : `https://via.placeholder.com/400x550/FFFFFF/000000/?text=No%20Image%20Available`
               }
             />
             {/* <div className="d-flex justify-content-center p-3">

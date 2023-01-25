@@ -59,8 +59,8 @@ const Register = () => {
 
   return (
     <div className="banner-search row">
-      <div className="bg-dark text-light offset-3 col-6">
-        <div className="shadow p-4 mt-4">
+      <div className="text-light offset-3 col-6">
+        <div className="bg-dark shadow p-4 mt-4">
           <h1 id="">Register Account</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-floating mb-3">

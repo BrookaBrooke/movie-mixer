@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, NavLink, renderMatches } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import ErrorMessage from "./ErrorMessage";
 
@@ -7,7 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
-  const [, setToken] = useContext(UserContext);
   const navigate = useNavigate();
 
   async function login(username, password) {
@@ -35,41 +34,16 @@ const Login = () => {
           localStorage.setItem("username", data.account.username);
           navigate("/");
           window.location.reload(false);
-          // DO SOMETHING WITH THE TOKEN SO YOU CAN USE IT localStorage.getItem("user_id")
-          // IN REQUESTS TO YOUR NON-ACCOUNTS SERVICES
         }
       } catch (e) {}
       return false;
     }
     let error = await response.json();
-    // DO SOMETHING WITH THE ERROR, IF YOU WANT
   }
-
-  // FIRST TRY BELOW THIS LINE --
-
-  const submitLogin = async () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: JSON.stringify({ username: username, password: password }),
-    };
-
-    const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/token`;
-    const response = await fetch(url, requestOptions);
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrorMessage(data.detail);
-    } else {
-      setToken(data.access_token);
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // submitLogin();
     login(username, password);
-    // BLANK THE FORM _OR_ TAKE TO HOME PAGE
 
     setUsername("");
     setPassword("");

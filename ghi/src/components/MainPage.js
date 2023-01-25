@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import ReactPlayer from "react-player/lazy";
@@ -7,10 +7,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination, Autoplay } from "swiper";
+import { UserContext } from "../context/UserContext";
 // import "./VideoCarousel.css";
 
 function MainPage() {
   const navigate = useNavigate();
+  const [token] = useContext(UserContext);
   const [query, setQuery] = useState("");
   const [movieData, setMovieData] = useState([]);
 
@@ -35,83 +37,77 @@ function MainPage() {
     return navigate(`/search/${query}/1`);
   }
 
-  const videoProperties = [
-    {
-      id: 76600,
-      title: "Avatar: The Way of Water",
-      src: `https://youtu.be/d9MyW72ELq0`,
-      credit: "20th Century / 20th Century Studios",
-    },
-  ];
-
   const parallax = Array.from(document.querySelectorAll(".parallax"));
 
-  window.onscroll = () => {
-    parallax.forEach((el) => {
-      // apparent scroll speed of the background
-      // defaults to half the scroll amount
-      const speed = el.dataset.speed || 1;
-      const windowYOffset = window.pageYOffset;
-      const newBgPos = "50% " + windowYOffset * speed + "px";
+  // window.onscroll = () => {
+  //   parallax.forEach((el) => {
+  //     const speed = el.dataset.speed || 1;
+  //     const windowYOffset = window.pageYOffset;
+  //     const newBgPos = "50% " + windowYOffset * speed + "px";
 
-      el.style.backgroundPosition = newBgPos;
-    });
-  };
+  //     el.style.backgroundPosition = newBgPos;
+  //   });
+  // };
 
   return (
-    <div className="main-slider">
-      <Swiper
-        modules={[EffectCoverflow, Pagination, Autoplay]}
-        effect={"coverflow"}
-        centeredSlides={true}
-        spaceBetween={30}
-        slidesPerView={1}
-        autoplay={{ delay: 10000 }}
-        className="mySwiper"
-      >
-        {movieData.map((movie, i) => {
-          const divStyle = {
-            backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
-          };
-          return (
-            <SwiperSlide key={i}>
-              <div className="backdrop-image" style={divStyle}>
-                <div className="slide-item-container">
-                  <div className="slide-item-content">
-                    {/* <h2 className="search-movies">Search Movies</h2> */}
-                    <div className="home-header">
-                      <h1 className="home-header">MovieMixer</h1>
-                    </div>
-
-                    <form
-                      className="d-flex container"
-                      role="search"
-                      onSubmit={redirectToSearchPage}
-                    >
-                      <input
-                        className="form-control me-2"
-                        type="search"
-                        placeholder="Search Movies"
-                        aria-label="Search"
-                        required
-                        onChange={onChange}
-                      />
-                      <button
-                        className="btn btn-lg btn-outline-danger mx-2"
-                        type="submit"
-                      >
-                        Search
-                      </button>
-                    </form>
-                    {/* <h2 className="slide-title">{movie.title}</h2> */}
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+    <>
       <div className="banner-search text-light">
+        <div className="main-slider">
+          <div id="overlay-search-bar">
+            <div className="home-header">
+              <h1 className="home-header">MovieMixer</h1>
+            </div>
+            <form
+              className="d-flex"
+              role="search"
+              onSubmit={redirectToSearchPage}
+            >
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search Movies"
+                aria-label="Search"
+                required
+                onChange={onChange}
+              />
+              <button
+                className="d-inline btn btn-lg btn-outline-danger mx-2"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </div>
+
+          <Swiper
+            modules={[EffectCoverflow, Pagination, Autoplay]}
+            effect={"coverflow"}
+            centeredSlides={true}
+            spaceBetween={30}
+            slidesPerView={1}
+            autoplay={{ delay: 10000 }}
+            className="mySwiper"
+          >
+            {movieData.map((movie, i) => {
+              const divStyle = {
+                backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
+              };
+              return (
+                <SwiperSlide key={i}>
+                  <div className="backdrop-image" style={divStyle}>
+                    <div className="slide-item-container">
+                      <div className="slide-item-content">
+                        {/* <h2 className="search-movies">Search Movies</h2> */}
+
+                        {/* <h2 className="slide-title">{movie.title}</h2> */}
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
         <div className="movie-info">
           <h1 className="home-header">MovieMixer</h1>
           <p className="text-center p-2">
@@ -123,10 +119,38 @@ function MainPage() {
             Happy watching!
           </p>
           <div className="pb-3 d-flex justify-content-center">
-            <div className="text-center p-2">
-              <h4 className="login-button">Log in to get started!</h4>
-              <button className="btn btn-lg btn-outline-danger">Log in</button>
-            </div>
+            {localStorage.getItem("username") === "null" ? (
+              <div className="text-center p-2">
+                <div className="login-button m-3">
+                  <h4>Log in to get started!</h4>
+                  <button
+                    className="btn btn-lg btn-outline-danger"
+                    onClick={() => {
+                      window.scroll(0, 0);
+                      navigate("/login");
+                    }}
+                  >
+                    Log in
+                  </button>
+                </div>
+                <div className="signup-button m-3">
+                  <h4>Not signed up?</h4>
+                  <button
+                    className="btn btn-lg btn-outline-danger"
+                    onClick={() => {
+                      window.scroll(0, 0);
+                      navigate("/register");
+                    }}
+                  >
+                    Register Today
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center p-2">
+                <h2>Hello {localStorage.getItem("username")}!</h2>
+              </div>
+            )}
           </div>
         </div>
         <div></div>
@@ -143,6 +167,7 @@ function MainPage() {
                     pip={true}
                     // fullscreen={true}
                     muted={true}
+                    loop={true}
                     // hover={true}
                     controls={false}
                   />
@@ -164,7 +189,17 @@ function MainPage() {
           </p>
           <div className="pb-3 d-flex justify-content-center">
             <div className="text-center p-2">
-              <button className="btn btn-lg btn-outline-danger">
+              <button
+                className="btn btn-lg btn-outline-danger"
+                onClick={() => {
+                  if (token === "null") {
+                    window.scroll(0, 0);
+                    navigate("/login");
+                  } else {
+                    navigate("/groups");
+                  }
+                }}
+              >
                 See Favorite Movies
               </button>
             </div>
@@ -175,11 +210,6 @@ function MainPage() {
           <div className="parallax-container">
             <div className="parallax-content">
               <h1 className="text-box-main">Discover New Movies</h1>
-              <div className="signup-button">
-                <button className="btn btn-lg btn-outline-danger">
-                  Register Today
-                </button>
-              </div>
             </div>
           </div>
         </section>
@@ -409,7 +439,7 @@ function MainPage() {
           </a>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
 

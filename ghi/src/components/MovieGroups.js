@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
@@ -58,48 +58,52 @@ const MovieGroups = () => {
   }
 
   const goBack = () => {
-		navigate(-1);
-	}
+    navigate(-1);
+  };
 
   return (
     <>
       <div className="page">
-      <section className="container">
-      <h2 style={{ color: "white", textAlign: "center" }}>All Favorites List</h2>
-        <table className="table table-dark table-hover">
-          <thead>
-            <tr>
-              <th>List Name</th>
-              <th>User</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groups.map((group) => {
-              return (
-                <tr key={group.id}>
-                  {
-                    <>
-                      <td>
-                        <Link
-                          className="text-secondary text-decoration-none h5"
-                          to={`/groups/${group.id}`}
-                        >
-                          {group.name}
-                        </Link>
-                      </td>
+        <section className="container">
+          <h2 style={{ color: "white", textAlign: "center" }}>
+            All Favorites List
+          </h2>
+          <table className="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>List Name</th>
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groups.map((group) => {
+                return (
+                  <tr key={group.id}>
+                    {
+                      <>
+                        <td>
+                          <Link
+                            className="text-secondary text-decoration-none h5"
+                            to={`/groups/${group.id}`}
+                          >
+                            {group.name}
+                          </Link>
+                        </td>
 
-                      <td>{group.username}</td>
-                    </>
-                  }
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <div>
-            <button type="button" onClick={goBack} class="btn btn-dark">Go back</button>
-            </div>
-      </section>
+                        <td>{group.username}</td>
+                      </>
+                    }
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div>
+            <button type="button" onClick={goBack} class="btn btn-dark">
+              Go back
+            </button>
+          </div>
+        </section>
       </div>
     </>
   );
