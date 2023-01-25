@@ -20,4 +20,4 @@ def test_search_movies():
     res = client.get('/api-movies/search/{title}')
     # Assert
     assert res.status_code == 200
-    assert res.json() == []
+    assert res.json() == {""}
