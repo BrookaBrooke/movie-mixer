@@ -32,7 +32,7 @@ class ApiMovieQueries:
         trailer_data = trailer_results.json()
         movie_trailer = None
         for trailer in trailer_data["results"]:
-            if trailer["type"] == "Trailer":
+            if trailer["type"] == "Trailer" and trailer["site"] == "YouTube":
                 movie_trailer = trailer
                 break
 

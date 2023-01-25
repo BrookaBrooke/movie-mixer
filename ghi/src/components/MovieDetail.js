@@ -1,9 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player/lazy";
+
+
 
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
@@ -11,12 +13,20 @@ const MovieDetail = () => {
   const [movieCreated, setMovieCreated] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState(1);
   const [movieGroups, setMovieGroups] = useState([]);
-
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const [token] = useContext(UserContext);
 
   useEffect(() => {
+    let now = new Date();
+    console.log("1st: ",localStorage.getItem("loginExp"))
+    console.log("2nd: ",new Date(localStorage.getItem("loginExp")));
+    console.log("3rd: ", new Date(now.getTime() ));
+    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
+      console.log("token has expired -------------------------------------------------------")
+      navigate("/logout")
+    }
     async function getMovies() {
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail-with-trailer/${id}`;
       const response = await fetch(url);
@@ -273,28 +283,27 @@ const MovieDetail = () => {
                 : "N/A"}
             </h4>
           </div>
-
         </div>
       </div>
-      <div className="detail-trailer">
-      <h1 className="trailer-text">Watch the Trailer</h1>
-            {details.trailer ? (
-              <ReactPlayer
-                className="video"
-                url={`https://www.youtube.com/embed/${details.trailer.key}`}
-                width="720px"
-                height="405px"
-                margin="auto"
-                pip={true}
-                playing={false}
-                loop={true}
-                muted={false}
-                controls={true}
-              />
-            ) : null}
-          </div>
-    </div>
 
+      {details.trailer ? (
+        <div className="detail-trailer">
+          <h1 className="trailer-text">Watch the Trailer</h1>
+          <ReactPlayer
+            className="video"
+            url={`https://www.youtube.com/embed/${details.trailer.key}`}
+            width="720px"
+            height="405px"
+            margin="auto"
+            pip={true}
+            playing={false}
+            loop={true}
+            muted={false}
+            controls={true}
+          />
+        </div>
+      ) : null}
+    </div>
   );
 };
 
