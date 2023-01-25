@@ -55,6 +55,12 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 * [ ] Project is deployed to ______Render.com/GitLab-pages______
 * [ ] Journals
 
+## Design
+* [Api Design](/docs/api-design.md "/docs/api-design.md")
+* [Data Models](/docs/data-models.md "/docs/data-models.md")
+* [GHI](/docs/ghi.md "/docs/ghi.md")
+* [Integrations](/docs/integrations.md "/docs/integrations.md")
+
 ### Other files
 
 The following project files have been created as a minimal
