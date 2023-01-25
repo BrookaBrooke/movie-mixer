@@ -35,6 +35,11 @@ function MovieSearch() {
   const [token] = useContext(UserContext);
 
   useEffect(() => {
+    let now = new Date();
+    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
+      console.log("token has expired -------------------------------------------------------")
+      navigate("/logout")
+    }
     const getResults = async () => {
       setLoading(true);
       const response = await fetch(
