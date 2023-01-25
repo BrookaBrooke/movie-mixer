@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Trivia = () => {
   const [numQuestions, setNumQuestions] = useState(1);
-  const [difficulty, setDifficulty] = useState("medium");
   const navigate = useNavigate();
 
   return (
