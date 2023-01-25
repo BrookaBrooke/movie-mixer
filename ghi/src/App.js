@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Nav from "./Nav";
 import MainPage from "./components/MainPage";
-import MovieDetail from "./components/MovieDetail"
+import MovieDetail from "./components/MovieDetail";
 import { useEffect, useState } from "react";
 import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
@@ -15,44 +15,51 @@ import Register from "./components/Register";
 import Logout from "./components/Logout";
 import Login from "./components/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Trivia from "./components/Trivia";
+import TriviaLimited from "./components/TriviaLimited";
+import TriviaEndless from "./components/TriviaEndless";
 
 function App(props) {
-
-
-
   return (
     <BrowserRouter>
-
-        {/* <Route path="/register" element={<Register />} />
+      {/* <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} /> */}
-            <Nav />
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/signup" element={<AccountForm />} />
-                <Route path="/movie-detail/:id" element={<MovieDetail />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/logout" element={<Logout />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/search" element={<MovieSearch />}></Route>
-                <Route
-                  path="/search/:searchQuery/:pageNumber"
-                  element={<MovieSearch />}
-                ></Route>
-                  <Route element={<ProtectedRoutes/>} >
-                    <Route path="/my-groups" element={<MyMovieGroups />} />
-                    <Route path="/groups">
-                      <Route index element={<MovieGroups movieGroups={props.movieGroups} />}/>
-                      <Route path="/groups/:id" element={<MovieGroupDetail />} />
-                    </Route>
-              </Route>
-            </Routes>
-
-
+      <Nav />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/signup" element={<AccountForm />} />
+        <Route path="/movie-detail/:id" element={<MovieDetail />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/search" element={<MovieSearch />}></Route>
+        <Route
+          path="/search/:searchQuery/:pageNumber"
+          element={<MovieSearch />}
+        ></Route>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/my-groups" element={<MyMovieGroups />} />
+          <Route path="/groups">
+            <Route
+              index
+              element={<MovieGroups movieGroups={props.movieGroups} />}
+            />
+            <Route path="/groups/:id" element={<MovieGroupDetail />} />
+          </Route>
+        </Route>
+        <Route path="/trivia">
+          <Route index element={<Trivia />} />
+          <Route
+            path="/trivia/limited/:numQuestions"
+            element={<TriviaLimited />}
+          />
+          <Route path="/trivia/endless" element={<TriviaEndless />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
 export default App;
-
 
 {
   /* //   useEffect(() => {
