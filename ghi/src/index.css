@@ -84,7 +84,7 @@ code {
 
 .parallax {
   width: 100%;
-  height: 70vh;
+  height: 30vh;
   position: relative;
   background-position: center;
 
@@ -92,17 +92,35 @@ code {
 }
 
 .parallax:nth-of-type(1) {
-  background: url("https://images.pexels.com/photos/8263318/pexels-photo-8263318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-  background-position: relative;
-  background-size:cover;
-  height: 800px;
-  transform-origin: top;
-  transform: translateZ(10px) scale(1.2);
+  background-image: linear-gradient(
+    to left,
+    rgba(81, 39, 39, 0.551),
+    rgba(149, 46, 46, 0.327),
+    rgba(0, 0, 0, 0.783)
+  ), url("https://as2.ftcdn.net/v2/jpg/04/15/74/75/1000_F_415747565_hQKvTMlSQtYAqMQ8P5Q8kC484oWSeREC.jpg");
+  background-size: cover;
+  background-attachment:fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 60vh;
+  /* background-position: 50% 70% 70% 100%; */
+
+  /* background-repeat: no-repeat; */
+  /* min-height: 650px; */
+  /* transform-origin: center;
+  transform: translateZ(1px) scale(1.0); */
+
+  justify-content: top;
+  /* object-position: top;
+  float:left; */
 }
 
-.section, .parallax {
+
+
+/* .section, .parallax {
   background-position: center;
-}
+} */
 
 .parallax-container {
   position: absolute;
@@ -138,15 +156,66 @@ code {
   top: 50%;
   font-family: 'Quicksand', sans-serif;
 
+
 }
 
-.bottom-div {
-  height: 1200px;
+.bottom-div{
+  height: 1000px;
   background-color: rgb(25, 25, 25);
+  text-align: center;
+  padding-top: 350px;
+  position: relative;
+
 }
+
+.movie-trivia-image {
+  text-align: center;
+  position: absolute;
+  background: url("https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  height: 550px;
+  width: 550px;
+  background-repeat: no-repeat;
+  left: 10%;
+  top: 20%;
+}
+
+/* div, .text-center, .p-2 {
+  padding-bottom: 30px;
+} */
+
+.movie-trivia-home {
+
+  position: relative;
+  left: 20%;
+  /* top: 50%;
+  right: 50%; */
+  width: 30%;
+  /* background: url("https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  height: 500px;
+  width: 500px;
+  background-repeat: no-repeat; */
+
+}
+
+.trivia-pic {
+  position: relative;
+  /* background: url("https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); */
+  height: 400px;
+  background-repeat: no-repeat;
+  /* top: 80%;
+  left: 30%; */
+  z-index: 1;
+}
+
+/* .trivia-paragraph {
+  position: absolute;
+  top: 40%;
+  right: 10%;
+
+} */
 
 .signup-button {
-  margin-top: 170px;
+  margin-bottom: 70px;
 }
 
 
