@@ -88,3 +88,13 @@ Just so I don't forget I'll list them here:
 > "Endless" mode
 > Let users select number of questions
 > User leaderboard
+
+# 1-23-23
+
+Was able to successfully break down the trivia into the modes, just need to find a way to get more questions once the initial 50 are used and make sure that questions aren't repeated. (I forgot to write this journal the day of so I forgot a lot of what happened)
+
+# 1-24-23
+
+Found a way to get new questions without repeating by keeping track of the old questions and filtering new ones against it. The only thing is this doesn't work in strict mode, but that should be disabled once deployed anyway, it seems to work perfectly once that's disabled (I actually might need to double check this, will do that tomorrow). Was able to organize the buttons for the modes a bit better as well as the input for how many questions for the limited mode. It still doesn't look very nice, but it's a bit more functional. I want to add the ability for the user to choose a difficulty since the api can filter by that. We've got three more days but there are other things to worry about at the end I'm sure but I'll see what I can do. Worst case scenario I can do it as a stretch goal.
+
+# 1-25-23
