@@ -13,20 +13,34 @@ function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [movieData, setMovieData] = useState([]);
+  const [loggedOut, setLoggedOut] = useState(null)
 
   useEffect(() => {
+
+
     const getMovieInfoWithTrailers = async () => {
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailers`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        console.log(data.results);
         setMovieData(data.results);
       }
     };
     getMovieInfoWithTrailers();
+
   }, []);
 
+  useEffect(() => {
+    let leadsToken = localStorage.getItem("leadsToken")
+
+    if ( leadsToken === "null" ) {
+      setLoggedOut(true)
+    }
+    else {
+      setLoggedOut(false)
+    }
+
+  },[movieData] );
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -36,7 +50,18 @@ function MainPage() {
     event.preventDefault();
     return navigate(`/search/${query}/1`);
   }
-
+  function redirectRegister(event){
+    event.preventDefault();
+    return navigate("/register");
+  }
+  function redirectTrivia(event){
+    event.preventDefault();
+    return navigate("/trivia");
+  }
+  function redirectFavorites(event){
+    event.preventDefault();
+    return navigate("/groups")
+  }
 
   const videoProperties = [
     {
@@ -126,8 +151,10 @@ function MainPage() {
         </p>
         <div className="pb-3 d-flex justify-content-center">
           <div className="text-center p-2">
-            <h4 className="login-button">Log in to get started!</h4>
-            <button className="btn btn-lg btn-outline-danger">Log in</button>
+            { loggedOut && 
+              <h4 className="login-button">Log in to get started!</h4>
+               }
+            { loggedOut && (<button className="btn btn-lg btn-outline-danger">Log in</button>) }
           </div>
         </div>
       </div>
@@ -166,7 +193,7 @@ function MainPage() {
               </p>
             <div className="pb-3 d-flex justify-content-center">
               <div className="text-center p-2">
-                <button className="btn btn-lg btn-outline-danger">See Favorite Movies</button>
+                <button className="btn btn-lg btn-outline-danger" onClick={redirectFavorites}>See Favorite Movies</button>
               </div>
             </div>
           </div>
@@ -176,7 +203,7 @@ function MainPage() {
               <div className="parallax-content">
                 <h1 className="text-box-main">Discover New Movies</h1>
                 <div className="signup-button">
-                <button className="btn btn-lg btn-outline-danger">Register Today</button>
+                <button className="btn btn-lg btn-outline-danger" onClick={redirectRegister}>Register Today</button>
                 </div>
               </div>
             </div>
@@ -191,7 +218,7 @@ function MainPage() {
                   </p>
                 <div className="pb-3 col-auto">
                   <div className="text-center p-2">
-                    <button className="btn btn-lg btn-outline-danger">Movie Trivia</button>
+                    <button className="btn btn-lg btn-outline-danger" onClick={redirectTrivia}>Movie Trivia</button>
                   </div>
                 </div>
               </div>

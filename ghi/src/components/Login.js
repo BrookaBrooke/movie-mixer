@@ -81,10 +81,12 @@ const Login = () => {
   };
 
   return (
+    <div className='login-background'>
     <div className="row">
       <div className="offset-3 col-6">
+      <div className="login-box">
         <div className="shadow p-4 mt-4">
-          <h1 id="">Login</h1>
+          <h1 className="login-text">Login</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-floating mb-3">
               <div className="control">
@@ -119,17 +121,25 @@ const Login = () => {
 
             <ErrorMessage message={errorMessage} />
             <br />
-            <button className="btn btn-primary me-5" type="submit">
+            <div className="button-glow2">
+            <button className="button-glow" type="submit">
+              <a className="button-glow">
               Login
+              </a>
             </button>
-            <button className="btn btn-success me-5" type="submit">
+            </div>
+            <div className="button-glow1">
+            <button className="button-glow" type="submit">
               <NavLink className="nav-link active" to="/register">
                 Register
               </NavLink>
             </button>
+            </div>
           </form>
         </div>
+        </div>
       </div>
+    </div>
     </div>
   );
 };
