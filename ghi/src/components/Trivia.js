@@ -19,7 +19,7 @@ const Trivia = () => {
     <div className="login-background">
       <div className="row">
         <div className="offset-3 col-6">
-          <div className="login-box d-flex-column p-3">
+          <div className="login-box d-flex flex-column justify-content-center align-items-center">
             <h1 className="text-center">Movie Trivia</h1>
             <h2 className="text-center">Choose Game Mode</h2>
             <div className="d-flex justify-content-center">
