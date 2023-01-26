@@ -385,9 +385,9 @@ function MovieSearch() {
                   </Alert>
                 </Modal>
               </div>
-              <div>
+              {/* <div>
                 <div className="text-center text-light">{result.title}</div>
-              </div>
+              </div> */}
             </SwiperSlide>
           );
         })

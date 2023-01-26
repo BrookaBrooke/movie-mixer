@@ -20,11 +20,11 @@ const Trivia = () => {
     <div className="login-background">
       <div className="row">
         <div className="offset-3 col-6">
-          <div className="login-box">
+          <div className="trivia-box">
             <h1 className="text-center">Movie Trivia</h1>
             <h2 className="text-center">Choose Game Mode</h2>
             <div className="mx-auto" style={{ width: "290px" }}>
-              <div>
+              <div className="trivia-endless-button">
                 <button
                   type="button"
                   onClick={() => {
@@ -69,7 +69,7 @@ const Trivia = () => {
               </div>
             </Collapse>
 
-            <div className="text-center">
+            <div id="number-questions" className="text-center">
               {openLimited && (
                 <>
                   <label>Number of Questions: </label>
@@ -80,7 +80,7 @@ const Trivia = () => {
                     value={numQuestions}
                     placeholder="Enter number of questions"
                   />
-
+                <div className="trivia-buttons">
                   <button
                     type="button"
                     variant="primary"
@@ -130,6 +130,7 @@ const Trivia = () => {
                   >
                     Hard
                   </button>
+                  </div>
                 </>
               )}
               {openEndless && (

@@ -655,13 +655,41 @@ div #genres-div .col-align-self-end pb-5{
   font-family: "Quicksand", sans-serif;
 }
 
-.login-box,
+.trivia-box,
 .trivia-modal {
   background-color: black;
   color: white;
   opacity: 0.7;
   border-radius: 25px;
   position: absolute;
+}
+
+.trivia-box {
+  width: 50%;
+  height: 500px;
+  top: 20%;
+  font-size: 18px;
+  padding-top: 60px;
+}
+
+#endless-mode {
+  padding-top: 25px;
+}
+
+#limited-mode {
+  margin-top: 25px;
+}
+
+.trivia-endless-button {
+  padding-top: 25px;
+}
+
+#number-questions {
+  padding-top: 25px;
+}
+
+.trivia-buttons {
+  padding-top: 30px;
 }
 
 .login-box {
@@ -897,7 +925,7 @@ button-glow {
     }
 
   .poster {
-    width: 200%;
+    width: 150%;
   }
   .movie-details {
     position: absolute;
@@ -995,9 +1023,5 @@ div .movie-card {
 .navbar-brand {
   background-color: rgb(25, 25, 25);
   color: white;
-  /* background-image: url("./media/moviemixer.png");
-  background-repeat: no-repeat; */
   padding-bottom: 10px;
-
-
 }
