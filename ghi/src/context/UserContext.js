@@ -13,7 +13,6 @@ export const UserProvider = (props) => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           if (data === null) {
             setToken("null");
           } else {

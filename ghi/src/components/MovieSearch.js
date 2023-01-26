@@ -47,7 +47,6 @@ function MovieSearch() {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
         setMovies(data.results);
         setResults(data.total_results);
       }
@@ -155,14 +154,11 @@ function MovieSearch() {
       api3_id: details.id,
     };
 
-    console.log(movie_details);
-
     const movieExistResponse = await fetch(
       `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
     );
 
     if (movieExistResponse.status === 404) {
-      console.log("this code runs");
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
@@ -208,7 +204,6 @@ function MovieSearch() {
 
   function LastPageButton() {
     function goToLastPage() {
-      console.log("lastPage called");
       const number = parseInt(pageNumber) - 1;
       swiper.slideTo(0, 500);
       setLoading(true);
@@ -220,7 +215,6 @@ function MovieSearch() {
   }
   function NextPageButton() {
     function goToNextPage() {
-      console.log("nextPage called");
       const number = parseInt(pageNumber) + 1;
       swiper.slideTo(0, 500);
       setLoading(true);
@@ -240,7 +234,6 @@ function MovieSearch() {
     if (pageNum === undefined) {
       setPageNum(1);
     }
-    console.log(movies);
     return navigate(`/search/${query}/1`);
   }
 

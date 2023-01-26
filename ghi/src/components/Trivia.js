@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Trivia = () => {
   const [numQuestions, setNumQuestions] = useState(1);
@@ -13,6 +13,9 @@ const Trivia = () => {
       <Form>
         <div className="text-center">
           <div>
+            <h3>
+              <u>Limited Mode</u>
+            </h3>
             <Form.Group controlId="numQuestions" className="col-sm-2 mx-auto">
               <Form.Label>Number of Questions: </Form.Label>
               <Form.Control
@@ -27,19 +30,81 @@ const Trivia = () => {
               variant="primary"
               size="lg"
               className="m-2"
-              onClick={() => navigate(`/trivia/limited/${numQuestions}`)}
+              onClick={() => {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/easy`);
+                }
+              }}
             >
-              Limited Mode
+              Easy
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              className="m-2"
+              onClick={() => {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/medium`);
+                }
+              }}
+            >
+              Medium
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              className="m-2"
+              onClick={() => {
+                if (numQuestions < 1) {
+                  alert("Number of questions must be positive!");
+                } else if (numQuestions <= 42) {
+                  navigate(`/trivia/limited/${numQuestions}/hard`);
+                } else {
+                  alert("max number of questions for hard difficulty is 42!");
+                }
+              }}
+            >
+              Hard
             </Button>
             <p>
               Enter a number of questions and see how many you can get right!
             </p>
+            <p>
+              (The max amount of questions for hard difficulty is currently 42)
+            </p>
+            <h3>
+              <u>Endless Mode</u>
+            </h3>
           </div>
-          <Link to="/trivia/endless">
-            <Button variant="primary" size="lg" className="m-2">
-              Endless Mode
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/easy`)}
+          >
+            Easy
+          </Button>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/medium`)}
+          >
+            Medium
+          </Button>
+          <Button
+            variant="primary"
+            size="lg"
+            className="m-2"
+            onClick={() => navigate(`/trivia/endless/hard`)}
+          >
+            Hard
+          </Button>
+
           <p>Answer as many questions as you can before getting three wrong!</p>
         </div>
       </Form>

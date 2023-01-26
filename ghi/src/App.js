@@ -50,10 +50,13 @@ function App(props) {
         <Route path="/trivia">
           <Route index element={<Trivia />} />
           <Route
-            path="/trivia/limited/:numQuestions"
+            path="/trivia/limited/:numQuestions/:difficulty"
             element={<TriviaLimited />}
           />
-          <Route path="/trivia/endless" element={<TriviaEndless />} />
+          <Route
+            path="/trivia/endless/:difficulty"
+            element={<TriviaEndless />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
