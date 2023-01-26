@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
 import CloseButton from "react-bootstrap/CloseButton";
-import { useNavigate } from "react-router-dom";
 import he from "he";
 
 const TriviaEndless = () => {
@@ -143,11 +142,13 @@ const TriviaEndless = () => {
                       >
                         Play Again
                       </button>
-                      <Link to="/trivia/">
-                        <button type="button" className="btn btn-secondary m-2">
-                          Trivia Home
-                        </button>
-                      </Link>
+                      <button
+                        type="button"
+                        className="btn btn-secondary m-2"
+                        onClick={() => navigate("/trivia")}
+                      >
+                        Trivia Home
+                      </button>
                     </Modal.Footer>
                   </div>
                 </Modal>
