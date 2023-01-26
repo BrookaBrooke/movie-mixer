@@ -38,9 +38,9 @@ def get_groups_by_user(
 
 
 @router.get("/movie-groups/{movie_group_id}")
-def read_movie_group(movie_group_id: int):
-    repository = MovieGroupRepository()
-    return repository.get(movie_group_id)
+def read_movie_group(movie_group_id: int,
+    repo: MovieGroupRepository = Depends()):
+    return repo.get(movie_group_id)
 
 
 @router.post("/movie-groups")
