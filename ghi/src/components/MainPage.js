@@ -16,6 +16,7 @@ function MainPage() {
   const [query, setQuery] = useState("");
   const [movieData, setMovieData] = useState([]);
   const [loggedOut, setLoggedOut] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getMovieInfoWithTrailers = async () => {
@@ -27,6 +28,9 @@ function MainPage() {
       }
     };
     getMovieInfoWithTrailers();
+    setTimeout(() => {
+      setLoading(false);
+    }, 800);
   }, []);
 
   useEffect(() => {
@@ -65,15 +69,6 @@ function MainPage() {
     return navigate("/groups");
   }
 
-  const videoProperties = [
-    {
-      id: 76600,
-      title: "Avatar: The Way of Water",
-      src: `https://youtu.be/d9MyW72ELq0`,
-      credit: "20th Century / 20th Century Studios",
-    },
-  ];
-
   const parallax = Array.from(document.querySelectorAll(".parallax"));
 
   // window.onscroll = () => {
@@ -90,31 +85,43 @@ function MainPage() {
     <>
       <div className="banner-search text-light">
         <div className="main-slider">
-          <div id="overlay-search-bar">
-            <div className="home-header">
-              <h1 className="home-header">MovieMixer</h1>
-            </div>
-            <form
-              className="d-flex"
-              role="search"
-              onSubmit={redirectToSearchPage}
-            >
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search Movies"
-                aria-label="Search"
-                required
-                onChange={onChange}
-              />
-              <button
-                className="d-inline btn btn-lg btn-outline-danger mx-2"
-                type="submit"
+          {!loading ? (
+            <div id="overlay-search-bar">
+              <div className="home-header">
+                <h1 className="home-header">MovieMixer</h1>
+              </div>
+              <form
+                className="d-flex"
+                role="search"
+                onSubmit={redirectToSearchPage}
               >
-                Search
-              </button>
-            </form>
-          </div>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search Movies"
+                  aria-label="Search"
+                  required
+                  onChange={onChange}
+                />
+                <button
+                  className="d-inline btn btn-lg btn-outline-danger mx-2"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="d-flex justify-content-center p-5">
+              <div
+                className={loading ? "spinner-border text-light" : "d-none"}
+                role="status"
+                style={{ height: "10em", width: "10em", alignSelf: "center" }}
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )}
 
           <Swiper
             modules={[EffectCoverflow, Pagination, Autoplay]}
@@ -122,27 +129,26 @@ function MainPage() {
             centeredSlides={true}
             spaceBetween={30}
             slidesPerView={1}
-            autoplay={{ delay: 10000 }}
+            loop={true}
+            autoplay={{ delay: 6000 }}
             className="mySwiper"
           >
-            {movieData.map((movie, i) => {
-              const divStyle = {
-                backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
-              };
-              return (
-                <SwiperSlide key={i}>
-                  <div className="backdrop-image" style={divStyle}>
-                    <div className="slide-item-container">
-                      <div className="slide-item-content">
-                        {/* <h2 className="search-movies">Search Movies</h2> */}
-
-                        {/* <h2 className="slide-title">{movie.title}</h2> */}
+            {!loading
+              ? movieData.map((movie, i) => {
+                  const divStyle = {
+                    backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
+                  };
+                  return (
+                    <SwiperSlide key={i}>
+                      <div className="backdrop-image" style={divStyle}>
+                        <div className="slide-item-container">
+                          <div className="slide-item-content"></div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+                    </SwiperSlide>
+                  );
+                })
+              : null}
           </Swiper>
         </div>
       </div>
@@ -233,9 +239,14 @@ function MainPage() {
               </div>
             </div>
           </section>
-          <div className="bottom-div row justify-content-center">
-            <div className="movie-trivia-image col-auto pb-4"></div>
-            <div className="movie-trivia-home col-auto">
+          <div className="bottom-div d-flex justify-content-center">
+            <div className="pb-4">
+              <img
+                className="movie-trivia-image"
+                src="https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              />
+            </div>
+            <div className="movie-trivia-home">
               <h2 className="">Play Movie Trivia</h2>
               <p className="">
                 Test your knowledge with a quick Movie Trivia Game! How many

@@ -27,7 +27,7 @@ function MovieSearch() {
   const [movieGroups, setMovieGroups] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [showSuccessAlert, setSuccessAlert] = useState(false);
   const [showErrorAlert, setErrorAlert] = useState(false);
@@ -36,9 +36,12 @@ function MovieSearch() {
 
   useEffect(() => {
     let now = new Date();
-    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
-      console.log("token has expired -------------------------------------------------------")
-      navigate("/logout")
+    if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
+      console.log(
+        "token has expired -------------------------------------------------------"
+      );
+      localStorage.setItem("loginExp", "null");
+      navigate("/logout");
     }
     const getResults = async () => {
       setLoading(true);
@@ -253,7 +256,7 @@ function MovieSearch() {
                   className="search-poster-image"
                   src={
                     result.poster_path
-                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
+                      ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
                       : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
                   }
                   onClick={() => {
@@ -374,25 +377,23 @@ function MovieSearch() {
               role="search"
               onSubmit={onSubmit}
             >
-
-                <div className="w-75 d-flex justify-content-center pt-4">
-                  <input
-                    className="form-control m-3"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    required
-                    onChange={onChange}
-                  />
-                  <button
-                    value={query}
-                    className="btn btn-danger m-3"
-                    type="submit"
-                  >
-                    Search
-                  </button>
-                </div>
-
+              <div className="w-75 d-flex justify-content-center pt-4">
+                <input
+                  className="form-control m-3"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  required
+                  onChange={onChange}
+                />
+                <button
+                  value={query}
+                  className="btn btn-danger m-3"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </div>
             </form>
           </div>
           <div className="text-center text-light m-3">
@@ -403,7 +404,9 @@ function MovieSearch() {
                     Showing {currentResults} of {results} results
                   </p>
                   <div className="search-title">
-                  <h1 className="text-light text-center">Swipe to see results</h1>
+                    <h1 className="text-light text-center">
+                      Swipe to see results
+                    </h1>
                   </div>
                 </>
               ) : (
