@@ -658,12 +658,16 @@ div #genres-div .col-align-self-end pb-5{
   font-family: "Quicksand", sans-serif;
 }
 
-.login-box {
+.login-box,
+.trivia-modal {
   background-color: black;
   color: white;
   opacity: 0.7;
   border-radius: 25px;
   position: absolute;
+}
+
+.login-box {
   width: 50%;
   height: 360px;
   top: 20%;
