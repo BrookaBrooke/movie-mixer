@@ -694,7 +694,7 @@ button-glow{
     text-decoration: none;
     text-transform: uppercase;
     transition: 0.4s all ease-in;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     overflow: hidden;
     border:2px solid #ffffff;
     border-radius: 10px;
@@ -720,7 +720,7 @@ button-glow{
     text-decoration: none;
     text-transform: uppercase;
     transition: 0.4s all ease-in;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     overflow: hidden;
     border:2px solid #ffffff;
     border-radius: 10px;

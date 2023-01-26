@@ -123,9 +123,9 @@ const Login = () => {
             <br />
             <div className="button-glow2">
             <button className="button-glow" type="submit">
-            <NavLink className="nav-link active" to="/">
+              <a className="button-glow">
               Login
-              </NavLink>
+              </a>
             </button>
             </div>
             <div className="button-glow1">
