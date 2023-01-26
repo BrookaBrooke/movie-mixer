@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+import CloseButton from "react-bootstrap/CloseButton";
 import he from "he";
 
 const TriviaLimited = () => {
@@ -103,31 +104,62 @@ const TriviaLimited = () => {
   const { question, correct_answer, answers } = currentQuestion;
 
   return (
-    <div className="container">
-      <h1 className="text-center my-3">Movie Trivia</h1>
-      <div className="card">
-        {gameOver ? (
-          <>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>{answerCheck}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>Game Over!</p>
-                <p>
-                  Final score: {score}/{numQuestions}
-                </p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  onClick={() => {
-                    navigate(`/trivia/limited/${newNumQuestions}`);
-                    window.location.reload();
-                  }}
-                >
-                  Play Again
-                </Button>
+    <div className="login-background">
+      <div className="row">
+        <div className="offset-3 col-6">
+          <div className="card login-box">
+            <h1 className="text-center my-3">Movie Trivia</h1>
+            {gameOver ? (
+              <>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
+                    <Modal.Header closeButton>
+                      <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p>Game Over!</p>
+                      <p>
+                        Final score: {score}/{numQuestions}
+                      </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <button
+                        type="button"
+                        className="btn btn-danger m-2"
+                        onClick={() => {
+                          navigate(
+                            `/trivia/limited/${newNumQuestions}/${difficulty}`
+                          );
+                          window.location.reload();
+                        }}
+                      >
+                        Play Again
+                      </button>
 
+                      <Form.Group controlId="numQuestions">
+                        <Form.Label>Number of Questions</Form.Label>
+                        <Form.Control
+                          type="number"
+                          min="1"
+                          onChange={(e) => setNewNumQuestions(e.target.value)}
+                          value={newNumQuestions}
+                          placeholder="Enter number of questions"
+                        />
+                      </Form.Group>
+                      <button
+                        type="button"
+                        className="btn btn-secondary m-2"
+                        onClick={() => navigate("/trivia")}
+                      >
+                        Trivia Home
+                      </button>
+                    </Modal.Footer>
+                  </div>
+                </Modal>
                 <Form.Group controlId="numQuestions">
                   <Form.Label>Number of Questions</Form.Label>
                   <Form.Control
@@ -138,59 +170,77 @@ const TriviaLimited = () => {
                     placeholder="Enter number of questions"
                   />
                 </Form.Group>
-                <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
-              </Modal.Footer>
-            </Modal>
-            <Form.Group controlId="numQuestions">
-              <Form.Label>Number of Questions</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                onChange={(e) => setNewNumQuestions(e.target.value)}
-                value={newNumQuestions}
-                placeholder="Enter number of questions"
-              />
-            </Form.Group>
-            <Button
-              onClick={() => {
-                navigate(`/trivia/limited/${newNumQuestions}`);
-                window.location.reload();
-              }}
-            >
-              Play Again
-            </Button>
-
-            <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
-          </>
-        ) : (
-          <>
-            <div className="card-header">
-              <h2>
-                {questionNum}. {question}
-              </h2>
-            </div>
-            <div className="card-body">
-              {answers.map((answer, index) => (
                 <button
-                  key={index}
-                  className="btn btn-primary m-2"
-                  onClick={() => handleAnswerClick(answer)}
+                  type="button"
+                  className="btn btn-danger m-2"
+                  onClick={() => {
+                    navigate(`/trivia/limited/${newNumQuestions}`);
+                    window.location.reload();
+                  }}
                 >
-                  {answer}
+                  Play Again
                 </button>
-              ))}
-            </div>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>{answerCheck}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                Current score: {score}/{numQuestions}
-              </Modal.Body>
-              <Modal.Footer></Modal.Footer>
-            </Modal>
-          </>
-        )}
+                <button
+                  type="button"
+                  className="btn btn-secondary m-2"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Trivia Home
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="card-header">
+                  <h2>
+                    {questionNum}. {question}
+                  </h2>
+                </div>
+                <div className="card-body">
+                  {answers.map((answer, index) => (
+                    <button
+                      key={index}
+                      className="btn btn-danger m-2"
+                      onClick={() => handleAnswerClick(answer)}
+                    >
+                      {answer}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Quit to main page
+                </button>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
+                    <Modal.Header>
+                      <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
+                    </Modal.Header>
+                    <Modal.Body>
+                      Current score: {score}/{numQuestions}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                        className="btn btn-danger"
+                      >
+                        Next Question
+                      </button>
+                    </Modal.Footer>
+                  </div>
+                </Modal>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
