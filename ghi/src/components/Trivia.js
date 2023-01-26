@@ -33,7 +33,7 @@ const Trivia = () => {
               onClick={() => {
                 if (numQuestions < 1) {
                   alert("Number of questions must be positive!");
-                } else if (numQuestions <= 42) {
+                } else {
                   navigate(`/trivia/limited/${numQuestions}/easy`);
                 }
               }}
@@ -47,7 +47,7 @@ const Trivia = () => {
               onClick={() => {
                 if (numQuestions < 1) {
                   alert("Number of questions must be positive!");
-                } else if (numQuestions <= 42) {
+                } else {
                   navigate(`/trivia/limited/${numQuestions}/medium`);
                 }
               }}
