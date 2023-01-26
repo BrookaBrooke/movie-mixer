@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import "../index.css";
@@ -20,10 +19,10 @@ const Trivia = () => {
     <div className="login-background">
       <div className="row">
         <div className="offset-3 col-6">
-          <div className="login-box">
+          <div className="login-box d-flex-column p-3">
             <h1 className="text-center">Movie Trivia</h1>
             <h2 className="text-center">Choose Game Mode</h2>
-            <div className="mx-auto" style={{ width: "290px" }}>
+            <div className="d-flex justify-content-center">
               <div>
                 <button
                   type="button"
