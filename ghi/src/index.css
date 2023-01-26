@@ -247,13 +247,18 @@ font-family: 'Quicksand', sans-serif;
 }
 
 
-/* .main-slider, .main-slider-image {
+.main-slider {
   position: relative;
-  background-image: linear-gradient(to left, rgba(228, 69, 206, 0.673), rgba(232, 55, 55, 0.753)), var(--img);
-  background-attachment: fixed;
-  background-position: center top;
-  background-size: cover;
-} */
+}
+
+#overlay-search-bar {
+  position: absolute;
+  top: 30%;
+  right: 25%;
+  width: 50%;
+  z-index: 2;
+
+}
 
 .slide-item-container {
   position: absolute;

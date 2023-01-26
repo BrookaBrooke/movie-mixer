@@ -27,9 +27,6 @@ const MyMovieGroups = () => {
           }
         );
         const data = await groupData.json();
-        console.log(data);
-        console.log(groupData);
-        console.log(localStorage.getItem("leadsToken"));
         setGroups(data);
         setLoading(false);
       } catch (error) {

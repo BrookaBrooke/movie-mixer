@@ -23,6 +23,7 @@ const Logout = () => {
       if (response.ok) {
         localStorage.setItem("leadsToken", "null");
         localStorage.setItem("user_id", "null");
+        localStorage.setItem("username", "null");
         navigate("/");
         window.location.reload(false);
       }
@@ -31,8 +32,8 @@ const Logout = () => {
   }, [token]);
 
   return (
-    <div className="row">
-      <div className="offset-3 col-6">
+    <div className="banner-search row">
+      <div className="bg-dark text-light offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1 id="">Log out page</h1>
         </div>
