@@ -122,18 +122,18 @@ const Login = () => {
             <ErrorMessage message={errorMessage} />
             <br />
             <div className="button-glow2">
-            <button2 className="button-glow" type="submit">
+            <button className="button-glow" type="submit">
             <NavLink className="nav-link active" to="/">
               Login
               </NavLink>
-            </button2>
+            </button>
             </div>
             <div className="button-glow1">
-            <button1 className="button-glow" type="submit">
+            <button className="button-glow" type="submit">
               <NavLink className="nav-link active" to="/register">
                 Register
               </NavLink>
-            </button1>
+            </button>
             </div>
           </form>
         </div>
