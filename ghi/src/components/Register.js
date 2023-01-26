@@ -58,10 +58,12 @@ const Register = () => {
   };
 
   return (
+    <div className="register-backdrop">
     <div className="banner-search row">
       <div className="text-light offset-3 col-6">
-        <div className="bg-dark shadow p-4 mt-4">
-          <h1 id="">Register Account</h1>
+      <div className="register-box">
+        <div className="shadow p-4 mt-4">
+          <h1 className="register-text">Register Account</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-floating mb-3">
               <div className="control">
@@ -163,12 +165,16 @@ const Register = () => {
             </div>
             <ErrorMessage message={errorMessage} />
             <br />
-            <button className="btn btn-primary" type="submit">
-              Register
-            </button>
+            <div className="button-glow3">
+              <button className="button-glow" type="submit">
+              <a className="button-glow">Register</a>
+              </button>
+            </div>
           </form>
         </div>
+        </div>
       </div>
+    </div>
     </div>
   );
 };

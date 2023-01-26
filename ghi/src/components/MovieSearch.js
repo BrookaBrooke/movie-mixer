@@ -364,83 +364,89 @@ function MovieSearch() {
       : `${20 * (pageNumber - 1) + 1} - ${results}`;
 
   return (
-    <div className="banner-search">
-      <div className="">
-        <div className="search-bar-height"></div>
-        <div className="search-bar">
-          <form
-            className="d-flex justify-content-center"
-            role="search"
-            onSubmit={onSubmit}
-          >
-            <div className="w-75 d-flex justify-content-center">
-              <input
-                className="form-control m-3"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                required
-                onChange={onChange}
-              />
-              <button
-                value={query}
-                className="btn btn-danger m-3"
-                type="submit"
-              >
-                Search
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="text-center text-light m-3">
-          {results !== undefined ? (
-            results !== 0 ? (
-              <>
-                <p>
-                  Showing {currentResults} of {results} results
-                </p>
-                <h1 className="text-light text-center">Swipe to see results</h1>
-              </>
-            ) : (
-              <p>There are no results that match your search query</p>
-            )
-          ) : null}
-        </div>
+    <div className="search-backdrop">
+      <div className="banner-search">
+        <div className="">
+          <div className="search-bar-height"></div>
+          <div className="search-bar">
+            <form
+              className="d-flex justify-content-center"
+              role="search"
+              onSubmit={onSubmit}
+            >
 
-        <Swiper
-          modules={[Grid]}
-          slidesPerView={4}
-          slidesPerGroup={2}
-          spaceBetween={0}
-          grid={{ rows: 2, fill: "row" }}
-          pagination={{
-            clickable: true,
-          }}
-          className={loading ? "d-none" : ""}
-        >
-          {movieList}
-          {pageNumber ? (
-            <div className="d-flex justify-content-center p-5">
-              {pageNumber > 1 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <LastPageButton />
+                <div className="w-75 d-flex justify-content-center pt-4">
+                  <input
+                    className="form-control m-3"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    required
+                    onChange={onChange}
+                  />
+                  <button
+                    value={query}
+                    className="btn btn-danger m-3"
+                    type="submit"
+                  >
+                    Search
+                  </button>
                 </div>
-              ) : null}
-              {results / pageNumber > 20 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <NextPageButton />
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </Swiper>
-        <div className="d-flex justify-content-center p-5">
-          <div
-            className={loading ? "spinner-border text-light" : "d-none"}
-            role="status"
-            style={{ height: "10em", width: "10em", alignSelf: "center" }}
+
+            </form>
+          </div>
+          <div className="text-center text-light m-3">
+            {results !== undefined ? (
+              results !== 0 ? (
+                <>
+                  <p>
+                    Showing {currentResults} of {results} results
+                  </p>
+                  <div className="search-title">
+                  <h1 className="text-light text-center">Swipe to see results</h1>
+                  </div>
+                </>
+              ) : (
+                <p>There are no results that match your search query</p>
+              )
+            ) : null}
+          </div>
+
+          <Swiper
+            modules={[Grid]}
+            slidesPerView={4}
+            slidesPerGroup={2}
+            spaceBetween={0}
+            grid={{ rows: 2, fill: "row" }}
+            pagination={{
+              clickable: true,
+            }}
+            className={loading ? "d-none" : ""}
           >
-            <span className="visually-hidden">Loading...</span>
+            {movieList}
+            {pageNumber ? (
+              <div className="d-flex justify-content-center p-5">
+                {pageNumber > 1 ? (
+                  <div className="p-2 d-flex justify-content-center">
+                    <LastPageButton />
+                  </div>
+                ) : null}
+                {results / pageNumber > 20 ? (
+                  <div className="p-2 d-flex justify-content-center">
+                    <NextPageButton />
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </Swiper>
+          <div className="d-flex justify-content-center p-5">
+            <div
+              className={loading ? "spinner-border text-light" : "d-none"}
+              role="status"
+              style={{ height: "10em", width: "10em", alignSelf: "center" }}
+            >
+              <span className="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
       </div>

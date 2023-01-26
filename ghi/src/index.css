@@ -25,31 +25,17 @@ code {
     monospace;
 }
 
-.login-background {
-background: #8E0E00;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #1F1C18, #8E0E00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background-size: cover;
-height: 1280px;
-font-family: 'Quicksand', sans-serif;
+
+.search-backdrop {
+  height: 1280px;
+  background-color: rgb(25, 25, 25);
 }
 
-.login-box {
-  background-color: black;
-  color: white;
-  opacity: 0.7;
-  border-radius: 25px;
-  position: absolute;
-  width: 50%;
-  height: 350px;
-  top: 20%;
-  /* bottom: 50%; */
-}
-
-
-
-.login-text {
-  text-align: center;
+.search-title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: 'Quicksand', sans-serif;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 2);
 }
 
 .swiper {
@@ -153,17 +139,18 @@ font-family: 'Quicksand', sans-serif;
 .parallax-container {
   position: absolute;
   bottom: 5%;
-  left: 30%;
+  left: 20%;
   padding: 10px;
   border-radius: 25px;
   transform: translate(-50%, -50%);
-  width: 40%;
+  width: auto;
   z-index: 1;
 }
 
 .parallax-content {
   padding: 9rem 0;
   width: 100%;
+  /* padding-top: 2px; */
   /* position: relative;
   background-position: center;
   background-size: cover;
@@ -182,7 +169,9 @@ font-family: 'Quicksand', sans-serif;
   position: absolute;
   z-index: 1;
   top: 50%;
+  width: 550px;
   font-family: 'Quicksand', sans-serif;
+  border-radius: 15px;
 
 
 }
@@ -494,11 +483,11 @@ input, .form-control, .me-2 {
 
 }
 
-.banner-search {
+/* .banner-search {
   background-color: rgb(50, 50, 50);
   height: cover;
   min-height: 1280px;
-}
+} */
 
 /* .div, .bg-dark {
   margin-top: 100px;
@@ -673,7 +662,31 @@ div #genres-div .col-align-self-end pb-5{
   cursor: pointer;
 }
 
+.login-background {
+  background: #8E0E00;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #1F1C18, #8E0E00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: cover;
+  height: 1280px;
+  font-family: 'Quicksand', sans-serif;
+  }
 
+  .login-box {
+    background-color: black;
+    color: white;
+    opacity: 0.7;
+    border-radius: 25px;
+    position: absolute;
+    width: 50%;
+    height: 360px;
+    top: 20%;
+    font-size: 18px;
+    /* bottom: 50%; */
+  }
+
+  .login-text {
+    text-align: center;
+  }
 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 *{
@@ -734,6 +747,61 @@ button-glow{
 }
 
 .button-glow2 a:hover{
+  background: #ffffff;
+  color: #050801;
+  box-shadow: 0 0 5px #ffffff,
+              0 0 15px #ffffff,
+              0 0 25px #ffffff,
+              0 0 100px #ffffff;
+   -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
+
+
+
+.register-backdrop {
+  background: #8E0E00;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #1F1C18, #8E0E00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: cover;
+  height: 1280px;
+  font-family: 'Quicksand', sans-serif;
+
+}
+
+.register-box {
+  background-color: black;
+  color: white;
+  font-size: 18px;
+  opacity: 0.7;
+  border-radius: 25px;
+  position: absolute;
+  width: 50%;
+  height: 750px;
+  top: 20%;
+  /* bottom: 50%; */
+}
+
+.register-text {
+  text-align: center;
+}
+
+.button-glow3 a {
+  padding: 8px 12px;
+    color: #ffffff;
+
+    position: absolute;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.4s all ease-in;
+    letter-spacing: 3px;
+    overflow: hidden;
+    border:2px solid #ffffff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+
+.button-glow3 a:hover{
   background: #ffffff;
   color: #050801;
   box-shadow: 0 0 5px #ffffff,
