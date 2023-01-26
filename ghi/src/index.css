@@ -465,7 +465,6 @@ input,
 .banner-search {
   background-color: rgb(50, 50, 50);
   height: cover;
-  min-height: 1280px;
 }
 
 /* .div, .bg-dark {
