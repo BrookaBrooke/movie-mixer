@@ -22,6 +22,21 @@ const TriviaLimited = () => {
     fetchQuestions();
   }, [numQuestions]);
 
+  function shuffle(array) {
+    let n = array.length,
+      i,
+      j;
+
+    while (n) {
+      j = Math.floor(Math.random() * n--);
+      i = array[n];
+      array[n] = array[j];
+      array[j] = i;
+    }
+
+    return array;
+  }
+
   const fetchQuestions = async () => {
     try {
       const response = await fetch(
@@ -36,13 +51,13 @@ const TriviaLimited = () => {
       newQuestions.forEach((question) => {
         const { correct_answer, incorrect_answers } = question;
         const answers = [correct_answer, ...incorrect_answers];
-        answers.sort(() => Math.random() - 0.5);
+        shuffle(answers);
         question.answers = answers;
       });
 
       setUsedQuestions((prevQuestions) => {
         setQuestions(
-          newQuestions.map((question) => ({
+          shuffle(newQuestions).map((question) => ({
             ...question,
             question: he.decode(question.question),
             correct_answer: he.decode(question.correct_answer),
