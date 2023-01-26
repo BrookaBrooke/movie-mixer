@@ -186,8 +186,8 @@ code {
 .movie-trivia-home {
   position: relative;
   left: 20%;
-  /* top: 50%;
-  right: 50%; */
+  top: 22%;
+  right: 50%;
   width: 40%;
   /* background: url("https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   height: 500px;
@@ -657,6 +657,14 @@ div #genres-div .col-align-self-end pb-5{
 
 .trivia-box,
 .trivia-modal {
+  background-color: black;
+  color: white;
+  opacity: 0.7;
+  border-radius: 25px;
+  position: absolute;
+}
+
+.login-box {
   background-color: black;
   color: white;
   opacity: 0.7;
