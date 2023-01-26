@@ -239,9 +239,14 @@ function MainPage() {
               </div>
             </div>
           </section>
-          <div className="bottom-div row justify-content-center">
-            <div className="movie-trivia-image col-auto pb-4"></div>
-            <div className="movie-trivia-home col-auto">
+          <div className="bottom-div d-flex justify-content-center">
+            <div className="pb-4">
+              <img
+                className="movie-trivia-image"
+                src="https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              />
+            </div>
+            <div className="movie-trivia-home">
               <h2 className="">Play Movie Trivia</h2>
               <p className="">
                 Test your knowledge with a quick Movie Trivia Game! How many
