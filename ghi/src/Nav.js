@@ -1,6 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import Logo from "../src/media/moviemixer.png";
 
 function Nav() {
   const user = useContext(UserContext);
@@ -15,6 +16,8 @@ function Nav() {
       </NavLink>
     </li>
   );
+
+  // var Img = <img src={Logo} />
 
   const LoggedInNavOptions = (
     <>
@@ -37,7 +40,7 @@ function Nav() {
           <li>
             <NavLink className="dropdown-item" to="/"></NavLink>
           </li>
-          {/* <li><hr className="dropdown-divider"/></li> */}
+          <li><hr className="dropdown-divider"/></li>
           <li>
             <NavLink className="dropdown-item" to="/my-groups">
               My Favorites
@@ -55,11 +58,11 @@ function Nav() {
           </li>
         </ul>
       </li>
-      {/* <li className="nav-item px-2">
+      <li className="nav-item px-2">
               <NavLink className="nav-link active" to="/register">
                 Register
               </NavLink>
-            </li> */}
+            </li>
       <li className="nav-item px-2">
         <NavLink className="nav-link active" to="/logout">
           Log Out
@@ -68,10 +71,10 @@ function Nav() {
     </>
   );
   return (
-    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg navbar-brand">
       <div className="container-fluid">
         <NavLink className="navbar-brand px-2" to="/">
-          MovieMixer
+          <img src={Logo} width={200} height={42} />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -85,7 +88,7 @@ function Nav() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
             {userToken !== "null" ? LoggedInNavOptions : LoggedOutNavOptions}
           </ul>
         </div>
