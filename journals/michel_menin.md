@@ -51,6 +51,15 @@ Fixed a serious bug in the Favorites list view because the movie_id from the mov
 
 Fixed bug when not logged in, now redirects to login page if needed, added other navigation buttons, fixed some visual aspects and user controls for list view.  Jalen found a bug with some backend auth stuff I did for creating movie_item.  I had fixed the delete issue but had not tested the create.
 
-# 2024-01-24
+# 2023-01-24
 
 Fixed allow showing edit button to correctly show when owner of the list is logged in.
+
+# 2023-01-25
+
+Wrote some unit tests for movie-items.  Made tests testing if a user is unauthenticated, authenticated but unauthorized or authorized is receiving the correct response.
+AHA moment:  Making these tests would have let me find the bugs that we accidentally found earlier where the endpoint would allow adding items when in reality the user was not the owner of the list (unauthorized)
+
+# 2023-01-26
+
+Made changes to Mainpage, links, login button disappears.

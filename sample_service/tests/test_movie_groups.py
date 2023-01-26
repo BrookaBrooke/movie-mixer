@@ -16,6 +16,10 @@ def get_current_account_data_mock():
     }
 
 
+def get_movie_group_id_mock():
+    return {"id": 1, "name": "Jesse Movies", "owner": 1, "username": "Jesse"}
+
+
 class MovieGroupRepositoryMock:
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:
         movie_group_dict = movie_group.dict()
@@ -26,6 +30,14 @@ class MovieGroupRepositoryMock:
 
     def get(self, id) -> MovieGroupOut:
         return id
+
+    def get(self, movie_group_id):
+        return {
+            "id": 1,
+            "name": "Jesse Movies",
+            "owner": 1,
+            "username": "Jesse",
+        }
 
 
 def test_create_movie_group():
@@ -64,7 +76,25 @@ def test_get_movie_group():
 
     # Assert
     assert res.status_code == 200
-    assert res.json() == id
+    assert res.json() == []
+    print(res)
+    # A cleanup
+    app.dependency_overrides = {}
+
+
+def test_get_movie_group_id():
+    # Arrange
+    app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
+
+    # Act
+    res = client.get("/movie-groups/1")
+
+    # Assert
+    assert res.status_code == 200
+    assert res.json()["id"] == 1
+    assert res.json()["name"] == "Jesse Movies"
+    assert res.json()["owner"] == 1
+    assert res.json()["username"] == "Jesse"
 
     # A cleanup
     app.dependency_overrides = {}

@@ -34,7 +34,7 @@ const Login = () => {
           localStorage.setItem("leadsToken", data.access_token);
           localStorage.setItem("user_id", data.account.id);
           localStorage.setItem("username", data.account.username);
-          let expiryTime = new Date(now.getTime() + 2000000 );
+          let expiryTime = new Date(now.getTime() + 2000000);
           localStorage.setItem("loginExp", expiryTime);
           navigate("/");
           window.location.reload(false);
@@ -54,55 +54,68 @@ const Login = () => {
   };
 
   return (
-    <div className="banner-search row">
-      <div className="offset-3 col-6">
-        <div className="bg-dark text-light shadow p-4 mt-4">
-          <h1 id="">Login</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="form-floating mb-3">
-              <div className="control">
-                <label id="username" htmlFor="username" className="form-label">
-                  Username
-                </label>
-                <input
-                  type="username"
-                  placeholder="Enter Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="form-control"
-                  required
-                />
-              </div>
+    <div className="login-background">
+      <div className="row">
+        <div className="offset-3 col-6">
+          <div className="login-box">
+            <div className="shadow p-4 mt-4">
+              <h1 className="login-text">Login</h1>
+              <form onSubmit={handleSubmit}>
+                <div className="form-floating mb-3">
+                  <div className="control">
+                    <label
+                      id="username"
+                      htmlFor="username"
+                      className="form-label"
+                    >
+                      Username
+                    </label>
+                    <input
+                      type="username"
+                      placeholder="Enter Username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-floating mb-3">
+                  <div className="control">
+                    <label
+                      id="password"
+                      htmlFor="password"
+                      className="form-label"
+                    >
+                      Enter Password
+                    </label>
+                    <input
+                      type="password"
+                      placeholder="Enter Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <ErrorMessage message={errorMessage} />
+                <br />
+                <div className="button-glow2">
+                  <button className="button-glow" type="submit">
+                    <a className="button-glow">Login</a>
+                  </button>
+                </div>
+                <div className="button-glow1">
+                  <button className="button-glow" type="submit">
+                    <NavLink className="nav-link active" to="/register">
+                      Register
+                    </NavLink>
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className="form-floating mb-3">
-              <div className="control">
-                <label id="password" htmlFor="password" className="form-label">
-                  Enter Password
-                </label>
-                <input
-                  type="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-control"
-                  required
-                />
-              </div>
-            </div>
-            <ErrorMessage message={errorMessage} />
-            <br />
-            <div>
-              <button className="btn btn-primary me-5" type="submit">
-                Login
-              </button>
-              <div className="d-inline me-3">Don't have an account?</div>
-              <button className="btn btn-success me-5" type="submit">
-                <NavLink className="nav-link active" to="/register">
-                  Register
-                </NavLink>
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

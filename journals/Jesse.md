@@ -24,3 +24,24 @@ I added a movie trailer carousel on the homepage and also updated the css/html o
 
 january 14th:
 I finished the registration and got the token to work when registering your token was stored in localstorage and changed things in UserContext as well to get everything to work and prep'd to work on Log-in and authentication.
+
+january 16th:
+worked on authentication for front-end with mike / fixing detail page / starting homepage features
+
+january 17th:
+worked with mike on cascade delete for movie groups. I also created protected routes.
+
+january 18th:
+worked with mike on the drag and drop feature for your list of movies, so you can put them in order of best to worst by dragging and saving. Also worked on scaling issues with movie detail page and fixed the protected routes issue.
+
+january 19th:
+started working on the image-slider for the homepage search bar
+
+january 20th:
+worked on getting slider correctly formatted and mapping the images to each slide.
+
+january 23rd:
+contiuned working out bugs with the group and also worked on getting the home page together. Created a parallax effect, and added more informational divs, also resized some thing on home page.
+
+January 24th:
+Worked on fixing the parallax effect that has an image. Image kept repeating itself and got that straightened out. Added more features to homepage and close to finishing it up. Moved the Movie trailer on detail page to a new div below and did some customization as well.

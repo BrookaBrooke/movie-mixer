@@ -15,8 +15,11 @@ function MainPage() {
   const [token] = useContext(UserContext);
   const [query, setQuery] = useState("");
   const [movieData, setMovieData] = useState([]);
+  const [loggedOut, setLoggedOut] = useState(null)
 
   useEffect(() => {
+
+
     const getMovieInfoWithTrailers = async () => {
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/trailers`;
       const response = await fetch(url);
@@ -26,7 +29,20 @@ function MainPage() {
       }
     };
     getMovieInfoWithTrailers();
+
   }, []);
+
+  useEffect(() => {
+    let leadsToken = localStorage.getItem("leadsToken")
+
+    if ( leadsToken === "null" ) {
+      setLoggedOut(true)
+    }
+    else {
+      setLoggedOut(false)
+    }
+
+  },[movieData] );
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -36,6 +52,27 @@ function MainPage() {
     event.preventDefault();
     return navigate(`/search/${query}/1`);
   }
+  function redirectRegister(event){
+    event.preventDefault();
+    return navigate("/register");
+  }
+  function redirectTrivia(event){
+    event.preventDefault();
+    return navigate("/trivia");
+  }
+  function redirectFavorites(event){
+    event.preventDefault();
+    return navigate("/groups")
+  }
+
+  const videoProperties = [
+    {
+      id: 76600,
+      title: "Avatar: The Way of Water",
+      src: `https://youtu.be/d9MyW72ELq0`,
+      credit: "20th Century / 20th Century Studios",
+    },
+  ];
 
   const parallax = Array.from(document.querySelectorAll(".parallax"));
 
@@ -103,54 +140,27 @@ function MainPage() {
                       </div>
                     </div>
                   </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
-        <div className="movie-info">
-          <h1 className="home-header">MovieMixer</h1>
-          <p className="text-center p-2">
-            Find information for any movie you desire and organize them into
-            your personal list to keep track of upcoming titles or old
-            favorites! You can create different lists with many genres or a
-            specific genre. Then rank them from best to worst. You can also
-            check out other users movie lists to find something new to watch.
-            Happy watching!
-          </p>
-          <div className="pb-3 d-flex justify-content-center">
-            {localStorage.getItem("username") === "null" ? (
-              <div className="text-center p-2">
-                <div className="login-button m-3">
-                  <h4>Log in to get started!</h4>
-                  <button
-                    className="btn btn-lg btn-outline-danger"
-                    onClick={() => {
-                      window.scroll(0, 0);
-                      navigate("/login");
-                    }}
-                  >
-                    Log in
-                  </button>
-                </div>
-                <div className="signup-button m-3">
-                  <h4>Not signed up?</h4>
-                  <button
-                    className="btn btn-lg btn-outline-danger"
-                    onClick={() => {
-                      window.scroll(0, 0);
-                      navigate("/register");
-                    }}
-                  >
-                    Register Today
-                  </button>
                 </div>
               </div>
-            ) : (
-              <div className="text-center p-2">
-                <h2>Hello {localStorage.getItem("username")}!</h2>
-              </div>
-            )}
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    <div className="banner-search text-light">
+      <div className="movie-info">
+        <h1 className="home-header">MovieMixer</h1>
+        <p className="text-center p-2">
+          Find information for any movie you desire and organize them into your personal list
+          to keep track of upcoming titles or old favorites! You can create different lists with many genres or a specific genre. Then rank them
+          from best to worst. You can also check out other users movie lists to find something new to watch.
+          Happy watching!
+        </p>
+        <div className="pb-3 d-flex justify-content-center">
+          <div className="text-center p-2">
+            { loggedOut &&
+              <h4 className="login-button">Log in to get started!</h4>
+               }
+            { loggedOut && (<button className="btn btn-lg btn-outline-danger">Log in</button>) }
           </div>
         </div>
         <div></div>
@@ -181,56 +191,44 @@ function MainPage() {
             })}
           </Carousel>
         </div>
-        <div className="all-favorites-section">
-          <h2>See Users Favorite Movies!</h2>
-          <p>
-            Checkout other users favorite movies, and find something new to
-            watch!
-          </p>
-          <div className="pb-3 d-flex justify-content-center">
-            <div className="text-center p-2">
-              <button
-                className="btn btn-lg btn-outline-danger"
-                onClick={() => {
-                  if (token === "null") {
-                    window.scroll(0, 0);
-                    navigate("/login");
-                  } else {
-                    navigate("/groups");
-                  }
-                }}
-              >
-                See Favorite Movies
-              </button>
-            </div>
-          </div>
-        </div>
-        <section className="parallax" data-speed=".009">
-          {/* <h1 className="parallax-header"></h1> */}
-          <div className="parallax-container">
-            <div className="parallax-content">
-              <h1 className="text-box-main">Discover New Movies</h1>
-            </div>
-          </div>
-        </section>
-        <div className="bottom-div row justify-content-center">
-          <div className="movie-trivia-image col-auto pb-4"></div>
-          <div className="movie-trivia-home col-auto">
-            <h2 className="">Play Movie Trivia</h2>
-            <p className="">
-              Test your knowledge with a quick Movie Trivia Game! How many
-              questions can you answer correctly?
-            </p>
-            <div className="pb-3 col-auto">
+          <div className="all-favorites-section">
+            <h2>See Users Favorite Movies!</h2>
+              <p>
+                Checkout other users favorite movies, and find something new to watch!
+              </p>
+            <div className="pb-3 d-flex justify-content-center">
               <div className="text-center p-2">
-                <button className="btn btn-lg btn-outline-danger">
-                  Movie Trivia
-                </button>
+                <button className="btn btn-lg btn-outline-danger" onClick={redirectFavorites}>See Favorite Movies</button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+          <section className="parallax" data-speed=".009">
+            {/* <h1 className="parallax-header"></h1> */}
+            <div className="parallax-container">
+              <div className="parallax-content">
+                <h1 className="text-box-main">Discover New Movies</h1>
+                <div className="signup-button">
+                <button className="btn btn-lg btn-outline-danger" onClick={redirectRegister}>Register Today</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div className="bottom-div row justify-content-center">
+            <div className="movie-trivia-image col-auto pb-4">
+              </div>
+              <div className="movie-trivia-home col-auto">
+                <h2 className="">Play Movie Trivia</h2>
+                  <p className="">
+                    Test your knowledge with a quick Movie Trivia Game! How many questions can you answer correctly?
+                  </p>
+                <div className="pb-3 col-auto">
+                  <div className="text-center p-2">
+                    <button className="btn btn-lg btn-outline-danger" onClick={redirectTrivia}>Movie Trivia</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
       <footer className="bg-dark text-center text-white">
         <div className="container p-4">
