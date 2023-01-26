@@ -7,12 +7,6 @@ const Trivia = () => {
   const [numQuestions, setNumQuestions] = useState(1);
   const [openLimited, setOpenLimited] = useState(false);
   const [openEndless, setOpenEndless] = useState(false);
-  const [limitedButton, setLimitedButton] = useState(
-    "m-2 btn btn-outline-danger"
-  );
-  const [endlessButton, setEndlessButton] = useState(
-    "m-2 btn btn-outline-danger"
-  );
   const navigate = useNavigate();
 
   return (
@@ -29,27 +23,30 @@ const Trivia = () => {
                   onClick={() => {
                     setOpenLimited(!openLimited);
                     setOpenEndless(false);
-                    setLimitedButton("m-2 btn btn-danger");
-                    setEndlessButton("m-2 btn btn-outline-danger");
                   }}
                   aria-controls="limited-mode"
                   aria-expanded={openLimited}
-                  className={limitedButton}
+                  className={
+                    openLimited
+                      ? "m-2 btn btn-danger"
+                      : "m-2 btn btn-outline-danger"
+                  }
                 >
                   Limited Mode
                 </button>
-
                 <button
                   type="button"
                   onClick={() => {
                     setOpenEndless(!openEndless);
                     setOpenLimited(false);
-                    setLimitedButton("m-2 btn btn-outline-danger");
-                    setEndlessButton("m-2 btn btn-danger");
                   }}
                   aria-controls="endless-mode"
                   aria-expanded={openEndless}
-                  className={endlessButton}
+                  className={
+                    openEndless
+                      ? "m-2 btn btn-danger"
+                      : "m-2 btn btn-outline-danger"
+                  }
                 >
                   Endless Mode
                 </button>
@@ -57,9 +54,14 @@ const Trivia = () => {
             </div>
             <Collapse in={openLimited}>
               <div id="limited-mode" className="text-center">
-                Enter a number of questions and see how many you can get right!
-                (The max amount of questions for hard difficulty is currently
-                42)
+                <p>
+                  Enter a number of questions and see how many you can get
+                  right!
+                </p>
+                <p className="small">
+                  (The max amount of questions for hard difficulty is currently
+                  42)
+                </p>
               </div>
             </Collapse>
             <Collapse in={openEndless}>
@@ -71,15 +73,16 @@ const Trivia = () => {
             <div className="text-center">
               {openLimited && (
                 <>
-                  <label>Number of Questions: </label>
-                  <input
-                    type="number"
-                    min="1"
-                    onChange={(e) => setNumQuestions(e.target.value)}
-                    value={numQuestions}
-                    placeholder="Enter number of questions"
-                  />
-
+                  <div>
+                    <label>Number of Questions: </label>
+                    <input
+                      type="number"
+                      min="1"
+                      onChange={(e) => setNumQuestions(e.target.value)}
+                      value={numQuestions}
+                      placeholder="Enter number of questions"
+                    />
+                  </div>
                   <button
                     type="button"
                     variant="primary"
