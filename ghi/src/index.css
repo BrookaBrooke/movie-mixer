@@ -77,6 +77,15 @@ font-family: 'Quicksand', sans-serif;
 
 }
 
+.placeholder {
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 720px;
+  background-position: center;
+  background:rgb(25, 25, 25)
+}
+
 .search-bar-main {
   z-index: 1;
   position: absolute;
@@ -88,6 +97,15 @@ font-family: 'Quicksand', sans-serif;
   line-height: 80px;
   font-weight: 500;
   font-family: 'Quicksand', sans-serif;
+}
+
+.placeholder {
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("https://thehilltoponline.com/wp-content/uploads/2016/12/white-background-2.jpg");
+  z-index: 3;
 }
 
 .movie-info {
@@ -310,7 +328,7 @@ input, .form-control, .me-2 {
 
 .swiper-slide img {
   display: block;
-  width: 50%;
+  width: 70%;
   height: 50%;
   object-fit: cover;
 }
@@ -495,7 +513,13 @@ input, .form-control, .me-2 {
 }
 
 .banner-search {
-  background-color: rgb(50, 50, 50);
+  background-color: rgb(25, 25, 25);
+  height: cover;
+  /* min-height: 1280px; */
+}
+
+.banner-search-page {
+  background-color: rgb(25, 25, 25);
   height: cover;
   min-height: 1280px;
 }
@@ -706,7 +730,7 @@ button-glow{
     margin-bottom: 10px;
 }
 
-.button-glow1 a:hover{
+.button-glow1 div:hover{
     background: #ffffff;
     color: #050801;
     box-shadow: 0 0 5px #ffffff,
@@ -716,7 +740,7 @@ button-glow{
      -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
 }
 
-.button-glow2 a {
+.button-glow2 div {
   padding: 8px 12px;
     color: #ffffff;
     left: 3%;

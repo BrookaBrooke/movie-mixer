@@ -5,8 +5,6 @@ import { UserContext } from "../context/UserContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player/lazy";
 
-
-
 const MovieDetail = () => {
   const [details, setDetails] = useState([]);
   const [loaded, setLoaded] = useState(true);
@@ -20,12 +18,15 @@ const MovieDetail = () => {
 
   useEffect(() => {
     let now = new Date();
-    console.log("1st: ",localStorage.getItem("loginExp"))
-    console.log("2nd: ",new Date(localStorage.getItem("loginExp")));
-    console.log("3rd: ", new Date(now.getTime() ));
-    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
-      console.log("token has expired -------------------------------------------------------")
-      navigate("/logout")
+    console.log("1st: ", localStorage.getItem("loginExp"));
+    console.log("2nd: ", new Date(localStorage.getItem("loginExp")));
+    console.log("3rd: ", new Date(now.getTime()));
+    if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
+      console.log(
+        "token has expired -------------------------------------------------------"
+      );
+      localStorage.setItem("loginExp", "null");
+      navigate("/logout");
     }
     async function getMovies() {
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail-with-trailer/${id}`;

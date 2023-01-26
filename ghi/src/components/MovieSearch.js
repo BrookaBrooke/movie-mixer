@@ -27,7 +27,7 @@ function MovieSearch() {
   const [movieGroups, setMovieGroups] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [showSuccessAlert, setSuccessAlert] = useState(false);
   const [showErrorAlert, setErrorAlert] = useState(false);
@@ -36,9 +36,12 @@ function MovieSearch() {
 
   useEffect(() => {
     let now = new Date();
-    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
-      console.log("token has expired -------------------------------------------------------")
-      navigate("/logout")
+    if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
+      console.log(
+        "token has expired -------------------------------------------------------"
+      );
+      localStorage.setItem("loginExp", "null");
+      navigate("/logout");
     }
     const getResults = async () => {
       setLoading(true);
@@ -253,7 +256,7 @@ function MovieSearch() {
                   className="search-poster-image"
                   src={
                     result.poster_path
-                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
+                      ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
                       : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
                   }
                   onClick={() => {
@@ -364,7 +367,7 @@ function MovieSearch() {
       : `${20 * (pageNumber - 1) + 1} - ${results}`;
 
   return (
-    <div className="banner-search">
+    <div className="banner-search-page">
       <div className="">
         <div className="search-bar-height"></div>
         <div className="search-bar">
