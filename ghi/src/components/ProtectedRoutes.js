@@ -5,11 +5,6 @@ function ProtectedRoutes() {
   return isAuthenticated !== "null" ? <Outlet /> : <Navigate to="/login" />;
 }
 
-// const ProtectedRoutes = () => {
-//   let auth = {'token': false}
-//   return (
-//     auth.token ? <Outlet/> : <Navigate to="/login"/>
-//   )
-// }
+
 
 export default ProtectedRoutes;
