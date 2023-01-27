@@ -62,4 +62,8 @@ AHA moment:  Making these tests would have let me find the bugs that we accident
 
 # 2023-01-26
 
-Made changes to Mainpage, links, login button disappears.
+Made changes to Mainpage, links, login button disappears.  Styled the movie list tables.
+
+# 2023-01-27
+
+Honestly, on the last day, there were a lot of last-minute merge conflicts and polishing.  I did not interfere too much with the files to avoid said conflicts, I did however poke holes at the app and tested all the functionality I remembered to check.  I don't remember if I had significant code contribution today besides mitigating a 404 response which shows up RED in the console.  As a quick fix (due to time restrictions), I changed the response code from our API and kept the working logic as it was.  Completed some of the data-models docs.
