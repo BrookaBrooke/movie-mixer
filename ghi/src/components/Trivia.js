@@ -77,6 +77,7 @@ const Trivia = () => {
                   <input
                     type="number"
                     min="1"
+                    className="text-center"
                     onChange={(e) => setNumQuestions(e.target.value)}
                     value={numQuestions}
                     placeholder="Enter number of questions"

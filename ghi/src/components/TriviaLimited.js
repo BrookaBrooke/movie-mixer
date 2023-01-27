@@ -160,6 +160,7 @@ const TriviaLimited = () => {
                         <Form.Control
                           type="number"
                           min="1"
+                          className="text-center"
                           onChange={(e) => setNewNumQuestions(e.target.value)}
                           value={newNumQuestions}
                           placeholder="Enter number of questions"
