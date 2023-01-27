@@ -2,11 +2,7 @@ import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Nav from "./Nav";
 import MainPage from "./components/MainPage";
 import MovieDetail from "./components/MovieDetail";
-import { useEffect, useState } from "react";
-import Construct from "./Construct.js";
-import ErrorNotification from "./ErrorNotification";
 import "./App.css";
-import AccountForm from "./components/AccountForm";
 import MovieGroups from "./components/MovieGroups";
 import MyMovieGroups from "./components/MyMovieGroups";
 import MovieSearch from "./components/MovieSearch";
@@ -27,7 +23,6 @@ function App(props) {
       <Nav />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/signup" element={<AccountForm />} />
         <Route path="/movie-detail/:id" element={<MovieDetail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
