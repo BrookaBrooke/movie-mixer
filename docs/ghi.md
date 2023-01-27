@@ -34,8 +34,12 @@
 
 ## Detail Page
 
+### This is where the user will be able to view the detials of the selected movie.
+
 ![Detail Page](wireframe/movie_detail_page.png)
 
 ## Search Page
+
+### This is where the user will search for the movie they wish to add to their list.
 
 ![Search Page](wireframe/search_page.png)
