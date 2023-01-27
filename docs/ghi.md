@@ -18,7 +18,7 @@
 
 ### Here, the user will be able to either login or signup for our site.
 
-![Login/Signup Form](signup_form.png)
+![Login/Signup Form](wireframe/signup_form.png)
 
 ## My List View
 
@@ -34,7 +34,7 @@
 
 ## Detail Page
 
-![Detail Page](wireframe/movies_detail_page.png)
+![Detail Page](wireframe/movie_detail_page.png)
 
 ## Search Page
 
