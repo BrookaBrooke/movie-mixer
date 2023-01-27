@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Tooltip, Button, OverlayTrigger } from "react-bootstrap"
-import { UserContext } from "../context/UserContext";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -10,7 +9,6 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [token] = useContext(UserContext);
   const [deleteQueue, setDeleteQueue] = useState([]);
   const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
   const navigate = useNavigate();
@@ -20,13 +18,10 @@ const MovieGroupDetail = () => {
     </Tooltip>
   );
   const tooltipEdit = (
-    <Tooltip id="tooltipEdit">
-      Click and drag to change order
-    </Tooltip>
+    <Tooltip id="tooltipEdit">Click and drag to change order</Tooltip>
   );
 
-
-  const fetchMovieItems = async () => {
+  const fetchMovieItems = useCallback(async () => {
     try {
       const movieItemsResponse = await fetch(
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
@@ -36,7 +31,7 @@ const MovieGroupDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -44,18 +39,17 @@ const MovieGroupDetail = () => {
         const movieGroupsResponse = await fetch(
           `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups/${id}`
         );
-        console.log(movieGroupsResponse);
         const movieGroupData = await movieGroupsResponse.json();
-        console.log(movieGroupData);
         setMovieGroup(movieGroupData);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchMovieGroups();
     fetchMovieItems();
     setLoading(false);
-  }, [id]);
+  }, [fetchMovieItems, id]);
 
   useEffect(() => {
     if (!movieGroup) {
@@ -68,74 +62,55 @@ const MovieGroupDetail = () => {
     } else {
       setOwnerEditAllowed(false);
     }
-  }, [movieGroup, id]);
+  }, [fetchMovieItems, movieGroup, id]);
 
   let sourceElement = null;
 
-  /* change opacity for the dragged item.
-    remember the source item for the drop later */
   const handleDragStart = (event) => {
     event.target.style.opacity = 0.5;
     sourceElement = event.target;
     event.dataTransfer.effectAllowed = "move";
   };
 
-  /* do not trigger default event of item while passing (e.g. a link) */
   const handleDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   };
 
-  /* add class .over while hovering other items */
   const handleDragEnter = (event) => {
     event.target.classList.add("over");
   };
 
-  /* remove class .over when not hovering over an item anymore*/
   const handleDragLeave = (event) => {
     event.target.classList.remove("over");
   };
 
   const handleDrop = (event) => {
-    /* prevent redirect in some browsers*/
     event.stopPropagation();
 
-    /* only do something if the dropped on item is
-      different to the dragged item*/
     if (sourceElement !== event.target) {
-      /* remove dragged item from list */
       const list = movieItems.filter(
         (item, i) => i.toString() !== sourceElement.id
       );
 
-      /* this is the removed item */
       const removed = movieItems.filter(
         (item, i) => i.toString() === sourceElement.id
       )[0];
 
-      /* insert removed item after this number. */
       let insertAt = Number(event.target.id);
-
       let tempList = [];
 
-      /* if dropped at last item, don't increase target id by +1.
-           max-index is arr.length */
       if (insertAt >= list.length) {
         tempList = list.slice(0).concat(removed);
         setMovieItems(tempList);
         event.target.classList.remove("over");
       } else if (insertAt < list.length) {
-        /* original list without removed item until the index it was removed at */
         tempList = list.slice(0, insertAt).concat(removed);
-
-        /* add the remaining items to the list */
         const newList = tempList.concat(list.slice(insertAt));
-
-        /* set state to display on page */
         setMovieItems(newList);
         event.target.classList.remove("over");
       }
-    } else console.log("nothing happened");
+    }
     event.target.classList.remove("over");
   };
 
@@ -143,12 +118,9 @@ const MovieGroupDetail = () => {
     event.target.style.opacity = 1;
   };
 
-  /* log changes in current input field */
   const handleChange = (event) => {
     event.preventDefault();
 
-    /* create new list where everything stays the same except that the current
-      item replaces the existing value at this index */
     const list = movieItems.map((item, i) => {
       if (i !== Number(event.target.id)) {
         return item;
@@ -175,7 +147,8 @@ const MovieGroupDetail = () => {
           body: JSON.stringify(ordered_data),
         }
       );
-      const data = await response.json();
+      if (response.ok) {
+      }
     } catch (error) {
       console.error(error);
     }
@@ -200,7 +173,6 @@ const MovieGroupDetail = () => {
     setEditMode(false);
   };
 
-  /* filter list where only items with id unequal to current id's are allowed */
   const handleDelete = (event) => {
     event.preventDefault();
     const item_id = movieItems[event.target.id].id;
@@ -222,48 +194,46 @@ const MovieGroupDetail = () => {
     fetchMovieItems();
   };
 
-  /* create list of items */
   const listItems = () => {
     return movieItems?.map((item, i) => (
       <div key={i} className="dnd-list">
         <div className="number-movies">{i + 1}</div>
         {editMode && (
-          <OverlayTrigger placement="bottom" overlay={tooltipEdit}>
-            <span
-            id={i}
-            className="input-item"
-            draggable="true"
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onDragEnd={handleDragEnd}
-            onChange={handleChange}
-          >
-            {item.title}
-          </span>
+          <OverlayTrigger placement="left" overlay={tooltipEdit}>
+            <div
+              id={i}
+              className="input-item"
+              draggable="true"
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onDragEnd={handleDragEnd}
+              onChange={handleChange}
+            >
+              {item.title}
+            </div>
           </OverlayTrigger>
         )}
         {!editMode && (
-          <OverlayTrigger placement="bottom" overlay={tooltip}>
-            <span id={i} className="input-item" >
-            <Link
-              className="text-secondary text-decoration-none h5"
-              to={`/movie-detail/${item.api3_id}`}         
-            >
-              {item.title}
-            </Link>
-          </span>
+          <OverlayTrigger placement="left" overlay={tooltip}>
+            <span id={i} className="input-item">
+              <Link
+                className="text-secondary text-decoration-none h5"
+                to={`/movie-detail/${item.api3_id}`}
+              >
+                {item.title}
+              </Link>
+            </span>
           </OverlayTrigger>
         )}
         {editMode && (
           <>
-          <div id={i} className="delButton" onClick={handleDelete}>
-            X
-          </div>
-     
-        </>
+            <div id={i} className="delButton" onClick={handleDelete}>
+              X
+            </div>
+          </>
         )}
       </div>
     ));
@@ -295,25 +265,30 @@ const MovieGroupDetail = () => {
         )}
         <span>
           {!editMode && ownerEditAllowed && movieItems.length > 0 && (
-              <button type="button"  className="btn btn-outline-primary m-3" onClick={handleEditMode} >
+            <button
+              type="button"
+              className="btn btn-outline-primary m-3"
+              onClick={handleEditMode}
+            >
               Edit List
             </button>
           )}
           {editMode && (
-            <><button className="btn btn-success m-3" onClick={handleUpdate}>
-              Save changes
-            </button>
+            <>
+              <button className="btn btn-success m-3" onClick={handleUpdate}>
+                Save changes
+              </button>
 
-            <button className="btn btn-secondary m-3" onClick={handleCancel}>
-              Cancel
-            </button>
+              <button className="btn btn-secondary m-3" onClick={handleCancel}>
+                Cancel
+              </button>
             </>
           )}
         </span>
         <div>
           <p></p>
-          
-            <button type="button"  onClick={goBack} className="btn btn-dark m-3 ">
+
+          <button type="button" onClick={goBack} className="btn btn-dark m-3 ">
             Go back
           </button>
         </div>

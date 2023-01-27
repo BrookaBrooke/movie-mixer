@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Modal } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -18,26 +18,9 @@ const TriviaEndless = () => {
   const { difficulty } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
+  const fetchingComplete = useRef(false);
 
-  function shuffle(array) {
-    let n = array.length,
-      i,
-      j;
-
-    while (n) {
-      j = Math.floor(Math.random() * n--);
-      i = array[n];
-      array[n] = array[j];
-      array[j] = i;
-    }
-
-    return array;
-  }
-
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     try {
       const response = await fetch(
         `https://opentdb.com/api.php?amount=42&category=11&difficulty=${difficulty}`
@@ -73,7 +56,29 @@ const TriviaEndless = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [difficulty, usedQuestions]);
+
+  useEffect(() => {
+    if (fetchingComplete.current === false) {
+      fetchQuestions();
+      fetchingComplete.current = true;
+    }
+  }, [fetchQuestions]);
+
+  function shuffle(array) {
+    let n = array.length,
+      i,
+      j;
+
+    while (n) {
+      j = Math.floor(Math.random() * n--);
+      i = array[n];
+      array[n] = array[j];
+      array[j] = i;
+    }
+
+    return array;
+  }
 
   const handleAnswerClick = (answer) => {
     if (answer === correct_answer) {
@@ -121,7 +126,7 @@ const TriviaEndless = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const { question, correct_answer, answers } = currentQuestion;
   return (
-    <div className="login-background">
+    <div className="trivia-background">
       <div className="row">
         <div className="offset-3 col-6">
           <div className="card trivia-box">
@@ -169,7 +174,8 @@ const TriviaEndless = () => {
                 </Modal>
                 <button
                   type="button"
-                  className="btn btn-danger m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-danger m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => window.location.reload()}
                 >
                   Play Again
@@ -177,7 +183,8 @@ const TriviaEndless = () => {
 
                 <button
                   type="button"
-                  className="btn btn-secondary m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => navigate("/trivia")}
                 >
                   Trivia Home

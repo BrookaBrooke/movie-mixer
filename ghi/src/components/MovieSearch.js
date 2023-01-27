@@ -1,8 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Navigation } from "swiper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -37,9 +39,6 @@ function MovieSearch() {
   useEffect(() => {
     let now = new Date();
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
-      console.log(
-        "token has expired -------------------------------------------------------"
-      );
       localStorage.setItem("loginExp", "null");
       navigate("/logout");
     }
@@ -60,7 +59,7 @@ function MovieSearch() {
         setLoading(false);
       }, 300);
     }
-  }, [searchQuery, pageNumber]);
+  }, [navigate, searchQuery, pageNumber]);
 
   async function getMovies(modalId) {
     const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${modalId}`;
@@ -70,6 +69,111 @@ function MovieSearch() {
       setDetails(data);
     }
   }
+
+  const createMovieItem = useCallback(
+    async (movieItem, token) => {
+      let data;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
+        );
+        data = await response.json();
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+      let movieItemExists = false;
+      for (let item of data) {
+        if (item.movie_id === movieItem.movie_id) {
+          setErrorAlert(true);
+          setTimeout(() => {
+            setErrorAlert(false);
+          }, 5000);
+          movieItemExists = true;
+          break;
+        }
+      }
+      if (!movieItemExists) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movieItem),
+            }
+          );
+          if (response.ok) {
+            setSuccessAlert(true);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [selectedGroupId]
+  );
+
+  const handleCreateMovie = useCallback(
+    async (details, token) => {
+      const movie_details = {
+        title: details.title,
+        released: details.release_date ? details.release_date : null,
+        plot: details.overview,
+        imdbID: details.imdb_id,
+        poster: details.poster_path,
+        vote_avr: details.vote_average,
+        api3_id: details.id,
+      };
+
+      const movieExistResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
+      );
+
+      if (movieExistResponse.status === 404) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movie_details),
+            }
+          );
+          if (response.ok) {
+            const movieData = await response.json();
+            createMovieItem(
+              {
+                movie_id: movieData.id,
+                movie_group_id: selectedGroupId,
+                item_position: 0,
+              },
+              token
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (movieExistResponse.status === 200) {
+        const movieExistData = await movieExistResponse.json();
+        createMovieItem(
+          {
+            movie_id: movieExistData.id,
+            movie_group_id: selectedGroupId,
+            item_position: 0,
+          },
+          token
+        );
+      }
+    },
+    [createMovieItem, selectedGroupId]
+  );
 
   useEffect(() => {
     async function fetchMovieGroups() {
@@ -89,116 +193,17 @@ function MovieSearch() {
       }
     }
     fetchMovieGroups();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (movieCreated) {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated]);
+  }, [handleCreateMovie, movieCreated, details, token]);
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
-  };
-
-  const createMovieItem = async (movieItem, token) => {
-    let data;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-    let movieItemExists = false;
-    for (let item of data) {
-      if (item.movie_id === movieItem.movie_id) {
-        setErrorAlert(true);
-        setTimeout(() => {
-          setErrorAlert(false);
-        }, 5000);
-        movieItemExists = true;
-        break;
-      }
-    }
-    if (!movieItemExists) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movieItem),
-          }
-        );
-        if (response.ok) {
-          setSuccessAlert(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleCreateMovie = async (details, token) => {
-    const movie_details = {
-      title: details.title,
-      released: details.release_date ? details.release_date : null,
-      plot: details.overview,
-      imdbID: details.imdb_id,
-      poster: details.poster_path,
-      vote_avr: details.vote_average,
-      api3_id: details.id,
-    };
-
-    const movieExistResponse = await fetch(
-      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
-    );
-
-    if (movieExistResponse.status === 404) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movie_details),
-          }
-        );
-        if (response.ok) {
-          const movieData = await response.json();
-          createMovieItem(
-            {
-              movie_id: movieData.id,
-              movie_group_id: selectedGroupId,
-              item_position: 0,
-            },
-            token
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (movieExistResponse.status === 200) {
-      const movieExistData = await movieExistResponse.json();
-      createMovieItem(
-        {
-          movie_id: movieExistData.id,
-          movie_group_id: selectedGroupId,
-          item_position: 0,
-        },
-        token
-      );
-    }
   };
 
   function onChange(event) {
@@ -240,11 +245,12 @@ function MovieSearch() {
     return navigate(`/search/${query}/1`);
   }
 
+
+
   const movieList =
     results > 0
       ? movies.map((result) => {
           const modalId = result.id;
-          const target = "#" + modalId;
 
           return (
             <SwiperSlide key={result.id} value={result.id}>
@@ -252,51 +258,56 @@ function MovieSearch() {
                 className="d-flex justify-content-center modal-container"
                 onClick={(e) => getMovies(modalId)}
               >
-              <div className="movie-card">
-                <div className="poster">
-                  <img
-
-                    className="movie-card"
-                    src={
-                      result.poster_path
-                        ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
-                        : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
-                    }
-                    onClick={() => {
-                      setModalOpen(modalId);
-                    }}
-                  />
-                  <button className="show-more">
-                    <span className="material-icons">more_horiz</span>
-                  </button>
-                  <div className="movie-details">
-                    <div className="box">
+                <div className="movie-card">
+                  <div className="poster">
+                    <img
+                      className="movie-card"
+                      src={
+                        result.poster_path
+                          ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
+                          : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
+                      }
+                      alt="search"
+                      onClick={() => {
+                        setModalOpen(modalId);
+                      }}
+                    />
+                    <button className="show-more">
+                      <span className="material-icons">more_horiz</span>
+                    </button>
+                    <div className="movie-details">
+                      <div className="box">
                         <h5 className="title">{result.title}</h5>
-                        <div className="rating" style={{
-                              background: `conic-gradient(${
-                                result.vote_average > 7
-                                  ? "#00cc66"
-                                  : result.vote_average < 3
-                                  ? "#ff3333"
-                                  : "#ffaa33"
-                              } ${result.vote_average * 10}%, ${
-                                result.vote_average > 7
-                                  ? "#1e3228"
-                                  : result.vote_average < 3
-                                  ? "#342020"
-                                  : "#372f23"
-                              } ${result.vote_average * 10}% ${
-                                result.vote_average * 10
-                              }%)`
-                            }}>
-                          <span className="rating-value">{result.vote_average}</span>
+                        <div
+                          className="rating"
+                          style={{
+                            background: `conic-gradient(${
+                              result.vote_average > 7
+                                ? "#00cc66"
+                                : result.vote_average < 3
+                                ? "#ff3333"
+                                : "#ffaa33"
+                            } ${result.vote_average * 10}%, ${
+                              result.vote_average > 7
+                                ? "#1e3228"
+                                : result.vote_average < 3
+                                ? "#342020"
+                                : "#372f23"
+                            } ${result.vote_average * 10}% ${
+                              result.vote_average * 10
+                            }%)`,
+                          }}
+                        >
+                          <span className="rating-value">
+                            {result.vote_average}
+                          </span>
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
                 <Modal
-                  show={modalId == modalOpen}
+                  show={modalId === modalOpen}
                   onHide={() => {
                     setModalOpen(null);
                     setSuccessAlert(false);
@@ -401,7 +412,7 @@ function MovieSearch() {
   return (
     <div className="search-backdrop">
       <div className="banner-search">
-        <div className="">
+        <div className="search-rel">
           <div className="search-bar-height"></div>
           <div className="search-bar">
             <form
@@ -446,11 +457,22 @@ function MovieSearch() {
               )
             ) : null}
           </div>
-
+          <div id="arrow-next-search" className="swiper-button image-swiper-button-next">
+            <IoIosArrowForward />
+          </div>
+          <div id="arrow-prev-search" className="swiper-button image-swiper-button-prev">
+            <IoIosArrowBack />
+          </div>
           <Swiper
-            modules={[Grid]}
+            navigation={{
+              nextEl: ".image-swiper-button-next",
+              prevEl: ".image-swiper-button-prev",
+
+            }}
+            modules={[Grid, Navigation]}
             slidesPerView={4}
-            slidesPerGroup={2}
+            slidesPerGroup={3}
+            // autoHeight={true}
             spaceBetween={0}
             grid={{ rows: 2, fill: "row" }}
             pagination={{
@@ -461,8 +483,7 @@ function MovieSearch() {
             {movieList}
             {pageNumber ? (
               <div className="search-footer">
-                <div className="d-flex justify-content-center">
-                </div>
+                <div className="d-flex justify-content-center"></div>
                 {pageNumber > 1 ? (
                   <div className="p-2 d-flex justify-content-center">
                     <LastPageButton />
@@ -477,15 +498,15 @@ function MovieSearch() {
             ) : null}
           </Swiper>
           <div className="search-footer">
-          <div className="d-flex justify-content-center">
-            <div
-              className={loading ? "spinner-border text-light" : "d-none"}
-              role="status"
-              style={{ height: "10em", width: "10em", alignSelf: "center" }}
-            >
-              <span className="visually-hidden">Loading...</span>
+            <div className="d-flex justify-content-center">
+              <div
+                className={loading ? "spinner-border text-light" : "d-none"}
+                role="status"
+                style={{ height: "10em", width: "10em", alignSelf: "center" }}
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
