@@ -333,15 +333,16 @@
 - Response: A list of Movie Groups
 - Response shape:
   ```json
-  {
-    "Lists": [
+  
+  [
       {
-  	  "id": int,
+        "id": int,
         "name": string,
         "user_id": string,
-      }
-    ]
-  }
+      },
+      ...
+  ]
+
   ```
 
 -- --

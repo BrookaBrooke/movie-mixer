@@ -108,7 +108,7 @@ const MovieGroups = () => {
                   <button
                     type="button"
                     onClick={goBack}
-                    className="btn btn-lg btn-dark"
+                    class="btn btn-lg btn-dark"
                   >
                     Go back
                   </button>

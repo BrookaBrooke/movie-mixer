@@ -3,6 +3,8 @@ import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Navigation } from "swiper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -237,6 +239,8 @@ function MovieSearch() {
     return navigate(`/search/${query}/1`);
   }
 
+
+
   const movieList =
     results > 0
       ? movies.map((result) => {
@@ -402,7 +406,7 @@ function MovieSearch() {
   return (
     <div className="search-backdrop">
       <div className="banner-search">
-        <div className="">
+        <div className="search-rel">
           <div className="search-bar-height"></div>
           <div className="search-bar">
             <form
@@ -447,11 +451,22 @@ function MovieSearch() {
               )
             ) : null}
           </div>
-
+          <div id="arrow-next-search" className="swiper-button image-swiper-button-next">
+            <IoIosArrowForward />
+          </div>
+          <div id="arrow-prev-search" className="swiper-button image-swiper-button-prev">
+            <IoIosArrowBack />
+          </div>
           <Swiper
-            modules={[Grid]}
+            navigation={{
+              nextEl: ".image-swiper-button-next",
+              prevEl: ".image-swiper-button-prev",
+
+            }}
+            modules={[Grid, Navigation]}
             slidesPerView={4}
-            slidesPerGroup={2}
+            slidesPerGroup={3}
+            // autoHeight={true}
             spaceBetween={0}
             grid={{ rows: 2, fill: "row" }}
             pagination={{

@@ -16,7 +16,7 @@ We decided to change the api, because it had better quality images and also back
 january 11th 2023:
 Worked on css and started creating the Movie Detail page
 
-january 12 2023:
+january 12th 2023:
 continued to work on the MovieDetail page and worked on the html and css for it as well. Had issues with scaling to different resolutions so continued to find a solution.
 
 january 13th 2023:
@@ -45,3 +45,12 @@ contiuned working out bugs with the group and also worked on getting the home pa
 
 January 24th:
 Worked on fixing the parallax effect that has an image. Image kept repeating itself and got that straightened out. Added more features to homepage and close to finishing it up. Moved the Movie trailer on detail page to a new div below and did some customization as well.
+
+january 25th:
+Created a movie group id test to check that it is working properly. Also started to work on styling the log-in page.
+
+january 26th:
+finished the log-in page and also finished the register page. I updated and changed the Navbar, I added a simple logo, and also updated the movie tiles on our search page to give a rating, where it will turn green, yellow or red depending on the movies rating and the circle is interactive to where it fill the whole circle if it was rated 10, or half the circle if it was rated 5. Also made some changes to trivia pages.
+
+january 27th:
+Did a few navbar adjustments. I also added funcitoning arrows to the homepage slider and added arrows to the movie search page swiper as well.
