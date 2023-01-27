@@ -127,7 +127,7 @@ class MovieRepository:
 
                 if movie is None:
                     raise HTTPException(
-                        status_code=404, detail="Movie not found"
+                        status_code=204, detail="Movie not found"
                     )
 
                 return MovieOut(

@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { EffectCoverflow, Pagination, Autoplay, Navigation } from "swiper";
-// import "./VideoCarousel.css";
+
 
 function MainPage() {
   const navigate = useNavigate();
