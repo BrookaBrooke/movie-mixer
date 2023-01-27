@@ -133,7 +133,7 @@ function MovieSearch() {
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
       );
 
-      if (movieExistResponse.status === 404) {
+      if (movieExistResponse.status === 204) {
         try {
           const response = await fetch(
             `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
@@ -396,9 +396,6 @@ function MovieSearch() {
                   </Alert>
                 </Modal>
               </div>
-              {/* <div>
-                <div className="text-center text-light">{result.title}</div>
-              </div> */}
             </SwiperSlide>
           );
         })
@@ -472,7 +469,6 @@ function MovieSearch() {
             modules={[Grid, Navigation]}
             slidesPerView={4}
             slidesPerGroup={3}
-            // autoHeight={true}
             spaceBetween={0}
             grid={{ rows: 2, fill: "row" }}
             pagination={{

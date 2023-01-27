@@ -22,7 +22,7 @@ function Nav() {
     </>
   );
 
-  // var Img = <img src={Logo} />
+
 
   const LoggedInNavOptions = (
     <>
@@ -39,7 +39,7 @@ function Nav() {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Dropdown
+          Menu
         </NavLink>
         <ul className="dropdown-menu p-0">
           <li>
