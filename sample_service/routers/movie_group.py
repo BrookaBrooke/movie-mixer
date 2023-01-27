@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
 from authenticator import authenticator
 from typing import List
 

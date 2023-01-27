@@ -1,4 +1,3 @@
-import json
 from fastapi.testclient import TestClient
 from typing import List
 from queries.movie_group import MovieGroupRepository
@@ -28,12 +27,9 @@ class MovieGroupRepositoryMock:
     def list(self) -> List[MovieGroupOut]:
         return []
 
-    def get(self, id) -> MovieGroupOut:
-        return id
-
-    def get(self, movie_group_id):
+    def get(self, movie_group_id: int) -> MovieGroupOut:
         return {
-            "id": 1,
+            "id": movie_group_id,
             "name": "Jesse Movies",
             "owner": 1,
             "username": "Jesse",
@@ -65,14 +61,12 @@ def test_create_movie_group():
     app.dependency_overrides = {}
 
 
-def test_get_movie_group():
+def test_get_movie_groups():
     # Arrange
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
 
-    id = 1
-
     # Act
-    res = client.get(f"/movie-groups/{id}")
+    res = client.get("/movie-groups")
 
     # Assert
     assert res.status_code == 200

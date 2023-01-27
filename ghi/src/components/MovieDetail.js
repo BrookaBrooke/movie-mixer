@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
@@ -16,15 +16,106 @@ const MovieDetail = () => {
 
   const [token] = useContext(UserContext);
 
+  const createMovieItem = useCallback(
+    async (movieItem, token) => {
+      let data;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
+        );
+        data = await response.json();
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+      let movieItemExists = false;
+      for (let item of data) {
+        if (item.movie_id === movieItem.movie_id) {
+          alert("Movie is already in this list!");
+          movieItemExists = true;
+          break;
+        }
+      }
+      if (!movieItemExists) {
+        try {
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movieItem),
+            }
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [selectedGroupId]
+  );
+
+  const handleCreateMovie = useCallback(
+    async (details, token) => {
+      const movie_details = {
+        title: details.title,
+        released: details.release_date,
+        plot: details.overview,
+        imdbID: details.imdb_id,
+        poster: details.poster_path,
+        vote_avr: details.vote_average,
+        api3_id: details.id,
+      };
+      const movieExistResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
+      );
+      if (movieExistResponse.status === 404) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movie_details),
+            }
+          );
+          if (response.ok) {
+            const movieData = await response.json();
+            createMovieItem(
+              {
+                movie_id: movieData.id,
+                movie_group_id: selectedGroupId,
+                item_position: 0,
+              },
+              token
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (movieExistResponse.status === 200) {
+        const movieExistData = await movieExistResponse.json();
+        createMovieItem(
+          {
+            movie_id: movieExistData.id,
+            movie_group_id: selectedGroupId,
+            item_position: 0,
+          },
+          token
+        );
+      }
+    },
+    [createMovieItem, selectedGroupId]
+  );
+
   useEffect(() => {
     let now = new Date();
-    console.log("1st: ", localStorage.getItem("loginExp"));
-    console.log("2nd: ", new Date(localStorage.getItem("loginExp")));
-    console.log("3rd: ", new Date(now.getTime()));
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
-      console.log(
-        "token has expired -------------------------------------------------------"
-      );
       localStorage.setItem("loginExp", "null");
       navigate("/logout");
     }
@@ -39,7 +130,7 @@ const MovieDetail = () => {
       }
     }
     getMovies();
-  }, []);
+  }, [id, navigate]);
 
   useEffect(() => {
     async function fetchMovieGroups() {
@@ -57,105 +148,14 @@ const MovieDetail = () => {
       }
     }
     fetchMovieGroups();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (movieCreated) {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated]);
-
-  const createMovieItem = async (movieItem, token) => {
-    let data;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-    let movieItemExists = false;
-    for (let item of data) {
-      if (item.movie_id === movieItem.movie_id) {
-        alert("Movie is already in this list!");
-        movieItemExists = true;
-        break;
-      }
-    }
-    if (!movieItemExists) {
-      try {
-        await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movieItem),
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleCreateMovie = async (details, token) => {
-    const movie_details = {
-      title: details.title,
-      released: details.release_date,
-      plot: details.overview,
-      imdbID: details.imdb_id,
-      poster: details.poster_path,
-      vote_avr: details.vote_average,
-      api3_id: details.id,
-    };
-    const movieExistResponse = await fetch(
-      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
-    );
-    if (movieExistResponse.status === 404) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movie_details),
-          }
-        );
-        if (response.ok) {
-          const movieData = await response.json();
-          createMovieItem(
-            {
-              movie_id: movieData.id,
-              movie_group_id: selectedGroupId,
-              item_position: 0,
-            },
-            token
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (movieExistResponse.status === 200) {
-      const movieExistData = await movieExistResponse.json();
-      createMovieItem(
-        {
-          movie_id: movieExistData.id,
-          movie_group_id: selectedGroupId,
-          item_position: 0,
-        },
-        token
-      );
-    }
-  };
+  }, [handleCreateMovie, movieCreated, details, token]);
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
@@ -182,41 +182,16 @@ const MovieDetail = () => {
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div id="poster-detail" className="col-auto px-5 mb-4">
-            {/* <div className="d-flex justify-content-center"> */}
             <img
               className="poster-image"
+              style={{ height: "575px", width: "400px" }}
               src={
                 details.poster_path
                   ? `https://image.tmdb.org/t/p/w400${details.poster_path}`
-                  : `https://via.placeholder.com/400x550/FFFFFF/000000/?text=No%20Image%20Available`
+                  : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
               }
+              alt="detail"
             />
-            {/* <div className="d-flex justify-content-center p-3">
-              <Dropdown>
-                <Dropdown.Toggle
-                  className="btn btn-outline-info btn-lg bg-transparent mt-4"
-                  id="dropdown-basic"
-                >
-                  Add to List
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  {" "}
-                  {movieGroups.map((movieGroup) => (
-                    <Dropdown.Item
-                      key={movieGroup.id}
-                      onClick={(event) => {
-                        setMovieCreated(true);
-                        handleGroupSelection(event);
-                      }}
-                      value={movieGroup.id}
-                    >
-                      {movieGroup.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </div> */}
 
             <div className="d-flex justify-content-center pt-4">
               {token !== "null" ? (
@@ -251,16 +226,6 @@ const MovieDetail = () => {
                   Login to add to list
                 </NavLink>
               )}
-
-              {/*
-              Couldn't get the hover effect to match what this one had, will circle back
-              <button
-                className="btn btn-outline-info btn-lg"
-                type="button"
-                onClick={() => setMovieCreated(true)}
-              >
-                Add to List
-              </button> */}
             </div>
           </div>
           <div id="genres-div" className="col-auto align-self-center pb-1">
@@ -309,14 +274,3 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
-
-// .toFixed(1)
-
-{
-  /* <div id="back-drop">
-          <img style={background-image}: {`https://image.tmdb.org/t/p/w500${details.backdrop_path}`} />
-        </div> */
-}
-
-//   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
-// </div>
