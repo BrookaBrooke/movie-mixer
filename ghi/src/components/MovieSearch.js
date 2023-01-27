@@ -133,7 +133,7 @@ function MovieSearch() {
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
       );
 
-      if (movieExistResponse.status === 404) {
+      if (movieExistResponse.status === 204) {
         try {
           const response = await fetch(
             `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
