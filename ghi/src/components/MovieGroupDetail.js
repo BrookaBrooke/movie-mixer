@@ -250,7 +250,7 @@ const MovieGroupDetail = () => {
             <span id={i} className="input-item" >
             <Link
               className="text-secondary text-decoration-none h5"
-              to={`/movie-detail/${item.api3_id}`}         
+              to={`/movie-detail/${item.api3_id}`}
             >
               {item.title}
             </Link>
@@ -262,7 +262,7 @@ const MovieGroupDetail = () => {
           <div id={i} className="delButton" onClick={handleDelete}>
             X
           </div>
-     
+
         </>
         )}
       </div>
@@ -312,7 +312,7 @@ const MovieGroupDetail = () => {
         </span>
         <div>
           <p></p>
-          
+
             <button type="button"  onClick={goBack} className="btn btn-dark m-3 ">
             Go back
           </button>
