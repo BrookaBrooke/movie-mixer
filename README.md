@@ -10,19 +10,14 @@ MovieMixer - Movies for fans.
 
 MovieMixer - Collect and share your favorites.
 
-## Getting started
-
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
-
+-- --
 ## Intended Market
 
 Movie fans, amateurs or newbies who want to find something else to watch.
 
+-- --
 ## Functionality
-
+#### Deliverable
 * Vistors who are not registered can search for movie titles.
 * Visitors can open (register) an account on the site which will give them access to creating/editing personalized lists of favorites.
 * Registered users can add movies to their own lists from either the search results page or the movie detail page.
@@ -30,6 +25,11 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 * Movie detail page shows a short description taken from a 3rd party API and has a trailer available to see.
 * Movie trivia game with multiple-choice answers.
 
+#### Strecth goal(s) Functionality
+
+* Trivia High-scrore 
+
+-- --
 ## Project Initialization
 
 1. Clone the repo to your local machine.
@@ -45,38 +45,31 @@ Movie fans, amateurs or newbies who want to find something else to watch.
     * user :  `one`
     * password : `pass`
 
-* Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
-* Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
-
+-- --
 ## Deliverables
 
 * [x] Wire-frame diagrams
-* [ ] API documentation
+* [x] API documentation
 * [ ] Project is deployed to ______Render.com/GitLab-pages______
 * [ ] Journals
 
+-- --
 ## Design
 * [Api Design](/docs/api-design.md "/docs/api-design.md")
 * [Data Models](/docs/data-models.md "/docs/data-models.md")
 * [GHI](/docs/ghi.md "/docs/ghi.md")
 * [Integrations](/docs/integrations.md "/docs/integrations.md")
 
-### Other files
 
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
+## Tests:
+* [tests/test_005_movie_items](tests/test_005_movie_items) / [Michel Menin]
+  * test_get_items, test_add_movie_item_unauthenticated, test_add_movie_item_unauthorized, test _add_movie_item_authorized
 
-* `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-  configure automated unit tests, code quality checks, and
-  the building and deployment of your production system.
-  Currently, all it does is deploy an "under construction"
-  page to your production UI on GitLab and a sample backend
-  to Render.com. We will learn much more about this file.
-* `.gitignore`: This is a file that prevents unwanted files
-  from getting added to your repository, files like
-  `pyc` files, `__pycache__`, etc. We've set it up so that
-  it has a good default configuration for Python projects.
+-- --
+* Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
+* Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
+
+-- --
 
 ## How to complete the initial deploy
 
