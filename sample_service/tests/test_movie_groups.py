@@ -65,8 +65,6 @@ def test_get_movie_groups():
     # Arrange
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
 
-    id = 1
-
     # Act
     res = client.get("/movie-groups")
 
