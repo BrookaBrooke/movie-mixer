@@ -27,7 +27,7 @@ function MovieSearch() {
   const [movieGroups, setMovieGroups] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [showSuccessAlert, setSuccessAlert] = useState(false);
   const [showErrorAlert, setErrorAlert] = useState(false);
@@ -36,9 +36,12 @@ function MovieSearch() {
 
   useEffect(() => {
     let now = new Date();
-    if ( new Date(localStorage.getItem("loginExp")) < new Date(now.getTime() )) {
-      console.log("token has expired -------------------------------------------------------")
-      navigate("/logout")
+    if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
+      console.log(
+        "token has expired -------------------------------------------------------"
+      );
+      localStorage.setItem("loginExp", "null");
+      navigate("/logout");
     }
     const getResults = async () => {
       setLoading(true);
@@ -249,17 +252,49 @@ function MovieSearch() {
                 className="d-flex justify-content-center modal-container"
                 onClick={(e) => getMovies(modalId)}
               >
-                <img
-                  className="search-poster-image"
-                  src={
-                    result.poster_path
-                      ? `https://image.tmdb.org/t/p/w185${result.poster_path}`
-                      : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
-                  }
-                  onClick={() => {
-                    setModalOpen(modalId);
-                  }}
-                />
+              <div className="movie-card">
+                <div className="poster">
+                  <img
+
+                    className="movie-card"
+                    src={
+                      result.poster_path
+                        ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
+                        : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+                    }
+                    onClick={() => {
+                      setModalOpen(modalId);
+                    }}
+                  />
+                  <button className="show-more">
+                    <span className="material-icons">more_horiz</span>
+                  </button>
+                  <div className="movie-details">
+                    <div className="box">
+                        <h5 className="title">{result.title}</h5>
+                        <div className="rating" style={{
+                              background: `conic-gradient(${
+                                result.vote_average > 7
+                                  ? "#00cc66"
+                                  : result.vote_average < 3
+                                  ? "#ff3333"
+                                  : "#ffaa33"
+                              } ${result.vote_average * 10}%, ${
+                                result.vote_average > 7
+                                  ? "#1e3228"
+                                  : result.vote_average < 3
+                                  ? "#342020"
+                                  : "#372f23"
+                              } ${result.vote_average * 10}% ${
+                                result.vote_average * 10
+                              }%)`
+                            }}>
+                          <span className="rating-value">{result.vote_average}</span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
                 <Modal
                   show={modalId == modalOpen}
                   onHide={() => {
@@ -350,9 +385,9 @@ function MovieSearch() {
                   </Alert>
                 </Modal>
               </div>
-              <div>
+              {/* <div>
                 <div className="text-center text-light">{result.title}</div>
-              </div>
+              </div> */}
             </SwiperSlide>
           );
         })
@@ -364,83 +399,93 @@ function MovieSearch() {
       : `${20 * (pageNumber - 1) + 1} - ${results}`;
 
   return (
-    <div className="banner-search">
-      <div className="">
-        <div className="search-bar-height"></div>
-        <div className="search-bar">
-          <form
-            className="d-flex justify-content-center"
-            role="search"
-            onSubmit={onSubmit}
-          >
-            <div className="w-75 d-flex justify-content-center">
-              <input
-                className="form-control m-3"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                required
-                onChange={onChange}
-              />
-              <button
-                value={query}
-                className="btn btn-danger m-3"
-                type="submit"
-              >
-                Search
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="text-center text-light m-3">
-          {results !== undefined ? (
-            results !== 0 ? (
-              <>
-                <p>
-                  Showing {currentResults} of {results} results
-                </p>
-                <h1 className="text-light text-center">Swipe to see results</h1>
-              </>
-            ) : (
-              <p>There are no results that match your search query</p>
-            )
-          ) : null}
-        </div>
+    <div className="search-backdrop">
+      <div className="banner-search">
+        <div className="">
+          <div className="search-bar-height"></div>
+          <div className="search-bar">
+            <form
+              className="d-flex justify-content-center"
+              role="search"
+              onSubmit={onSubmit}
+            >
+              <div className="w-75 d-flex justify-content-center pt-4">
+                <input
+                  className="form-control m-3"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  required
+                  onChange={onChange}
+                />
+                <button
+                  value={query}
+                  className="btn btn-danger m-3"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="text-center text-light m-3">
+            {results !== undefined ? (
+              results !== 0 ? (
+                <>
+                  <p>
+                    Showing {currentResults} of {results} results
+                  </p>
+                  <div className="search-title">
+                    <h1 className="text-light text-center">
+                      Swipe to see results
+                    </h1>
+                  </div>
+                </>
+              ) : (
+                <p>There are no results that match your search query</p>
+              )
+            ) : null}
+          </div>
 
-        <Swiper
-          modules={[Grid]}
-          slidesPerView={4}
-          slidesPerGroup={2}
-          spaceBetween={0}
-          grid={{ rows: 2, fill: "row" }}
-          pagination={{
-            clickable: true,
-          }}
-          className={loading ? "d-none" : ""}
-        >
-          {movieList}
-          {pageNumber ? (
-            <div className="d-flex justify-content-center p-5">
-              {pageNumber > 1 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <LastPageButton />
-                </div>
-              ) : null}
-              {results / pageNumber > 20 ? (
-                <div className="p-2 d-flex justify-content-center">
-                  <NextPageButton />
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </Swiper>
-        <div className="d-flex justify-content-center p-5">
-          <div
-            className={loading ? "spinner-border text-light" : "d-none"}
-            role="status"
-            style={{ height: "10em", width: "10em", alignSelf: "center" }}
+          <Swiper
+            modules={[Grid]}
+            slidesPerView={4}
+            slidesPerGroup={2}
+            spaceBetween={0}
+            grid={{ rows: 2, fill: "row" }}
+            pagination={{
+              clickable: true,
+            }}
+            className={loading ? "d-none" : ""}
           >
-            <span className="visually-hidden">Loading...</span>
+            {movieList}
+            {pageNumber ? (
+              <div className="search-footer">
+                <div className="d-flex justify-content-center">
+                </div>
+                {pageNumber > 1 ? (
+                  <div className="p-2 d-flex justify-content-center">
+                    <LastPageButton />
+                  </div>
+                ) : null}
+                {results / pageNumber > 20 ? (
+                  <div className="p-2 d-flex justify-content-center">
+                    <NextPageButton />
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </Swiper>
+          <div className="search-footer">
+          <div className="d-flex justify-content-center">
+            <div
+              className={loading ? "spinner-border text-light" : "d-none"}
+              role="status"
+              style={{ height: "10em", width: "10em", alignSelf: "center" }}
+            >
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
           </div>
         </div>
       </div>

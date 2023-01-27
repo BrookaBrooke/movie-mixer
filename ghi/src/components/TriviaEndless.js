@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
+import CloseButton from "react-bootstrap/CloseButton";
 import he from "he";
 
 const TriviaEndless = () => {
@@ -15,10 +16,26 @@ const TriviaEndless = () => {
   const [usedQuestions, setUsedQuestions] = useState([]);
   const [hardWon, setHardWon] = useState(false);
   const { difficulty } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  function shuffle(array) {
+    let n = array.length,
+      i,
+      j;
+
+    while (n) {
+      j = Math.floor(Math.random() * n--);
+      i = array[n];
+      array[n] = array[j];
+      array[j] = i;
+    }
+
+    return array;
+  }
 
   const fetchQuestions = async () => {
     try {
@@ -34,13 +51,13 @@ const TriviaEndless = () => {
       newQuestions.forEach((question) => {
         const { correct_answer, incorrect_answers } = question;
         const answers = [correct_answer, ...incorrect_answers];
-        answers.sort(() => Math.random() - 0.5);
+        shuffle(answers);
         question.answers = answers;
       });
 
       setUsedQuestions((prevQuestions) => {
         setQuestions(
-          newQuestions.map((question) => ({
+          shuffle(newQuestions).map((question) => ({
             ...question,
             question: he.decode(question.question),
             correct_answer: he.decode(question.correct_answer),
@@ -104,67 +121,120 @@ const TriviaEndless = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const { question, correct_answer, answers } = currentQuestion;
   return (
-    <div className="container">
-      <h1 className="text-center my-3">Movie Trivia</h1>
-      <div className="card">
-        {gameOver ? (
-          <>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>{answerCheck}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>Game Over!</p>
-                {hardWon ? (
-                  <p>
-                    Contragulations! You made through all the hard questions!
-                  </p>
-                ) : (
-                  <></>
-                )}
-                <p>Final score: {score}</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={() => window.location.reload()}>
-                  Play Again
-                </Button>
-                <Link to="/trivia/">
-                  <Button>Trivia Home</Button>
-                </Link>
-              </Modal.Footer>
-            </Modal>
-            <Button onClick={() => window.location.reload()}>Play Again</Button>
-            <Link to="/trivia/">
-              <Button>Trivia Home</Button>
-            </Link>
-          </>
-        ) : (
-          <>
-            <div className="card-header">
-              <h2>{question}</h2>
-            </div>
-            <div className="card-body">
-              {answers.map((answer, index) => (
+    <div className="login-background">
+      <div className="row">
+        <div className="offset-3 col-6">
+          <div className="card trivia-box">
+            <h1 className="text-center p-3">Movie Trivia</h1>
+            {gameOver ? (
+              <>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
+                    <Modal.Header>
+                      <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p>Game Over!</p>
+                      {hardWon ? (
+                        <p>
+                          Contragulations! You made through all the hard
+                          questions!
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      <p>Final score: {score}</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <button
+                        type="button"
+                        className="btn btn-danger m-2"
+                        onClick={() => window.location.reload()}
+                      >
+                        Play Again
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary m-2"
+                        onClick={() => navigate("/trivia")}
+                      >
+                        Trivia Home
+                      </button>
+                    </Modal.Footer>
+                  </div>
+                </Modal>
                 <button
-                  key={index}
-                  className="btn btn-primary m-2"
-                  onClick={() => handleAnswerClick(answer)}
+                  type="button"
+                  className="btn btn-danger m-2"
+                  onClick={() => window.location.reload()}
                 >
-                  {answer}
+                  Play Again
                 </button>
-              ))}
-            </div>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>{answerCheck}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                Current score: {score} Lives Left: {3 - numWrong}
-              </Modal.Body>
-              <Modal.Footer></Modal.Footer>
-            </Modal>
-          </>
-        )}
+
+                <button
+                  type="button"
+                  className="btn btn-secondary m-2"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Trivia Home
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="card-header">
+                  <h2>{question}</h2>
+                </div>
+                <div className="card-body">
+                  {answers.map((answer, index) => (
+                    <button
+                      type="button"
+                      key={index}
+                      className="btn btn-danger m-2"
+                      onClick={() => handleAnswerClick(answer)}
+                    >
+                      {answer}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Quit to main page
+                </button>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
+                    <Modal.Header>
+                      <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
+                    </Modal.Header>
+                    <Modal.Body>
+                      Current score: {score} Lives Left: {3 - numWrong}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                        className="btn btn-danger"
+                      >
+                        Next Question
+                      </button>
+                    </Modal.Footer>
+                  </div>
+                </Modal>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
