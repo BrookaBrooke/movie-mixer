@@ -13,3 +13,7 @@ Today we started working on the accounts feature which will allow us to create a
 # 1-12-23
 
 # 1-13-23
+
+# 1-27-23
+
+Today I started working on the documentation for the project. This consisted of uploading screenshots and adding descriptions of our features.
