@@ -36,7 +36,7 @@ const MovieDetail = () => {
       }
     }
     getMovies();
-  }, []);
+  }, [id, navigate]);
 
   useEffect(() => {
     async function fetchMovieGroups() {
@@ -54,14 +54,14 @@ const MovieDetail = () => {
       }
     }
     fetchMovieGroups();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (movieCreated) {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated]);
+  }, [movieCreated, details, token]);
 
   const createMovieItem = async (movieItem, token) => {
     let data;
@@ -181,11 +181,13 @@ const MovieDetail = () => {
           <div id="poster-detail" className="col-auto px-5 mb-4">
             <img
               className="poster-image"
+              style={{ height: "575px", width: "400px" }}
               src={
                 details.poster_path
                   ? `https://image.tmdb.org/t/p/w400${details.poster_path}`
-                  : `https://via.placeholder.com/400x550/FFFFFF/000000/?text=No%20Image%20Available`
+                  : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
               }
+              alt="detail-image"
             />
 
             <div className="d-flex justify-content-center pt-4">

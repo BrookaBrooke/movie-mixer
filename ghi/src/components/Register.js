@@ -177,7 +177,7 @@ const Register = () => {
                 <br />
                 <div className="button-glow3">
                   <button className="button-glow" type="submit">
-                    <a className="button-glow">Register</a>
+                    <div className="button-glow">Register</div>
                   </button>
                 </div>
               </form>

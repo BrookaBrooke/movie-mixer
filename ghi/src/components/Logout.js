@@ -4,7 +4,6 @@ import { UserContext } from "../context/UserContext";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
   const [token] = useContext(UserContext);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Logout = () => {
       }
     };
     logout();
-  }, [token]);
+  }, [navigate, token]);
 
   return (
     <div className="banner-search row">

@@ -57,7 +57,7 @@ function MovieSearch() {
         setLoading(false);
       }, 300);
     }
-  }, [searchQuery, pageNumber]);
+  }, [navigate, searchQuery, pageNumber]);
 
   async function getMovies(modalId) {
     const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${modalId}`;
@@ -86,14 +86,14 @@ function MovieSearch() {
       }
     }
     fetchMovieGroups();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (movieCreated) {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated]);
+  }, [movieCreated, details, token]);
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
@@ -241,7 +241,6 @@ function MovieSearch() {
     results > 0
       ? movies.map((result) => {
           const modalId = result.id;
-          const target = "#" + modalId;
 
           return (
             <SwiperSlide key={result.id} value={result.id}>
@@ -256,8 +255,9 @@ function MovieSearch() {
                       src={
                         result.poster_path
                           ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
-                          : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+                          : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
                       }
+                      alt="search-image"
                       onClick={() => {
                         setModalOpen(modalId);
                       }}
@@ -297,7 +297,7 @@ function MovieSearch() {
                   </div>
                 </div>
                 <Modal
-                  show={modalId == modalOpen}
+                  show={modalId === modalOpen}
                   onHide={() => {
                     setModalOpen(null);
                     setSuccessAlert(false);

@@ -20,7 +20,7 @@ const TriviaLimited = () => {
 
   useEffect(() => {
     fetchQuestions();
-  }, [numQuestions]);
+  }, [fetchQuestions, numQuestions]);
 
   function shuffle(array) {
     let n = array.length,

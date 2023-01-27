@@ -132,7 +132,7 @@ const MyMovieGroups = () => {
   };
 
   if (Object.keys(groups).includes("detail")) {
-    if (groups.detail == "Invalid token") {
+    if (groups.detail === "Invalid token") {
       navigate("/login");
     } else {
       navigate("/groups");
@@ -161,145 +161,151 @@ const MyMovieGroups = () => {
   return (
     <>
       <div className="login-background">
-      <div className="container-fluid m-0 p-0">
-      <div className="offset-2 container-fluid">
-          <div className="list-box mt-5">
-            <h1 id="title-lists" className="text-center">{localStorage.getItem("username")}'s Movie Lists</h1>
+        <div className="container-fluid m-0 p-0">
+          <div className="offset-2 container-fluid">
+            <div className="list-box mt-5">
+              <h1 id="title-lists" className="text-center">
+                {localStorage.getItem("username")}'s Movie Lists
+              </h1>
 
-      <section className="container-fluid  col-11 mb-1 ">
-          <div className="">
-          <table  className="table table-dark table-hover list-table">
-            <thead>
-              <tr>
-                <th className="p-3">Name</th>
-                <th></th>
-                {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="list-body">
-              {groups.map((group) => {
-                return (
-                  <tr key={group.id}>
-                    {group.id === editingGroupId ? (
-                      <>
-                        <td className="ps-3">
-                          <input 
-                            type="text"
-                            name="name"
-                            value={formValues.name}
-                            onChange={handleChange}
-                          />
-                        </td>
-                        <td></td>
-                        <td>
-                          <button
-                            className="btn btn-primary me-3" 
-                            onClick={handleSubmit}
-                          >
-                            Save
-                          </button>
-                          <button
-                            className="btn btn-secondary"
-                            onClick={() => {
-                              setEditingGroupId(null);
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td className="ps-3">
-                          <Link
-                            className="text-secondary text-decoration-none h5"
-                            to={`/groups/${group.id}`}
-                          >
-                            {group.name}
-                          </Link>
-                        </td>
+              <section className="container-fluid  col-11 mb-1 ">
+                <div className="">
+                  <table className="table table-dark table-hover list-table">
+                    <thead>
+                      <tr>
+                        <th className="p-3">Name</th>
+                        <th></th>
+                        {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="list-body">
+                      {groups.map((group) => {
+                        return (
+                          <tr key={group.id}>
+                            {group.id === editingGroupId ? (
+                              <>
+                                <td className="ps-3">
+                                  <input
+                                    type="text"
+                                    name="name"
+                                    value={formValues.name}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td></td>
+                                <td>
+                                  <button
+                                    className="btn btn-primary me-3"
+                                    onClick={handleSubmit}
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    className="btn btn-secondary"
+                                    onClick={() => {
+                                      setEditingGroupId(null);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                <td className="ps-3">
+                                  <Link
+                                    className="text-secondary text-decoration-none h5"
+                                    to={`/groups/${group.id}`}
+                                  >
+                                    {group.name}
+                                  </Link>
+                                </td>
 
-                        <td></td>
-                        <td>
-                          <button
-                            className="btn btn-outline-primary"
-                            onClick={() => {
-                              setEditingGroupId(group.id);
-                              setFormValues({ name: group.name });
-                              setCreatingGroup(false);
-                            }}
-                          >
-                            Edit
-                          </button>
-                        </td>
-                      </>
-                    )}
-                    <td>
-                      <button
-                        className="btn btn-outline-danger"
-                        onClick={() => handleDelete(group.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                {creatingGroup ? (
-                  <>
-                    <td className="p-3"colSpan={2}>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formValues.name}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td className="pt-3 pb-3">
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleCreate}
-                      >
-                        Create
-                      </button>
-                    </td>
-                    <td className="pt-3 pb-3">
-                      <button
-                        className="btn btn-secondary"
-                        onClick={() => {
-                          setCreatingGroup(false);
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </td>
-                  </>
-                ) : (
-                  <td className="p-3"colSpan={4}>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={handleCreateGroup}
-                    >
-                      Create a movie group
-                    </button>
-                  </td>
-                )}
-              </tr>
-            </tbody>
-          </table>
+                                <td></td>
+                                <td>
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    onClick={() => {
+                                      setEditingGroupId(group.id);
+                                      setFormValues({ name: group.name });
+                                      setCreatingGroup(false);
+                                    }}
+                                  >
+                                    Edit
+                                  </button>
+                                </td>
+                              </>
+                            )}
+                            <td>
+                              <button
+                                className="btn btn-outline-danger"
+                                onClick={() => handleDelete(group.id)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <tr>
+                        {creatingGroup ? (
+                          <>
+                            <td className="p-3" colSpan={2}>
+                              <input
+                                type="text"
+                                name="name"
+                                value={formValues.name}
+                                onChange={handleChange}
+                              />
+                            </td>
+                            <td className="pt-3 pb-3">
+                              <button
+                                className="btn btn-primary"
+                                onClick={handleCreate}
+                              >
+                                Create
+                              </button>
+                            </td>
+                            <td className="pt-3 pb-3">
+                              <button
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                  setCreatingGroup(false);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </td>
+                          </>
+                        ) : (
+                          <td className="p-3" colSpan={4}>
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={handleCreateGroup}
+                            >
+                              Create a movie group
+                            </button>
+                          </td>
+                        )}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <ErrorMessage message={errorMessage} />
+                <div className="pt-4">
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    class="btn btn-lg btn-dark"
+                  >
+                    Go back
+                  </button>
+                </div>
+              </section>
+            </div>
           </div>
-          <ErrorMessage message={errorMessage} />
-          <div className="pt-4">
-            <button type="button" onClick={goBack} class="btn btn-lg btn-dark">
-              Go back
-            </button>
-          </div>
-        </section>
-        </div>
-        </div>
         </div>
       </div>
     </>

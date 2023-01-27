@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Tooltip, Button, OverlayTrigger } from "react-bootstrap";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 
 const MovieGroupDetail = () => {
@@ -10,7 +10,6 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [token] = useContext(UserContext);
   const [deleteQueue, setDeleteQueue] = useState([]);
   const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
   const navigate = useNavigate();
@@ -47,12 +46,24 @@ const MovieGroupDetail = () => {
         console.error(error);
       }
     };
+
     fetchMovieGroups();
     fetchMovieItems();
     setLoading(false);
-  }, [id]);
+  }, [fetchMovieItems, id]);
 
   useEffect(() => {
+    const fetchMovieItems = async () => {
+      try {
+        const movieItemsResponse = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
+        );
+        const movieItemsData = await movieItemsResponse.json();
+        setMovieItems(movieItemsData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (!movieGroup) {
       return;
     }
@@ -63,7 +74,7 @@ const MovieGroupDetail = () => {
     } else {
       setOwnerEditAllowed(false);
     }
-  }, [movieGroup, id]);
+  }, [fetchMovieItems, movieGroup, id]);
 
   let sourceElement = null;
 

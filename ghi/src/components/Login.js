@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, NavLink, renderMatches } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 import ErrorMessage from "./ErrorMessage";
 
 let now = new Date();
@@ -37,7 +37,9 @@ const Login = () => {
           navigate("/");
           window.location.reload(false);
         }
-      } catch (e) {}
+      } catch (e) {
+        setErrorMessage("There was an issue logging into your account");
+      }
       return false;
     }
   }
