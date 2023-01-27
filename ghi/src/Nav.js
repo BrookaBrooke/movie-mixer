@@ -22,7 +22,7 @@ function Nav() {
     </>
   );
 
-  // var Img = <img src={Logo} />
+
 
   const LoggedInNavOptions = (
     <>
