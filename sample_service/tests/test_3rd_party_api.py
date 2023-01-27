@@ -9,17 +9,28 @@ client = TestClient(app=app)
 
 
 class MockAPIQuery:
-    def get(self) -> List[MovieOut]:
+    def getmovies(self):
         return []
 
 
-def test_search_movies():
+def test_get_movies():
     # Arrange
     app.dependency_overrides[ApiMovieQueries] = MockAPIQuery()
     # Act
-    res = client.get('/api-movies/search/{title}')
+    res = client.get('/api-movies/detail{id}')
     # Assert
     assert res.status_code == 200
-    assert res.json() == []
+    assert res.json() == {
+        "detail": [
+            {
+                "loc": [
+                    "string",
+                    0
+                ],
+                "msg": "string",
+                "type": "string"
+            }
+        ]
+    }
 
     app.dependency_overrides = {}
