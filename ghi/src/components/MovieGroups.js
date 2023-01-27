@@ -63,11 +63,13 @@ const MovieGroups = () => {
 
   return (
     <>
-      <div className="page">
+      <div className="login-background">
+      <div className="container-fluid m-0 p-0">
+      <div className="offset-2 container-fluid">
+          <div className="list-box">
+            <h1 className="text-center">Community Movie Lists</h1>
+
         <section className="container">
-          <h2 style={{ color: "white", textAlign: "center" }}>
-            All Favorites List
-          </h2>
           <table className="table table-dark table-hover">
             <thead>
               <tr>
@@ -104,6 +106,9 @@ const MovieGroups = () => {
             </button>
           </div>
         </section>
+        </div>
+        </div>
+        </div>
       </div>
     </>
   );

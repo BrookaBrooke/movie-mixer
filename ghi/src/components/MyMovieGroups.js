@@ -161,11 +161,13 @@ const MyMovieGroups = () => {
 
   return (
     <>
-      <div className="page">
-        <section className="container">
-          <h2 style={{ color: "white", textAlign: "center" }}>
-            {localStorage.getItem("username")}'s Favorites List
-          </h2>
+      <div className="login-background">
+      <div className="container-fluid m-0 p-0">
+      <div className="offset-2 container-fluid">
+          <div className="list-box mt-5">
+            <h1 className="text-center">{localStorage.getItem("username")}'s Movie Lists</h1>
+
+      <section className="container-fluid  col-10 mb-5">
           <table className="table table-dark table-hover">
             <thead>
               <tr>
@@ -193,7 +195,7 @@ const MyMovieGroups = () => {
                         <td></td>
                         <td>
                           <button
-                            className="btn btn-primary"
+                            className="btn btn-primary me-3" 
                             onClick={handleSubmit}
                           >
                             Save
@@ -222,7 +224,7 @@ const MyMovieGroups = () => {
                         <td></td>
                         <td>
                           <button
-                            className="btn btn-primary"
+                            className="btn btn-outline-primary"
                             onClick={() => {
                               setEditingGroupId(group.id);
                               setFormValues({ name: group.name });
@@ -236,7 +238,7 @@ const MyMovieGroups = () => {
                     )}
                     <td>
                       <button
-                        className="btn btn-danger"
+                        className="btn btn-outline-danger"
                         onClick={() => handleDelete(group.id)}
                       >
                         Delete
@@ -278,7 +280,7 @@ const MyMovieGroups = () => {
                 ) : (
                   <td colSpan={4}>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                       onClick={handleCreateGroup}
                     >
                       Create a movie group
@@ -295,6 +297,9 @@ const MyMovieGroups = () => {
             </button>
           </div>
         </section>
+        </div>
+        </div>
+        </div>
       </div>
     </>
   );

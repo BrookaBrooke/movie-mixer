@@ -295,7 +295,7 @@ const MovieGroupDetail = () => {
         )}
         <span>
           {!editMode && ownerEditAllowed && movieItems.length > 0 && (
-              <button type="button"  className="btn btn-primary m-3" onClick={handleEditMode} >
+              <button type="button"  className="btn btn-outline-primary m-3" onClick={handleEditMode} >
               Edit List
             </button>
           )}
