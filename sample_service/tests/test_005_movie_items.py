@@ -1,7 +1,11 @@
-import json
 from fastapi.testclient import TestClient
 from typing import List, Dict, Any
-from queries.movie_item import MovieItemRepository, MovieItemIn, MovieItemOut, MovieGroupItem
+from queries.movie_item import (
+    MovieItemRepository,
+    MovieItemIn,
+    MovieItemOut,
+    MovieGroupItem,
+)
 from queries.movie_group import MovieGroupRepository, MovieGroupOut
 from authenticator import authenticator
 from main import app
@@ -19,32 +23,27 @@ class MovieItemRepositoryMock:
 
     def get_detail(self, id) -> MovieItemOut:
         return id
-    
+
     def get_list(self, movie_group_id) -> List[MovieGroupItem]:
         return []
 
-    
     def delete(self, id: int) -> Dict[str, Any]:
         return id
 
-def get_current_account_data_mock_id1():
-    return {
-        'id': 1,
-        'username': 'one'
-    }
-    
-def get_current_account_data_mock_id2():
-    return {
-        'id': 2,
-        'username': 'two'
-    }
-    
-class MovieGroupRepositoryMock:
 
+def get_current_account_data_mock_id1():
+    return {"id": 1, "username": "one"}
+
+
+def get_current_account_data_mock_id2():
+    return {"id": 2, "username": "two"}
+
+
+class MovieGroupRepositoryMock:
     def get(self, id):
-        return MovieGroupOut(id=id,owner=1,name="favorites")
-    
-    
+        return MovieGroupOut(id=id, owner=1, name="favorites")
+
+
 def test_get_items():
     # Arrange
     app.dependency_overrides[MovieItemRepository] = MovieItemRepositoryMock
@@ -57,7 +56,8 @@ def test_get_items():
     assert res.json() == []
 
     # A cleanup
-    app.dependency_overrides = {}    
+    app.dependency_overrides = {}
+
 
 def test_add_movie_item_unauthenticated():
     # Arrange
@@ -78,10 +78,13 @@ def test_add_movie_item_unauthenticated():
     # A cleanup
     app.dependency_overrides = {}
 
+
 def test_add_movie_item_authorized():
     # Arrange
     app.dependency_overrides[MovieItemRepository] = MovieItemRepositoryMock
-    app.dependency_overrides[authenticator.get_current_account_data] = get_current_account_data_mock_id1
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = get_current_account_data_mock_id1
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
     item_body = {
         "movie_id": 1,
@@ -98,10 +101,13 @@ def test_add_movie_item_authorized():
     # A cleanup
     app.dependency_overrides = {}
 
+
 def test_add_movie_item_unauthorized():
     # Arrange
     app.dependency_overrides[MovieItemRepository] = MovieItemRepositoryMock
-    app.dependency_overrides[authenticator.get_current_account_data] = get_current_account_data_mock_id2
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = get_current_account_data_mock_id2
     app.dependency_overrides[MovieGroupRepository] = MovieGroupRepositoryMock
     item_body = {
         "movie_id": 1,

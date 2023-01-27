@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from requests import get
 import os
 
 from routers import movies, movie_group, accounts, movie_item, api_movies

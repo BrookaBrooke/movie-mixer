@@ -1,5 +1,4 @@
 import { Outlet, Navigate } from "react-router-dom";
-import ErrorMessage from "./ErrorMessage";
 
 function ProtectedRoutes() {
   let isAuthenticated = localStorage.getItem("leadsToken");
