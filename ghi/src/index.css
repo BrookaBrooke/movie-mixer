@@ -1039,27 +1039,27 @@ div .movie-card {
   width: 100%;
 }
 
-.dropdown-menu li {
+dropdown-item li {
   background-color: rgb(25, 25, 25);
   color: white;
 }
 
-.dropdown-menu li:hover {
+dropdown-item li:hover {
   background-color: rgb(25, 25, 25);
 }
 
-.dropdown-menu li > a:hover {
+dropdown-item li > a:hover {
   text-decoration: none;
 }
 
 /* Changes the color of link text <a> after navbar has collapsed for small screen or mobile mode */
-.navbar-inverse .navbar-nav .open .dropdown-menu > li > a,
-.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:visited {
+.navbar-inverse .navbar-nav .open dropdown-item > li > a,
+.navbar-inverse .navbar-nav .open dropdown-item > li > a:visited {
   color: white;
 }
 
 .a,
-.dropdown-item {
+nav-item {
   color: white;
 }
 
