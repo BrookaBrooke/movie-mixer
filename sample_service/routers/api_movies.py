@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from typing import List
 from queries.api_movies import ApiMovieQueries
 
 router = APIRouter()
@@ -16,7 +15,7 @@ def get_movie(id: str, repo: ApiMovieQueries = Depends()):
 
 
 @router.get("/api-movies/detail-with-trailer/{id}", response_model=dict)
-def get_movie(id: str, repo: ApiMovieQueries = Depends()):
+def get_movie_with_trailer(id: str, repo: ApiMovieQueries = Depends()):
     return repo.get_one_movie_with_trailer(id)
 
 

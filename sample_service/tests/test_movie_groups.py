@@ -1,4 +1,3 @@
-import json
 from fastapi.testclient import TestClient
 from typing import List
 from queries.movie_group import MovieGroupRepository
@@ -28,12 +27,9 @@ class MovieGroupRepositoryMock:
     def list(self) -> List[MovieGroupOut]:
         return []
 
-    def get(self, id) -> MovieGroupOut:
-        return id
-
-    def get(self, movie_group_id):
+    def get(self, movie_group_id: int) -> MovieGroupOut:
         return {
-            "id": 1,
+            "id": movie_group_id,
             "name": "Jesse Movies",
             "owner": 1,
             "username": "Jesse",
