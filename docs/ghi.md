@@ -22,7 +22,7 @@
 
 ![Login/Signup Form Wireframe](wireframe/signup_form.png)
 
-![Login Form Final](final_product/login.png)
+![Login Form Final](final_product/updated_login.png)
 
 ![Signup Form Final](final_product/register.png)
 
@@ -66,4 +66,4 @@ And Here is the detail of one list:
 
 This was originally a stretch goal, however we decided to include it in the mvp!
 
-![Movie Trivia Final](final_product/movie_trivia)
+![Movie Trivia Final](final_product/movie_trivia.png)
