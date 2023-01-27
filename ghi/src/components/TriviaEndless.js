@@ -121,7 +121,7 @@ const TriviaEndless = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const { question, correct_answer, answers } = currentQuestion;
   return (
-    <div className="login-background">
+    <div className="trivia-background">
       <div className="row">
         <div className="offset-3 col-6">
           <div className="card trivia-box">
@@ -169,7 +169,8 @@ const TriviaEndless = () => {
                 </Modal>
                 <button
                   type="button"
-                  className="btn btn-danger m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-danger m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => window.location.reload()}
                 >
                   Play Again
@@ -177,7 +178,8 @@ const TriviaEndless = () => {
 
                 <button
                   type="button"
-                  className="btn btn-secondary m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => navigate("/trivia")}
                 >
                   Trivia Home

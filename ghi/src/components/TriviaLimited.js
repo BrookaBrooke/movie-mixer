@@ -119,7 +119,7 @@ const TriviaLimited = () => {
   const { question, correct_answer, answers } = currentQuestion;
 
   return (
-    <div className="login-background">
+    <div className="trivia-background">
       <div className="row">
         <div className="offset-3 col-6">
           <div className="card trivia-box">
@@ -175,9 +175,14 @@ const TriviaLimited = () => {
                     </Modal.Footer>
                   </div>
                 </Modal>
-                <Form.Group controlId="numQuestions">
+                <Form.Group
+                  controlId="numQuestions"
+                  className="d-flex-column align-self-center text-center"
+                >
                   <Form.Label>Number of Questions</Form.Label>
                   <Form.Control
+                    style={{ width: "auto" }}
+                    className="text-center d-flex align-self-center mx-auto"
                     type="number"
                     min="1"
                     onChange={(e) => setNewNumQuestions(e.target.value)}
@@ -187,7 +192,8 @@ const TriviaLimited = () => {
                 </Form.Group>
                 <button
                   type="button"
-                  className="btn btn-danger m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-danger m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => {
                     navigate(`/trivia/limited/${newNumQuestions}`);
                     window.location.reload();
@@ -197,7 +203,8 @@ const TriviaLimited = () => {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary m-2"
+                  style={{ width: "auto" }}
+                  className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => navigate("/trivia")}
                 >
                   Trivia Home
