@@ -719,8 +719,19 @@ div #genres-div .col-align-self-end pb-5{
   top: 20%;
   font-size: 18px;
   padding-top: 60px;
-}
+  padding-bottom: 50px;
 
+}
+#title-lists {
+  padding-bottom: 40px;
+}
+.list-table {
+  border-radius: 20px !important;
+  border-width: 20px;
+  border-collapse: collapse !important;
+  overflow:hidden; 
+
+}
 #endless-mode {
   padding-top: 25px;
 }

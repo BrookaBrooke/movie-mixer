@@ -165,27 +165,28 @@ const MyMovieGroups = () => {
       <div className="container-fluid m-0 p-0">
       <div className="offset-2 container-fluid">
           <div className="list-box mt-5">
-            <h1 className="text-center">{localStorage.getItem("username")}'s Movie Lists</h1>
+            <h1 id="title-lists" className="text-center">{localStorage.getItem("username")}'s Movie Lists</h1>
 
-      <section className="container-fluid  col-10 mb-5">
-          <table className="table table-dark table-hover">
+      <section className="container-fluid  col-11 mb-1 ">
+          <div className="">
+          <table  className="table table-dark table-hover list-table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th className="p-3">Name</th>
                 <th></th>
                 {/* This is here if we add a feature for a user to add other users' lists to their own collection of lists, it can be commented out or removed if not needed in the end */}
                 <th></th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="list-body">
               {groups.map((group) => {
                 return (
                   <tr key={group.id}>
                     {group.id === editingGroupId ? (
                       <>
-                        <td>
-                          <input
+                        <td className="ps-3">
+                          <input 
                             type="text"
                             name="name"
                             value={formValues.name}
@@ -212,7 +213,7 @@ const MyMovieGroups = () => {
                       </>
                     ) : (
                       <>
-                        <td>
+                        <td className="ps-3">
                           <Link
                             className="text-secondary text-decoration-none h5"
                             to={`/groups/${group.id}`}
@@ -250,7 +251,7 @@ const MyMovieGroups = () => {
               <tr>
                 {creatingGroup ? (
                   <>
-                    <td colSpan={2}>
+                    <td className="p-3"colSpan={2}>
                       <input
                         type="text"
                         name="name"
@@ -258,7 +259,7 @@ const MyMovieGroups = () => {
                         onChange={handleChange}
                       />
                     </td>
-                    <td>
+                    <td className="pt-3 pb-3">
                       <button
                         className="btn btn-primary"
                         onClick={handleCreate}
@@ -266,7 +267,7 @@ const MyMovieGroups = () => {
                         Create
                       </button>
                     </td>
-                    <td>
+                    <td className="pt-3 pb-3">
                       <button
                         className="btn btn-secondary"
                         onClick={() => {
@@ -278,7 +279,7 @@ const MyMovieGroups = () => {
                     </td>
                   </>
                 ) : (
-                  <td colSpan={4}>
+                  <td className="p-3"colSpan={4}>
                     <button
                       className="btn btn-outline-primary"
                       onClick={handleCreateGroup}
@@ -290,9 +291,10 @@ const MyMovieGroups = () => {
               </tr>
             </tbody>
           </table>
+          </div>
           <ErrorMessage message={errorMessage} />
-          <div>
-            <button type="button" onClick={goBack} class="btn btn-dark">
+          <div className="pt-4">
+            <button type="button" onClick={goBack} class="btn btn-lg btn-dark">
               Go back
             </button>
           </div>
