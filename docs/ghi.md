@@ -22,9 +22,9 @@
 
 ![Login/Signup Form Wireframe](wireframe/signup_form.png)
 
-![Login Form Final](final_product/register.png)
+![Login Form Final](final_product/login.png)
 
-![Signup Form Final]()
+![Signup Form Final](final_product/register.png)
 
 ## My List View
 
@@ -32,17 +32,27 @@
 
 ![My List View Wireframe](wireframe/my_list_view.png)
 
+Here is the List of your lists:
+![My list View Final](final_product/movie_list.png)
+
+And Here is the detail of one list:
+![My List View Final](final_product/movie_list_detail.png)
+
 ## List View for All Lists
 
 ### On this page, you will be able to view all of the other lists the user has created.
 
 ![List View for All Lists Wireframe](wireframe/all_list_view.png)
 
+![List View for All Lists Final](final_product/com_movie_lists.png)
+
 ## Detail Page
 
 ### This is where the user will be able to view the detials of the selected movie.
 
 ![Detail Page Wireframe](wireframe/movie_detail_page.png)
+
+![Detail Page Final](final_product/detail_page.png)
 
 ## Search Page
 
