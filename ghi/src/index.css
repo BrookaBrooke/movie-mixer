@@ -136,7 +136,7 @@ code {
   background-color: black;
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 10%;
   width: 550px;
   font-family: "Quicksand", sans-serif;
   border-radius: 15px;
@@ -494,7 +494,7 @@ input,
     #8e0e00
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-size: cover;
-  height: 1280px;
+  height: 1350px;
   font-family: "Quicksand", sans-serif;
 }
 
@@ -871,6 +871,7 @@ div .movie-card {
 
 .nav-link {
   color: white !important;
+  margin-right: 20px;
 }
 
 .navbar-brand {

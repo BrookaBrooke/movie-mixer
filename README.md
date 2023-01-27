@@ -74,6 +74,8 @@ Movie fans, amateurs or newbies who want to find something else to watch.
   - test_get_items, test_add_movie_item_unauthenticated, test_add_movie_item_unauthorized, test \_add_movie_item_authorized
 - [tests/test_movie_groups](tests/test_movie_groups) / [Ben Gerber]
   - test_create_movie_group, test_get_movie_groups
+  [tests/test_movie_groups](tests/test_movie_groups) / [Jesse Morris]
+  - test_get_movie_group_id
 
 ---
 

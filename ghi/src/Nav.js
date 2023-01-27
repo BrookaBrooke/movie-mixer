@@ -41,7 +41,7 @@ function Nav() {
         >
           Menu
         </NavLink>
-        <ul className="dropdown-menu p-0">
+        <ul className="dropdown-menu p-1">
           <li>
             <NavLink className="dropdown-item p-0" to="/"></NavLink>
           </li>

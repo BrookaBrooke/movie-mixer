@@ -158,7 +158,7 @@ function MainPage() {
       <div className="banner-search text-light">
         <div className="movie-info">
           <h1 className="home-header">MovieMixer</h1>
-          <p className="text-center p-2">
+          <p className="text-center p-2 pb-4">
             Find information for any movie you desire and organize them into
             your personal list to keep track of upcoming titles or old
             favorites! You can create different lists with many genres or a
@@ -177,7 +177,7 @@ function MainPage() {
                   >
                     Log in
                   </button>
-                  <h4 className="pt-4 pb-2">Not signed up?</h4>
+                  <h4 className="pt-5 pb-2">Not signed up?</h4>
                   <div className="signup-button">
                     <button
                       className="btn btn-lg btn-outline-danger"
