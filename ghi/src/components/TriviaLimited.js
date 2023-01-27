@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -17,6 +17,8 @@ const TriviaLimited = () => {
   const [newNumQuestions, setNewNumQuestions] = useState(1);
   const { numQuestions, difficulty } = useParams();
   const navigate = useNavigate();
+
+  const fetchingComplete = useRef(false);
 
   const fetchQuestions = useCallback(async () => {
     try {
@@ -54,11 +56,14 @@ const TriviaLimited = () => {
     } catch (error) {
       console.error(error);
     }
-  });
+  }, [difficulty, numQuestions, usedQuestions]);
 
   useEffect(() => {
-    fetchQuestions();
-  }, [numQuestions]);
+    if (fetchingComplete.current === false) {
+      fetchQuestions();
+      fetchingComplete.current = true;
+    }
+  }, [fetchQuestions]);
 
   function shuffle(array) {
     let n = array.length,
@@ -99,7 +104,6 @@ const TriviaLimited = () => {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setQuestionNum((n) => n + 1);
     } else {
-      fetchQuestions();
       setCurrentQuestionIndex(0);
       setQuestionNum((n) => n + 1);
     }

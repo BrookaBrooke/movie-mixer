@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
-import ReactPlayer from "react-player/lazy";
+import ReactPlayer from "react-player";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";

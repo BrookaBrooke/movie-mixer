@@ -16,6 +16,103 @@ const MovieDetail = () => {
 
   const [token] = useContext(UserContext);
 
+  const createMovieItem = useCallback(
+    async (movieItem, token) => {
+      let data;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
+        );
+        data = await response.json();
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+      let movieItemExists = false;
+      for (let item of data) {
+        if (item.movie_id === movieItem.movie_id) {
+          alert("Movie is already in this list!");
+          movieItemExists = true;
+          break;
+        }
+      }
+      if (!movieItemExists) {
+        try {
+          await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movieItem),
+            }
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [selectedGroupId]
+  );
+
+  const handleCreateMovie = useCallback(
+    async (details, token) => {
+      const movie_details = {
+        title: details.title,
+        released: details.release_date,
+        plot: details.overview,
+        imdbID: details.imdb_id,
+        poster: details.poster_path,
+        vote_avr: details.vote_average,
+        api3_id: details.id,
+      };
+      const movieExistResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
+      );
+      if (movieExistResponse.status === 404) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movie_details),
+            }
+          );
+          if (response.ok) {
+            const movieData = await response.json();
+            createMovieItem(
+              {
+                movie_id: movieData.id,
+                movie_group_id: selectedGroupId,
+                item_position: 0,
+              },
+              token
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (movieExistResponse.status === 200) {
+        const movieExistData = await movieExistResponse.json();
+        createMovieItem(
+          {
+            movie_id: movieExistData.id,
+            movie_group_id: selectedGroupId,
+            item_position: 0,
+          },
+          token
+        );
+      }
+    },
+    [createMovieItem, selectedGroupId]
+  );
+
   useEffect(() => {
     let now = new Date();
     console.log("1st: ", localStorage.getItem("loginExp"));
@@ -62,97 +159,6 @@ const MovieDetail = () => {
       setMovieCreated(false);
     }
   }, [handleCreateMovie, movieCreated, details, token]);
-
-  const createMovieItem = async (movieItem, token) => {
-    let data;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-    let movieItemExists = false;
-    for (let item of data) {
-      if (item.movie_id === movieItem.movie_id) {
-        alert("Movie is already in this list!");
-        movieItemExists = true;
-        break;
-      }
-    }
-    if (!movieItemExists) {
-      try {
-        await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movieItem),
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleCreateMovie = useCallback(async (details, token) => {
-    const movie_details = {
-      title: details.title,
-      released: details.release_date,
-      plot: details.overview,
-      imdbID: details.imdb_id,
-      poster: details.poster_path,
-      vote_avr: details.vote_average,
-      api3_id: details.id,
-    };
-    const movieExistResponse = await fetch(
-      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
-    );
-    if (movieExistResponse.status === 404) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movie_details),
-          }
-        );
-        if (response.ok) {
-          const movieData = await response.json();
-          createMovieItem(
-            {
-              movie_id: movieData.id,
-              movie_group_id: selectedGroupId,
-              item_position: 0,
-            },
-            token
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (movieExistResponse.status === 200) {
-      const movieExistData = await movieExistResponse.json();
-      createMovieItem(
-        {
-          movie_id: movieExistData.id,
-          movie_group_id: selectedGroupId,
-          item_position: 0,
-        },
-        token
-      );
-    }
-  });
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));

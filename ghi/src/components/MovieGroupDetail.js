@@ -31,7 +31,7 @@ const MovieGroupDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  });
+  }, [id]);
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -147,6 +147,8 @@ const MovieGroupDetail = () => {
           body: JSON.stringify(ordered_data),
         }
       );
+      if (response.ok) {
+      }
     } catch (error) {
       console.error(error);
     }
