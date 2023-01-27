@@ -282,9 +282,9 @@ const MovieGroupDetail = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page pt-5">
       <div className="container">
-        <h1 style={{ color: "white", textAlign: "center" }}>
+        <h1 className=" pt-5" style={{ color: "white", textAlign: "center" }}>
           {movieGroup?.name}
         </h1>
         {listItems()}
@@ -295,7 +295,7 @@ const MovieGroupDetail = () => {
         )}
         <span>
           {!editMode && ownerEditAllowed && movieItems.length > 0 && (
-              <button type="button"  className="btn btn-primary m-3" onClick={handleEditMode} >
+              <button type="button"  className="btn btn-outline-primary m-3" onClick={handleEditMode} >
               Edit List
             </button>
           )}

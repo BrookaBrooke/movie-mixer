@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+import CloseButton from "react-bootstrap/CloseButton";
 import he from "he";
 
 const TriviaLimited = () => {
@@ -21,6 +22,21 @@ const TriviaLimited = () => {
     fetchQuestions();
   }, [numQuestions]);
 
+  function shuffle(array) {
+    let n = array.length,
+      i,
+      j;
+
+    while (n) {
+      j = Math.floor(Math.random() * n--);
+      i = array[n];
+      array[n] = array[j];
+      array[j] = i;
+    }
+
+    return array;
+  }
+
   const fetchQuestions = async () => {
     try {
       const response = await fetch(
@@ -35,13 +51,13 @@ const TriviaLimited = () => {
       newQuestions.forEach((question) => {
         const { correct_answer, incorrect_answers } = question;
         const answers = [correct_answer, ...incorrect_answers];
-        answers.sort(() => Math.random() - 0.5);
+        shuffle(answers);
         question.answers = answers;
       });
 
       setUsedQuestions((prevQuestions) => {
         setQuestions(
-          newQuestions.map((question) => ({
+          shuffle(newQuestions).map((question) => ({
             ...question,
             question: he.decode(question.question),
             correct_answer: he.decode(question.correct_answer),
@@ -103,16 +119,21 @@ const TriviaLimited = () => {
   const { question, correct_answer, answers } = currentQuestion;
 
   return (
-    <div className="login-background">
+    <div className="trivia-background">
       <div className="row">
         <div className="offset-3 col-6">
           <div className="card trivia-box">
             <h1 className="text-center my-3">Movie Trivia</h1>
-              {gameOver ? (
-                <>
-                  <Modal show={showModal} onHide={() => setShowModal(false)}>
+            {gameOver ? (
+              <>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
                     <Modal.Header closeButton>
                       <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
                     </Modal.Header>
                     <Modal.Body>
                       <p>Game Over!</p>
@@ -121,78 +142,126 @@ const TriviaLimited = () => {
                       </p>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button
+                      <button
+                        type="button"
+                        className="btn btn-danger m-2"
                         onClick={() => {
-                          navigate(`/trivia/limited/${newNumQuestions}`);
+                          navigate(
+                            `/trivia/limited/${newNumQuestions}/${difficulty}`
+                          );
                           window.location.reload();
                         }}
                       >
                         Play Again
-                      </Button>
+                      </button>
 
                       <Form.Group controlId="numQuestions">
                         <Form.Label>Number of Questions</Form.Label>
                         <Form.Control
                           type="number"
                           min="1"
+                          className="text-center"
                           onChange={(e) => setNewNumQuestions(e.target.value)}
                           value={newNumQuestions}
                           placeholder="Enter number of questions"
                         />
                       </Form.Group>
-                      <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
-                    </Modal.Footer>
-                  </Modal>
-                  <Form.Group controlId="numQuestions">
-                    <Form.Label>Number of Questions</Form.Label>
-                    <Form.Control
-                      type="number"
-                      min="1"
-                      onChange={(e) => setNewNumQuestions(e.target.value)}
-                      value={newNumQuestions}
-                      placeholder="Enter number of questions"
-                    />
-                  </Form.Group>
-                  <Button
-                    onClick={() => {
-                      navigate(`/trivia/limited/${newNumQuestions}`);
-                      window.location.reload();
-                    }}
-                  >
-                    Play Again
-                  </Button>
-
-                  <Button onClick={() => navigate(`/trivia`)}>Trivia Home</Button>
-                </>
-              ) : (
-                <>
-                  <div className="card-header">
-                    <h2>
-                      {questionNum}. {question}
-                    </h2>
-                  </div>
-                  <div className="card-body">
-                    {answers.map((answer, index) => (
                       <button
-                        key={index}
-                        className="btn btn-primary m-2"
-                        onClick={() => handleAnswerClick(answer)}
+                        type="button"
+                        className="btn btn-secondary m-2"
+                        onClick={() => navigate("/trivia")}
                       >
-                        {answer}
+                        Trivia Home
                       </button>
-                    ))}
+                    </Modal.Footer>
                   </div>
-                  <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
+                </Modal>
+                <Form.Group
+                  controlId="numQuestions"
+                  className="d-flex-column align-self-center text-center"
+                >
+                  <Form.Label>Number of Questions</Form.Label>
+                  <Form.Control
+                    style={{ width: "auto" }}
+                    className="text-center d-flex align-self-center mx-auto"
+                    type="number"
+                    min="1"
+                    onChange={(e) => setNewNumQuestions(e.target.value)}
+                    value={newNumQuestions}
+                    placeholder="Enter number of questions"
+                  />
+                </Form.Group>
+                <button
+                  type="button"
+                  style={{ width: "auto" }}
+                  className="btn btn-danger m-2 text-center d-flex align-self-center mx-auto"
+                  onClick={() => {
+                    navigate(`/trivia/limited/${newNumQuestions}`);
+                    window.location.reload();
+                  }}
+                >
+                  Play Again
+                </button>
+                <button
+                  type="button"
+                  style={{ width: "auto" }}
+                  className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Trivia Home
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="card-header">
+                  <h2>
+                    {questionNum}. {question}
+                  </h2>
+                </div>
+                <div className="card-body">
+                  {answers.map((answer, index) => (
+                    <button
+                      key={index}
+                      className="btn btn-danger m-2"
+                      onClick={() => handleAnswerClick(answer)}
+                    >
+                      {answer}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => navigate("/trivia")}
+                >
+                  Quit to main page
+                </button>
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <div className="trivia-modal">
+                    <Modal.Header>
                       <Modal.Title>{answerCheck}</Modal.Title>
+                      <CloseButton
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                      />
                     </Modal.Header>
                     <Modal.Body>
                       Current score: {score}/{numQuestions}
                     </Modal.Body>
-                    <Modal.Footer></Modal.Footer>
-                  </Modal>
-                </>
-              )}
+                    <Modal.Footer>
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        variant="white"
+                        className="btn btn-danger"
+                      >
+                        Next Question
+                      </button>
+                    </Modal.Footer>
+                  </div>
+                </Modal>
+              </>
+            )}
           </div>
         </div>
       </div>
