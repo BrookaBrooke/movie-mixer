@@ -20,7 +20,7 @@ const TriviaEndless = () => {
 
   useEffect(() => {
     fetchQuestions();
-  }, [fetchQuestions]);
+  }, []);
 
   function shuffle(array) {
     let n = array.length,

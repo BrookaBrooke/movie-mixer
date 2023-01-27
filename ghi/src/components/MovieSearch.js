@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
@@ -93,7 +93,7 @@ function MovieSearch() {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated, details, token]);
+  }, [handleCreateMovie, movieCreated, details, token]);
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
@@ -143,7 +143,7 @@ function MovieSearch() {
     }
   };
 
-  const handleCreateMovie = async (details, token) => {
+  const handleCreateMovie = useCallback(async (details, token) => {
     const movie_details = {
       title: details.title,
       released: details.release_date ? details.release_date : null,
@@ -196,7 +196,7 @@ function MovieSearch() {
         token
       );
     }
-  };
+  });
 
   function onChange(event) {
     setQuery(event.target.value);
@@ -257,7 +257,7 @@ function MovieSearch() {
                           ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
                           : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
                       }
-                      alt="search-image"
+                      alt="search"
                       onClick={() => {
                         setModalOpen(modalId);
                       }}

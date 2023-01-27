@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
-import { UserContext } from "../context/UserContext";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -22,7 +21,7 @@ const MovieGroupDetail = () => {
     <Tooltip id="tooltipEdit">Click and drag to change order</Tooltip>
   );
 
-  const fetchMovieItems = async () => {
+  const fetchMovieItems = useCallback(async () => {
     try {
       const movieItemsResponse = await fetch(
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
@@ -32,7 +31,7 @@ const MovieGroupDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  });
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -53,17 +52,6 @@ const MovieGroupDetail = () => {
   }, [fetchMovieItems, id]);
 
   useEffect(() => {
-    const fetchMovieItems = async () => {
-      try {
-        const movieItemsResponse = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
-        );
-        const movieItemsData = await movieItemsResponse.json();
-        setMovieItems(movieItemsData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     if (!movieGroup) {
       return;
     }
@@ -159,7 +147,6 @@ const MovieGroupDetail = () => {
           body: JSON.stringify(ordered_data),
         }
       );
-      const data = await response.json();
     } catch (error) {
       console.error(error);
     }

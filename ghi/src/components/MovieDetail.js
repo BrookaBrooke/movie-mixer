@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../context/UserContext";
@@ -61,7 +61,7 @@ const MovieDetail = () => {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated, details, token]);
+  }, [handleCreateMovie, movieCreated, details, token]);
 
   const createMovieItem = async (movieItem, token) => {
     let data;
@@ -101,7 +101,7 @@ const MovieDetail = () => {
     }
   };
 
-  const handleCreateMovie = async (details, token) => {
+  const handleCreateMovie = useCallback(async (details, token) => {
     const movie_details = {
       title: details.title,
       released: details.release_date,
@@ -152,7 +152,7 @@ const MovieDetail = () => {
         token
       );
     }
-  };
+  });
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
@@ -187,7 +187,7 @@ const MovieDetail = () => {
                   ? `https://image.tmdb.org/t/p/w400${details.poster_path}`
                   : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
               }
-              alt="detail-image"
+              alt="detail"
             />
 
             <div className="d-flex justify-content-center pt-4">

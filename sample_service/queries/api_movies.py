@@ -2,7 +2,7 @@ import requests
 import os
 import random
 
-api_key = os.environ["THE_MOVIE_DB_API_KEY"]
+api_key = os.environ.get("THE_MOVIE_DB_API_KEY")
 
 
 class ApiMovieQueries:

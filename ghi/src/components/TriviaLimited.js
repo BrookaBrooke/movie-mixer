@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -18,26 +18,7 @@ const TriviaLimited = () => {
   const { numQuestions, difficulty } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions, numQuestions]);
-
-  function shuffle(array) {
-    let n = array.length,
-      i,
-      j;
-
-    while (n) {
-      j = Math.floor(Math.random() * n--);
-      i = array[n];
-      array[n] = array[j];
-      array[j] = i;
-    }
-
-    return array;
-  }
-
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     try {
       const response = await fetch(
         `https://opentdb.com/api.php?amount=${numQuestions}&category=11&difficulty=${difficulty}`
@@ -73,7 +54,26 @@ const TriviaLimited = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  });
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [numQuestions]);
+
+  function shuffle(array) {
+    let n = array.length,
+      i,
+      j;
+
+    while (n) {
+      j = Math.floor(Math.random() * n--);
+      i = array[n];
+      array[n] = array[j];
+      array[j] = i;
+    }
+
+    return array;
+  }
 
   const handleAnswerClick = (answer) => {
     if (answer === correct_answer) {
