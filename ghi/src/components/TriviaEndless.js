@@ -110,7 +110,7 @@ const TriviaEndless = () => {
     <div className="login-background">
       <div className="row">
         <div className="offset-3 col-6">
-          <div className="card login-box">
+          <div className="card trivia-box">
             <h1 className="text-center p-3">Movie Trivia</h1>
             {gameOver ? (
               <>

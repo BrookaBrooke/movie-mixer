@@ -63,16 +63,19 @@ const MovieGroups = () => {
 
   return (
     <>
-      <div className="page">
-        <section className="container">
-          <h2 style={{ color: "white", textAlign: "center" }}>
-            All Favorites List
-          </h2>
-          <table className="table table-dark table-hover">
+      <div className="login-background">
+      <div className="container-fluid m-0 p-0">
+      <div className="offset-2 container-fluid">
+          <div className="list-box mt-5">
+            <h1 id="title-lists" className="text-center">Community Movie Lists</h1>
+
+        <section className="container-fluid  col-11 mb-1 ">
+          <div className="">
+          <table  className="table table-dark table-hover list-table">
             <thead>
               <tr>
-                <th>List Name</th>
-                <th>User</th>
+                <th className="p-3">List Name</th>
+                <th className="pt-3 pb-3">User</th>
               </tr>
             </thead>
             <tbody>
@@ -81,7 +84,7 @@ const MovieGroups = () => {
                   <tr key={group.id}>
                     {
                       <>
-                        <td>
+                        <td className="ps-3" >
                           <Link
                             className="text-secondary text-decoration-none h5"
                             to={`/groups/${group.id}`}
@@ -98,12 +101,16 @@ const MovieGroups = () => {
               })}
             </tbody>
           </table>
-          <div>
-            <button type="button" onClick={goBack} class="btn btn-dark">
+          </div>
+          <div className="pt-4">
+            <button type="button" onClick={goBack} class="btn btn-lg btn-dark">
               Go back
             </button>
           </div>
         </section>
+        </div>
+        </div>
+        </div>
       </div>
     </>
   );
