@@ -199,8 +199,8 @@ const MovieGroupDetail = () => {
       <div key={i} className="dnd-list">
         <div className="number-movies">{i + 1}</div>
         {editMode && (
-          <OverlayTrigger placement="bottom" overlay={tooltipEdit}>
-            <span
+          <OverlayTrigger placement="left" overlay={tooltipEdit}>
+            <div
               id={i}
               className="input-item"
               draggable="true"
@@ -213,11 +213,11 @@ const MovieGroupDetail = () => {
               onChange={handleChange}
             >
               {item.title}
-            </span>
+            </div>
           </OverlayTrigger>
         )}
         {!editMode && (
-          <OverlayTrigger placement="bottom" overlay={tooltip}>
+          <OverlayTrigger placement="left" overlay={tooltip}>
             <span id={i} className="input-item">
               <Link
                 className="text-secondary text-decoration-none h5"

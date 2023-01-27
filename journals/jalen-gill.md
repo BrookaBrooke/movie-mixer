@@ -15,3 +15,18 @@ I continued to work on the search feature today, I realized that when you entere
 
 # January 11th 2023:
 I wanted to fix the next page and previous page buttons today, I solved that previous bug by making sure that the pagenumber had a state that oculd be updated and that it was hardcoded to send the user to page 1 whenever they submitted a query. With that out of the way, I turned my attention to adding bootstrap to make the search results more presentable.
+
+# January 12th 2023:
+Now that the search page was functional, I worked towards getting the results to show up in a grid. Since there were 20 results, I made 5 rows of 4 movies, each with a picture and a title. We had also planned to create detail pages for each movie, so I added a button under each result that would redirect them to this page.
+
+# January 13th 2023:
+
+# January 17th 2023:
+# January 18th 2023:
+# January 19th 2023:
+# January 20th 2023:
+# January 23rd 2023:
+# January 24th 2023:
+# January 25th 2023:
+# January 26th 2023:
+# January 27th 2023:
