@@ -6,7 +6,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { EffectCoverflow, Pagination, Autoplay } from "swiper";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { EffectCoverflow, Pagination, Autoplay, Navigation } from "swiper";
 import { UserContext } from "../context/UserContext";
 // import "./VideoCarousel.css";
 
@@ -81,6 +82,9 @@ function MainPage() {
   //   });
   // };
 
+
+
+
   return (
     <>
       <div className="banner-search text-light">
@@ -123,8 +127,21 @@ function MainPage() {
             </div>
           )}
 
+
+          <div id="arrow-next" className="swiper-button image-swiper-button-next">
+            <IoIosArrowForward />
+          </div>
+          <div id="arrow-prev" className="swiper-button image-swiper-button-prev">
+            <IoIosArrowBack />
+          </div>
           <Swiper
-            modules={[EffectCoverflow, Pagination, Autoplay]}
+
+            navigation={{
+              nextEl: ".image-swiper-button-next",
+              prevEl: ".image-swiper-button-prev",
+
+            }}
+            modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
             effect={"coverflow"}
             centeredSlides={true}
             spaceBetween={30}
@@ -150,6 +167,7 @@ function MainPage() {
                 })
               : null}
           </Swiper>
+
         </div>
       </div>
       <div className="banner-search text-light">

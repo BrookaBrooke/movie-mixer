@@ -462,7 +462,7 @@ input,
 }
 
 .banner-search {
-  background-color: rgb(50, 50, 50);
+  background-color: rgb(25, 25, 25);
   height: cover;
 }
 
@@ -903,7 +903,7 @@ button-glow {
   cursor: pointer;
   background-size: cover;
   height: 400px;
-  width: 300px;
+  width: 275px;
   margin-bottom: 30px;
 
  }
@@ -1063,4 +1063,62 @@ div .movie-card {
 
 .footer-style {
   background-color: rgb(25, 25, 25);
+}
+
+#arrow-next {
+  position: absolute;
+  top: 42%;
+  z-index: 10;
+  cursor: pointer;
+  right: 1%;
+  height: 60px;
+  opacity: 0.1;
+}
+
+#arrow-prev {
+  position: absolute;
+  top: 42%;
+  left: .8%;
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0.1;
+}
+
+.swiper-button svg {
+  width: 3.5rem;
+  height: 3.5rem;
+
+}
+
+#arrow-next-search {
+  position: absolute;
+  top: 49.5%;
+  z-index: 100;
+  cursor: pointer;
+  right: 0%;
+  height: 60px;
+  opacity: 0.1;
+  color: white;
+}
+
+#arrow-prev-search {
+  position: absolute;
+  top: 49.5%;
+  left: 0%;
+  z-index: 100 !important;
+  cursor: pointer;
+  opacity: 0.1;
+  color: white;
+}
+
+.search-rel {
+  position: relative;
+  size-adjust: auto;
+}
+
+.movie-card img {
+  margin-right:4px;
+}
+.swiper-slide:last-child img {
+  margin-right:0px;
 }
