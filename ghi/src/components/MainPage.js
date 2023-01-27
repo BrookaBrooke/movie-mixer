@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
-import ReactPlayer from "react-player/lazy";
+import ReactPlayer from "react-player";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -243,6 +243,7 @@ function MainPage() {
               <img
                 className="movie-trivia-image"
                 src="https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="movie-trivia"
               />
             </div>
             <div className="movie-trivia-home">
@@ -470,9 +471,11 @@ function MainPage() {
             </div>
             <div className="text-center p-3">
               © 2022 Copyright
-              <a className="text-white" href="">
-                MovieMixer
-              </a>
+              <p>
+                <a className="text-white" href="/">
+                  MovieMixer
+                </a>
+              </p>
             </div>
           </footer>
         </div>

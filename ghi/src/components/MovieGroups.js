@@ -4,11 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 const MovieGroups = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingGroupId, setEditingGroupId] = useState();
-  const [creatingGroup, setCreatingGroup] = useState(false);
-  const [formValues, setFormValues] = useState({
-    name: "",
-  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,18 +21,6 @@ const MovieGroups = () => {
     };
     fetchData();
   }, []);
-
-  const handleCreateGroup = () => {
-    setCreatingGroup(true);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
 
   if (Object.keys(groups).includes("detail")) {
     return (

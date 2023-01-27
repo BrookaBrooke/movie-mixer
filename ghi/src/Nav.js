@@ -1,5 +1,5 @@
-import { React, useState, useContext, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { React, useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import Logo from "../src/media/moviemixer.png";
 
@@ -32,20 +32,19 @@ function Nav() {
         </NavLink>
       </li>
       <li className="nav-item px-2 dropdown">
-        <a
+        <NavLink
+          to="/"
           className="nav-link dropdown-toggle"
-          href="#"
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           Dropdown
-        </a>
+        </NavLink>
         <ul className="dropdown-menu p-0">
           <li>
             <NavLink className="dropdown-item p-0" to="/"></NavLink>
           </li>
-          {/* <li><hr className="dropdown-divider p-0"/></li> */}
           <li>
             <NavLink className="dropdown-item" to="/my-groups">
               My Movie Lists
@@ -74,7 +73,7 @@ function Nav() {
     <nav className="navbar fixed-top navbar-expand-lg navbar-brand">
       <div className="container-fluid">
         <NavLink className="navbar-brand px-2" to="/">
-          <img src={Logo} width={200} height={42} />
+          <img src={Logo} alt="Logo" width={200} height={42} />
         </NavLink>
         <button
           className="navbar-toggler"

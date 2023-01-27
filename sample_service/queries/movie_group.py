@@ -44,9 +44,13 @@ class MovieGroupRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT movie_groups.id, movie_groups.name, movie_groups.owner, accounts.username
+                    SELECT movie_groups.id
+                    , movie_groups.name
+                    , movie_groups.owner
+                    , accounts.username
                     FROM accounts
-                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id;
+                    INNER JOIN movie_groups
+                    ON movie_groups.owner = accounts.id;
                     """
                 )
                 return [
@@ -75,25 +79,33 @@ class MovieGroupRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT movie_groups.id, movie_groups.name, movie_groups.owner, accounts.username
+                    SELECT movie_groups.id
+                    , movie_groups.name
+                    , movie_groups.owner
+                    , accounts.username
                     FROM accounts
-                    INNER JOIN movie_groups ON movie_groups.owner = accounts.id
+                    INNER JOIN movie_groups
+                    ON movie_groups.owner = accounts.id
                     WHERE movie_groups.id = %s;
-                    """
-                    ,[id]
-                    )
+                    """,
+                    [id],
+                )
                 group = db.fetchone()
                 if not group:
                     return None
                 return GroupUserItem(
-                    id=group[0], name=group[1], owner=group[2], username=group[3],
+                    id=group[0],
+                    name=group[1],
+                    owner=group[2],
+                    username=group[3],
                 )
 
     def create(self, movie_group: MovieGroupIn) -> MovieGroupOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
-                    "INSERT INTO movie_groups (name, owner) VALUES (%s, %s) RETURNING id",
+                    """INSERT INTO movie_groups (name, owner)
+                    VALUES (%s, %s) RETURNING id""",
                     (movie_group.name, movie_group.owner),
                 )
                 data = movie_group.dict()
@@ -104,7 +116,9 @@ class MovieGroupRepository:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
-                    "UPDATE movie_groups SET name = %s, owner = %s WHERE id = %s",
+                    """UPDATE movie_groups
+                    SET name = %s, owner = %s
+                    WHERE id = %s""",
                     (movie_group.name, movie_group.owner, id),
                 )
                 return movie_group
@@ -112,5 +126,9 @@ class MovieGroupRepository:
     def delete(self, id: int) -> Dict[str, Any]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("DELETE FROM movie_groups WHERE id = %s", (id,))
+                db.execute(
+                    """DELETE FROM movie_groups
+                    WHERE id = %s""",
+                    (id,),
+                )
                 return {"id": id}

@@ -33,7 +33,13 @@ class MovieRepository:
                 db.execute(
                     """
                     INSERT INTO movies (
-                        title, release_date, overview, imdb_id, poster_path, vote_average, api3_id
+                        title
+                        , release_date
+                        , overview
+                        , imdb_id
+                        , poster_path
+                        , vote_average
+                        , api3_id
                     )
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
@@ -76,24 +82,14 @@ class MovieRepository:
                     result.append(movie)
                 return result
 
-                # print("*************")
-                # print(all_movies)
-                # print("*************")
-                # print(result.fetchall())")
-                # return all_movies
-
-                # if all_movies is None:
-                #     return None
-                # else:
-                #     for i in all_movies:
-                #         list_movies.append(i)
-                #     return list_movies
-
     def list_by_ids(self, ids: str) -> List[MovieOut]:
         id_list = list(map(lambda x: int(x), ids.split(",")))
         if id_list is None:
             return []
-        stmt = "SELECT * FROM movies WHERE id IN (%s)" % ",".join(
+        stmt = """
+        SELECT * FROM movies
+        WHERE id IN (%s)
+        """ % ",".join(
             "%s" for _ in id_list
         )
         with pool.connection() as conn:

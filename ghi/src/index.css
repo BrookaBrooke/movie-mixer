@@ -813,7 +813,7 @@ button-glow {
   text-align: center;
 }
 
-.button-glow3 a {
+.button-glow3 div {
   padding: 8px 12px;
   color: #ffffff;
 
@@ -828,7 +828,7 @@ button-glow {
   margin-bottom: 10px;
 }
 
-.button-glow3 a:hover {
+.button-glow3 div:hover {
   background: #ffffff;
   color: #050801;
   box-shadow: 0 0 5px #ffffff, 0 0 15px #ffffff, 0 0 25px #ffffff,

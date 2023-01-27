@@ -1,10 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
   const [token] = useContext(UserContext);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Logout = () => {
       }
     };
     logout();
-  }, [token]);
+  }, [navigate, token]);
 
   return (
     <div className="banner-search row">

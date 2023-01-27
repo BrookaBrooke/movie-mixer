@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal, Alert } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
@@ -59,7 +59,7 @@ function MovieSearch() {
         setLoading(false);
       }, 300);
     }
-  }, [searchQuery, pageNumber]);
+  }, [navigate, searchQuery, pageNumber]);
 
   async function getMovies(modalId) {
     const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail/${modalId}`;
@@ -69,6 +69,111 @@ function MovieSearch() {
       setDetails(data);
     }
   }
+
+  const createMovieItem = useCallback(
+    async (movieItem, token) => {
+      let data;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
+        );
+        data = await response.json();
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+      let movieItemExists = false;
+      for (let item of data) {
+        if (item.movie_id === movieItem.movie_id) {
+          setErrorAlert(true);
+          setTimeout(() => {
+            setErrorAlert(false);
+          }, 5000);
+          movieItemExists = true;
+          break;
+        }
+      }
+      if (!movieItemExists) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movieItem),
+            }
+          );
+          if (response.ok) {
+            setSuccessAlert(true);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [selectedGroupId]
+  );
+
+  const handleCreateMovie = useCallback(
+    async (details, token) => {
+      const movie_details = {
+        title: details.title,
+        released: details.release_date ? details.release_date : null,
+        plot: details.overview,
+        imdbID: details.imdb_id,
+        poster: details.poster_path,
+        vote_avr: details.vote_average,
+        api3_id: details.id,
+      };
+
+      const movieExistResponse = await fetch(
+        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
+      );
+
+      if (movieExistResponse.status === 404) {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(movie_details),
+            }
+          );
+          if (response.ok) {
+            const movieData = await response.json();
+            createMovieItem(
+              {
+                movie_id: movieData.id,
+                movie_group_id: selectedGroupId,
+                item_position: 0,
+              },
+              token
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (movieExistResponse.status === 200) {
+        const movieExistData = await movieExistResponse.json();
+        createMovieItem(
+          {
+            movie_id: movieExistData.id,
+            movie_group_id: selectedGroupId,
+            item_position: 0,
+          },
+          token
+        );
+      }
+    },
+    [createMovieItem, selectedGroupId]
+  );
 
   useEffect(() => {
     async function fetchMovieGroups() {
@@ -88,116 +193,17 @@ function MovieSearch() {
       }
     }
     fetchMovieGroups();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (movieCreated) {
       handleCreateMovie(details, token);
       setMovieCreated(false);
     }
-  }, [movieCreated]);
+  }, [handleCreateMovie, movieCreated, details, token]);
 
   const handleGroupSelection = (event) => {
     setSelectedGroupId(Number(event.target.getAttribute("value")));
-  };
-
-  const createMovieItem = async (movieItem, token) => {
-    let data;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${selectedGroupId}`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-    let movieItemExists = false;
-    for (let item of data) {
-      if (item.movie_id === movieItem.movie_id) {
-        setErrorAlert(true);
-        setTimeout(() => {
-          setErrorAlert(false);
-        }, 5000);
-        movieItemExists = true;
-        break;
-      }
-    }
-    if (!movieItemExists) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movieItem),
-          }
-        );
-        if (response.ok) {
-          setSuccessAlert(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleCreateMovie = async (details, token) => {
-    const movie_details = {
-      title: details.title,
-      released: details.release_date ? details.release_date : null,
-      plot: details.overview,
-      imdbID: details.imdb_id,
-      poster: details.poster_path,
-      vote_avr: details.vote_average,
-      api3_id: details.id,
-    };
-
-    const movieExistResponse = await fetch(
-      `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies/${details.imdb_id}`
-    );
-
-    if (movieExistResponse.status === 404) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movies`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(movie_details),
-          }
-        );
-        if (response.ok) {
-          const movieData = await response.json();
-          createMovieItem(
-            {
-              movie_id: movieData.id,
-              movie_group_id: selectedGroupId,
-              item_position: 0,
-            },
-            token
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (movieExistResponse.status === 200) {
-      const movieExistData = await movieExistResponse.json();
-      createMovieItem(
-        {
-          movie_id: movieExistData.id,
-          movie_group_id: selectedGroupId,
-          item_position: 0,
-        },
-        token
-      );
-    }
   };
 
   function onChange(event) {
@@ -245,7 +251,6 @@ function MovieSearch() {
     results > 0
       ? movies.map((result) => {
           const modalId = result.id;
-          const target = "#" + modalId;
 
           return (
             <SwiperSlide key={result.id} value={result.id}>
@@ -260,8 +265,9 @@ function MovieSearch() {
                       src={
                         result.poster_path
                           ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
-                          : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+                          : `https://static.vecteezy.com/system/resources/previews/007/126/739/original/question-mark-icon-free-vector.jpg`
                       }
+                      alt="search"
                       onClick={() => {
                         setModalOpen(modalId);
                       }}
@@ -301,7 +307,7 @@ function MovieSearch() {
                   </div>
                 </div>
                 <Modal
-                  show={modalId == modalOpen}
+                  show={modalId === modalOpen}
                   onHide={() => {
                     setModalOpen(null);
                     setSuccessAlert(false);

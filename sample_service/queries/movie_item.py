@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from datetime import date
 from queries.pool import pool
 from typing import List, Dict, Any
 
@@ -40,7 +39,8 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    INSERT INTO movie_items (movie_id, movie_group_id, item_position)
+                    INSERT INTO movie_items
+                    (movie_id, movie_group_id, item_position)
                     VALUES (%s, %s, %s)
                     RETURNING id;
                     """,
@@ -98,9 +98,14 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT movie_items.id, movie_items.item_position, movie_items.movie_id, movies.title, movies.api3_id
+                    SELECT movie_items.id
+                    , movie_items.item_position
+                    , movie_items.movie_id
+                    , movies.title
+                    , movies.api3_id
                     FROM movie_items
-                    INNER JOIN movies ON movies.id = movie_items.movie_id
+                    INNER JOIN movies
+                    ON movies.id = movie_items.movie_id
                     WHERE movie_items.movie_group_id = %s
                     ORDER BY item_position
                     """,
@@ -124,7 +129,8 @@ class MovieItemRepository:
                 db.execute(
                     """
                     DELETE FROM movie_items
-                    WHERE movie_items.movie_group_id = %s AND movie_items.movie_id = %s
+                    WHERE movie_items.movie_group_id = %s
+                    AND movie_items.movie_id = %s
                     """,
                     [movie_group_id, movie_id],
                 )
@@ -135,7 +141,9 @@ class MovieItemRepository:
             with conn.cursor() as db:
                 for movie_item in items:
                     db.execute(
-                        "UPDATE movie_items SET item_position = %s WHERE id = %s",
+                        """UPDATE movie_items
+                         SET item_position = %s
+                         WHERE id = %s""",
                         (movie_item.item_position, movie_item.id),
                     )
                 return items
@@ -143,5 +151,11 @@ class MovieItemRepository:
     def delete(self, id: int) -> Dict[str, Any]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("DELETE FROM movie_items WHERE id = %s", (id,))
+                db.execute(
+                    """
+                DELETE FROM movie_items
+                WHERE id = %s
+                """,
+                    (id,),
+                )
                 return {"id": id}

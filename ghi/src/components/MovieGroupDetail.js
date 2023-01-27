@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Tooltip, Button, OverlayTrigger } from "react-bootstrap";
-import { UserContext } from "../context/UserContext";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
 
 const MovieGroupDetail = () => {
   const [movieGroup, setMovieGroup] = useState(null);
@@ -10,7 +9,6 @@ const MovieGroupDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [token] = useContext(UserContext);
   const [deleteQueue, setDeleteQueue] = useState([]);
   const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +21,7 @@ const MovieGroupDetail = () => {
     <Tooltip id="tooltipEdit">Click and drag to change order</Tooltip>
   );
 
-  const fetchMovieItems = async () => {
+  const fetchMovieItems = useCallback(async () => {
     try {
       const movieItemsResponse = await fetch(
         `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie_items/${id}`
@@ -33,7 +31,7 @@ const MovieGroupDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     const fetchMovieGroups = async () => {
@@ -47,10 +45,11 @@ const MovieGroupDetail = () => {
         console.error(error);
       }
     };
+
     fetchMovieGroups();
     fetchMovieItems();
     setLoading(false);
-  }, [id]);
+  }, [fetchMovieItems, id]);
 
   useEffect(() => {
     if (!movieGroup) {
@@ -63,7 +62,7 @@ const MovieGroupDetail = () => {
     } else {
       setOwnerEditAllowed(false);
     }
-  }, [movieGroup, id]);
+  }, [fetchMovieItems, movieGroup, id]);
 
   let sourceElement = null;
 
@@ -148,7 +147,8 @@ const MovieGroupDetail = () => {
           body: JSON.stringify(ordered_data),
         }
       );
-      const data = await response.json();
+      if (response.ok) {
+      }
     } catch (error) {
       console.error(error);
     }
