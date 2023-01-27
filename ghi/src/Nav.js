@@ -10,11 +10,19 @@ function Nav() {
   console.log(typeof userToken);
 
   const LoggedOutNavOptions = (
-    <li className="nav-item px-2">
-      <NavLink className="nav-link active" to="/login">
-        Log In
-      </NavLink>
-    </li>
+    <>
+      <li className="nav-item px-2">
+        <NavLink className="nav-link active" to="/login">
+          Log In
+        </NavLink>
+      </li>
+      <li className="nav-item px-2">
+        <NavLink className="nav-link active" to="/register">
+          Register
+        </NavLink>
+      </li>
+    </>
+
   );
 
   // var Img = <img src={Logo} />
@@ -36,33 +44,28 @@ function Nav() {
         >
           Dropdown
         </a>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu p-0">
           <li>
-            <NavLink className="dropdown-item" to="/"></NavLink>
+            <NavLink className="dropdown-item p-0" to="/"></NavLink>
           </li>
-          <li><hr className="dropdown-divider"/></li>
+          {/* <li><hr className="dropdown-divider p-0"/></li> */}
           <li>
             <NavLink className="dropdown-item" to="/my-groups">
-              My Favorites
+              My Movie Lists
             </NavLink>
           </li>
           <li>
             <NavLink className="dropdown-item" to="groups/">
-              All Favorites
+              Community Movie Lists
             </NavLink>
           </li>
           <li>
             <NavLink className="dropdown-item" to="/trivia">
-              Movie Trivia (home)
+              Movie Trivia
             </NavLink>
           </li>
         </ul>
       </li>
-      <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="/register">
-                Register
-              </NavLink>
-            </li>
       <li className="nav-item px-2">
         <NavLink className="nav-link active" to="/logout">
           Log Out
@@ -71,7 +74,7 @@ function Nav() {
     </>
   );
   return (
-    <nav className="navbar navbar-expand-lg navbar-brand">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-brand">
       <div className="container-fluid">
         <NavLink className="navbar-brand px-2" to="/">
           <img src={Logo} width={200} height={42} />
