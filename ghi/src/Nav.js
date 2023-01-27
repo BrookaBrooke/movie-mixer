@@ -10,19 +10,25 @@ function Nav() {
   const LoggedOutNavOptions = (
     <>
       <li className="nav-item px-2">
-        <NavLink className="nav-link active" to="/login">
+        <NavLink
+          className="nav-link active"
+          to="/login"
+          onClick={() => window.scroll(0, 0)}
+        >
           Log In
         </NavLink>
       </li>
       <li className="nav-item px-2">
-        <NavLink className="nav-link active" to="/register">
+        <NavLink
+          className="nav-link active"
+          to="/register"
+          onClick={() => window.scroll(0, 0)}
+        >
           Register
         </NavLink>
       </li>
     </>
   );
-
-
 
   const LoggedInNavOptions = (
     <>

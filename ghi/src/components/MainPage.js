@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { EffectCoverflow, Pagination, Autoplay, Navigation } from "swiper";
 
-
 function MainPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -53,9 +52,11 @@ function MainPage() {
 
   function redirectLogin(event) {
     event.preventDefault();
+    window.scroll(0, 0);
     return navigate("/login");
   }
   function redirectRegister(event) {
+    window.scroll(0, 0);
     event.preventDefault();
     return navigate("/register");
   }

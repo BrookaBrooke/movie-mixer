@@ -73,7 +73,9 @@ Movie fans, amateurs or newbies who want to find something else to watch.
 - [tests/test_005_movie_items](tests/test_005_movie_items) / [Michel Menin]
   - test_get_items, test_add_movie_item_unauthenticated, test_add_movie_item_unauthorized, test \_add_movie_item_authorized
 - [tests/test_movie_groups](tests/test_movie_groups) / [Ben Gerber]
-  - test_create_movie_group, test_get_movie_groups
+  - test_create_movie_group, test_get_movie_groups'
+- [tests/test_movies](tests/test_movies) / [Jalen Gill]
+  - test_create_movie, test_get_movies
 
 ---
 
