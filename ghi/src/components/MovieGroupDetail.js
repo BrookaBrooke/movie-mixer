@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Tooltip, Button, OverlayTrigger } from "react-bootstrap"
 import { UserContext } from "../context/UserContext";
 
 const MovieGroupDetail = () => {
@@ -13,6 +14,17 @@ const MovieGroupDetail = () => {
   const [deleteQueue, setDeleteQueue] = useState([]);
   const [ownerEditAllowed, setOwnerEditAllowed] = useState(false);
   const navigate = useNavigate();
+  const tooltip = (
+    <Tooltip id="tooltip">
+      <strong>Click for details</strong>
+    </Tooltip>
+  );
+  const tooltipEdit = (
+    <Tooltip id="tooltipEdit">
+      Click and drag to change order
+    </Tooltip>
+  );
+
 
   const fetchMovieItems = async () => {
     try {
@@ -216,7 +228,8 @@ const MovieGroupDetail = () => {
       <div key={i} className="dnd-list">
         <div className="number-movies">{i + 1}</div>
         {editMode && (
-          <span
+          <OverlayTrigger placement="bottom" overlay={tooltipEdit}>
+            <span
             id={i}
             className="input-item"
             draggable="true"
@@ -230,21 +243,27 @@ const MovieGroupDetail = () => {
           >
             {item.title}
           </span>
+          </OverlayTrigger>
         )}
         {!editMode && (
-          <span id={i} className="input-item">
+          <OverlayTrigger placement="bottom" overlay={tooltip}>
+            <span id={i} className="input-item" >
             <Link
               className="text-secondary text-decoration-none h5"
-              to={`/movie-detail/${item.api3_id}`}
+              to={`/movie-detail/${item.api3_id}`}         
             >
               {item.title}
             </Link>
           </span>
+          </OverlayTrigger>
         )}
         {editMode && (
+          <>
           <div id={i} className="delButton" onClick={handleDelete}>
             X
           </div>
+     
+        </>
         )}
       </div>
     ));
@@ -276,25 +295,25 @@ const MovieGroupDetail = () => {
         )}
         <span>
           {!editMode && ownerEditAllowed && movieItems.length > 0 && (
-            <button className="btn btn-primary" onClick={handleEditMode}>
+              <button type="button"  className="btn btn-outline-primary m-3" onClick={handleEditMode} >
               Edit List
             </button>
           )}
           {editMode && (
-            <button className="btn btn-success" onClick={handleUpdate}>
+            <><button className="btn btn-success m-3" onClick={handleUpdate}>
               Save changes
             </button>
-          )}
-          <span>. </span>
-          {editMode && (
-            <button className="btn btn-secondary" onClick={handleCancel}>
+
+            <button className="btn btn-secondary m-3" onClick={handleCancel}>
               Cancel
             </button>
+            </>
           )}
         </span>
         <div>
           <p></p>
-          <button type="button" onClick={goBack} class="btn btn-dark">
+          
+            <button type="button"  onClick={goBack} className="btn btn-dark m-3 ">
             Go back
           </button>
         </div>

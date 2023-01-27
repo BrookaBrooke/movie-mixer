@@ -51,7 +51,7 @@ code {
   background-size: cover;
   position: relative;
   width: 100%;
-  height: 720px;
+  height: 750px;
   background-position: center;
 }
 
@@ -103,7 +103,7 @@ code {
       rgba(149, 46, 46, 0.327),
       rgba(0, 0, 0, 0.783)
     ),
-    url("https://as2.ftcdn.net/v2/jpg/04/15/74/75/1000_F_415747565_hQKvTMlSQtYAqMQ8P5Q8kC484oWSeREC.jpg");
+    url("../src/media/movie.jpeg");
   background-size: cover;
   background-attachment: fixed;
   background-position: top;
@@ -162,7 +162,7 @@ code {
   border-radius: 15px;
 }
 
-.bottom-div{
+.bottom-div {
   height: 750px;
   width: 100%;
   background-color: rgb(25, 25, 25);
@@ -187,8 +187,8 @@ code {
 .movie-trivia-home {
   position: relative;
   left: 20%;
-  /* top: 50%;
-  right: 50%; */
+  top: 22%;
+  right: 50%;
   width: 40%;
   /* background: url("https://images.pexels.com/photos/5428832/pexels-photo-5428832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   height: 500px;
@@ -656,13 +656,92 @@ div #genres-div .col-align-self-end pb-5{
   font-family: "Quicksand", sans-serif;
 }
 
-.login-box,
-.trivia-modal {
+.trivia-box,
+.trivia-modal,
+.login-box {
   background-color: black;
   color: white;
   opacity: 0.7;
   border-radius: 25px;
   position: absolute;
+}
+
+.trivia-box {
+  width: 50%;
+  height: 500px;
+  top: 20%;
+  font-size: 18px;
+  padding-top: 60px;
+}
+
+#endless-mode {
+  padding-top: 25px;
+}
+
+#limited-mode {
+  margin-top: 25px;
+}
+
+.trivia-endless-button {
+  padding-top: 25px;
+}
+
+#number-questions {
+  padding-top: 25px;
+}
+
+.trivia-buttons {
+  padding-top: 30px;
+}
+
+.login-box {
+  width: 50%;
+  height: 500px;
+  top: 20%;
+  font-size: 18px;
+  padding-top: 60px;
+}
+
+.list-box {
+  background-color: black;
+  color: white;
+  opacity: 0.7;
+  border-radius: 25px;
+  position: absolute;
+  width: 60%;
+  /* height: 500px; */
+  top: 20%;
+  font-size: 18px;
+  padding-top: 60px;
+  padding-bottom: 50px;
+}
+#title-lists {
+  padding-bottom: 40px;
+}
+.list-table {
+  border-radius: 20px !important;
+  border-width: 20px;
+  border-collapse: collapse !important;
+  overflow: hidden;
+}
+#endless-mode {
+  padding-top: 25px;
+}
+
+#limited-mode {
+  margin-top: 25px;
+}
+
+.trivia-endless-button {
+  padding-top: 25px;
+}
+
+#number-questions {
+  padding-top: 25px;
+}
+
+.trivia-buttons {
+  padding-top: 30px;
 }
 
 .login-box {
@@ -852,4 +931,182 @@ button-glow {
   box-shadow: 0 0 5px #ffffff, 0 0 15px #ffffff, 0 0 25px #ffffff,
     0 0 100px #ffffff;
   -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+/* img .movie-card {
+  width: 100%
+} */
+
+.movie-card {
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  cursor: pointer;
+  background-size: cover;
+  height: 400px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+.show-more {
+  transition: all 300ms ease-in;
+  opacity: 0;
+}
+
+.show-more {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.show-more:hover {
+  opacity: 1;
+  color: rgb(0, 225, 255);
+  z-index: 1;
+}
+
+.poster {
+  width: 150%;
+}
+.movie-details {
+  position: absolute;
+  background-color: rgba(25, 25, 52, 0.911);
+  width: 100%;
+  color: white;
+  bottom: 0px;
+  left: 0;
+  height: 20%;
+}
+.box {
+  height: 100%;
+  max-width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+}
+
+.title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+}
+
+.rating {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  right: 10px;
+  top: -25px;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    rgb(0, 204, 102) 74%,
+    rgb(30, 50, 40) 74%,
+    rgb(30, 50, 40) 74%
+  );
+}
+.title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+}
+
+.rating-value {
+  display: block;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+
+  background-color: rgb(25, 25, 52) !important;
+  color: white;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  position: relative;
+}
+.percentage {
+  position: absolute;
+  right: 5px;
+  top: 8px;
+  font-size: 8px;
+  background-color: rgb(30, 50, 40);
+  color: rgb(0, 204, 102);
+}
+
+img .search-poster-image {
+  width: 250px;
+  height: 400px;
+}
+
+div .movie-card {
+  background-size: cover;
+  height: 400px;
+}
+
+.search-footer {
+  padding-bottom: 30px;
+  background-color: rgb(25, 25, 25);
+  padding-top: 15px;
+}
+
+.navbar-toggler {
+  background-color: rgb(25, 25, 25);
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.navbar-brand {
+  background-color: rgb(25, 25, 25);
+  color: white;
+  width: 100%;
+}
+
+.dropdown-menu li {
+  background-color: rgb(25, 25, 25);
+  color: white;
+}
+
+.dropdown-menu li:hover {
+  background-color: rgb(25, 25, 25);
+}
+
+.dropdown-menu li > a:hover {
+  text-decoration: none;
+}
+
+/* Changes the color of link text <a> after navbar has collapsed for small screen or mobile mode */
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a,
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:visited {
+  color: white;
+}
+
+.a,
+.dropdown-item {
+  color: white;
+}
+
+.navbar {
+  opacity: 0.7;
+}
+
+.footer-style {
+  background-color: rgb(25, 25, 25);
 }

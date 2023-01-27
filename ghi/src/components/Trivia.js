@@ -13,11 +13,11 @@ const Trivia = () => {
     <div className="login-background">
       <div className="row">
         <div className="offset-3 col-6">
-          <div className="login-box d-flex flex-column justify-content-center align-items-center">
+          <div className="trivia-box d-flex flex-column justify-content-center align-items-center">
             <h1 className="text-center">Movie Trivia</h1>
             <h2 className="text-center">Choose Game Mode</h2>
             <div className="d-flex justify-content-center">
-              <div>
+              <div className="trivia-endless-button">
                 <button
                   type="button"
                   onClick={() => {
@@ -70,68 +70,68 @@ const Trivia = () => {
               </div>
             </Collapse>
 
-            <div className="text-center">
+            <div id="number-questions" className="text-center">
               {openLimited && (
                 <>
-                  <div>
-                    <label>Number of Questions: </label>
-                    <input
-                      type="number"
-                      min="1"
-                      onChange={(e) => setNumQuestions(e.target.value)}
-                      value={numQuestions}
-                      placeholder="Enter number of questions"
-                    />
+                  <label>Number of Questions: </label>
+                  <input
+                    type="number"
+                    min="1"
+                    onChange={(e) => setNumQuestions(e.target.value)}
+                    value={numQuestions}
+                    placeholder="Enter number of questions"
+                  />
+                  <div className="trivia-buttons">
+                    <button
+                      type="button"
+                      variant="primary"
+                      size="lg"
+                      className="m-2 btn btn-success button-glow"
+                      onClick={() => {
+                        if (numQuestions < 1) {
+                          alert("Number of questions must be positive!");
+                        } else {
+                          navigate(`/trivia/limited/${numQuestions}/easy`);
+                        }
+                      }}
+                    >
+                      Easy
+                    </button>
+                    <button
+                      type="button"
+                      variant="primary"
+                      size="lg"
+                      className="m-2 btn btn-warning button-glow"
+                      onClick={() => {
+                        if (numQuestions < 1) {
+                          alert("Number of questions must be positive!");
+                        } else {
+                          navigate(`/trivia/limited/${numQuestions}/medium`);
+                        }
+                      }}
+                    >
+                      Medium
+                    </button>
+                    <button
+                      type="button"
+                      variant="primary"
+                      size="lg"
+                      className="m-2 btn btn-danger button-glow"
+                      onClick={() => {
+                        if (numQuestions < 1) {
+                          alert("Number of questions must be positive!");
+                        } else if (numQuestions <= 42) {
+                          navigate(`/trivia/limited/${numQuestions}/hard`);
+                        } else {
+                          alert(
+                            "max number of questions for hard difficulty is 42!"
+                          );
+                        }
+                      }}
+                    >
+                      Hard
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    variant="primary"
-                    size="lg"
-                    className="m-2 btn btn-success button-glow"
-                    onClick={() => {
-                      if (numQuestions < 1) {
-                        alert("Number of questions must be positive!");
-                      } else {
-                        navigate(`/trivia/limited/${numQuestions}/easy`);
-                      }
-                    }}
-                  >
-                    Easy
-                  </button>
-                  <button
-                    type="button"
-                    variant="primary"
-                    size="lg"
-                    className="m-2 btn btn-warning button-glow"
-                    onClick={() => {
-                      if (numQuestions < 1) {
-                        alert("Number of questions must be positive!");
-                      } else {
-                        navigate(`/trivia/limited/${numQuestions}/medium`);
-                      }
-                    }}
-                  >
-                    Medium
-                  </button>
-                  <button
-                    type="button"
-                    variant="primary"
-                    size="lg"
-                    className="m-2 btn btn-danger button-glow"
-                    onClick={() => {
-                      if (numQuestions < 1) {
-                        alert("Number of questions must be positive!");
-                      } else if (numQuestions <= 42) {
-                        navigate(`/trivia/limited/${numQuestions}/hard`);
-                      } else {
-                        alert(
-                          "max number of questions for hard difficulty is 42!"
-                        );
-                      }
-                    }}
-                  >
-                    Hard
-                  </button>
                 </>
               )}
               {openEndless && (
