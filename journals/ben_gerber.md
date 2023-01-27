@@ -118,3 +118,5 @@ I think we're finally just about done, I feel like I've thought that before but 
 # 1-27-23
 
 Big f$$k up on my part, I pushed all those fixes but didn't say anything about it so Jeese did it as well and there were a bunch of merge conflicts. I don't know why I can't just say when I do things but hopefully this is a lesson I can learn from so I don't keep wasting peoples' time. On the last day too... luckily it wasn't too bad I just wish I hadn't basically wasted someone else's time and effort. I did try to merge as best as possible but it was easiest to mostly keep my own changes. There was an issue with the background not stretching down to the bottom but I was able to fix that without too much issue.
+
+Looks like this caused even bigger issues messing up the login page... and possible other things... Everything seems to work on my end but wasn't for others. Eventually I realized I should do a `git status` to see what was going on and finally saw I needed to push and pull a bunch and that fixed some things but possibly not all. I just want to be done so badly.

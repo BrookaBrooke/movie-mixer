@@ -169,16 +169,26 @@ function MainPage() {
           <div className="pb-3 d-flex justify-content-center">
             <div className="text-center p-2">
               {loggedOut && (
-                <h4 className="login-button">Log in to get started!</h4>
+                <>
+                  <h4 className="login-button">Log in to get started!</h4>
+                  <button
+                    className="btn btn-lg btn-outline-danger"
+                    onClick={redirectLogin}
+                  >
+                    Log in
+                  </button>
+                  <h4 className="pt-4 pb-2">Not signed up?</h4>
+                  <div className="signup-button">
+                    <button
+                      className="btn btn-lg btn-outline-danger"
+                      onClick={redirectRegister}
+                    >
+                      Register Today
+                    </button>
+                  </div>
+                </>
               )}
-              {loggedOut && (
-                <button
-                  className="btn btn-lg btn-outline-danger"
-                  onClick={redirectLogin}
-                >
-                  Log in
-                </button>
-              )}
+              <br />
             </div>
           </div>
           <div></div>
@@ -227,14 +237,6 @@ function MainPage() {
             <div className="parallax-container">
               <div className="parallax-content">
                 <h1 className="text-box-main">Discover New Movies</h1>
-                <div className="signup-button">
-                  <button
-                    className="btn btn-lg btn-outline-danger"
-                    onClick={redirectRegister}
-                  >
-                    Register Today
-                  </button>
-                </div>
               </div>
             </div>
           </section>
