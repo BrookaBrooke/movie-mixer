@@ -115,9 +115,6 @@ const MovieDetail = () => {
 
   useEffect(() => {
     let now = new Date();
-    console.log("1st: ", localStorage.getItem("loginExp"));
-    console.log("2nd: ", new Date(localStorage.getItem("loginExp")));
-    console.log("3rd: ", new Date(now.getTime()));
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
       localStorage.setItem("loginExp", "null");
       navigate("/logout");
