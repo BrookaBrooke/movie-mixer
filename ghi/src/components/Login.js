@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink, renderMatches } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
 import ErrorMessage from "./ErrorMessage";
 
 let now = new Date();
@@ -30,7 +29,6 @@ const Login = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          const token = data.access_token;
           localStorage.setItem("leadsToken", data.access_token);
           localStorage.setItem("user_id", data.account.id);
           localStorage.setItem("username", data.account.username);
@@ -42,7 +40,6 @@ const Login = () => {
       } catch (e) {}
       return false;
     }
-    let error = await response.json();
   }
 
   const handleSubmit = (e) => {

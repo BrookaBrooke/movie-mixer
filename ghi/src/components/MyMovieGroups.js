@@ -135,7 +135,6 @@ const MyMovieGroups = () => {
     if (groups.detail == "Invalid token") {
       navigate("/login");
     } else {
-      console.log("error: ", groups.detail);
       navigate("/groups");
     }
     return (

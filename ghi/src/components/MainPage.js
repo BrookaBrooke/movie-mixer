@@ -7,12 +7,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination, Autoplay } from "swiper";
-import { UserContext } from "../context/UserContext";
-// import "./VideoCarousel.css";
 
 function MainPage() {
   const navigate = useNavigate();
-  const [token] = useContext(UserContext);
   const [query, setQuery] = useState("");
   const [movieData, setMovieData] = useState([]);
   const [loggedOut, setLoggedOut] = useState(null);
@@ -34,7 +31,7 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    let leadsToken = localStorage.getItem("leadsToken");
+    const leadsToken = localStorage.getItem("leadsToken");
 
     if (leadsToken === "null") {
       setLoggedOut(true);
@@ -68,18 +65,6 @@ function MainPage() {
     event.preventDefault();
     return navigate("/groups");
   }
-
-  const parallax = Array.from(document.querySelectorAll(".parallax"));
-
-  // window.onscroll = () => {
-  //   parallax.forEach((el) => {
-  //     const speed = el.dataset.speed || 1;
-  //     const windowYOffset = window.pageYOffset;
-  //     const newBgPos = "50% " + windowYOffset * speed + "px";
-
-  //     el.style.backgroundPosition = newBgPos;
-  //   });
-  // };
 
   return (
     <>
@@ -190,16 +175,13 @@ function MainPage() {
                       width="100%"
                       height="720px"
                       pip={true}
-                      // fullscreen={true}
                       muted={true}
                       loop={true}
-                      // hover={true}
                       controls={false}
                     />
                     <Carousel.Caption>
                       <h3>{movieData.title}</h3>
                       <h4>Released: {movieData.release_date}</h4>
-                      {/* <h4>Add to your Favorites</h4> */}
                     </Carousel.Caption>
                   </Carousel.Item>
                 );
@@ -224,7 +206,6 @@ function MainPage() {
             </div>
           </div>
           <section className="parallax" data-speed=".009">
-            {/* <h1 className="parallax-header"></h1> */}
             <div className="parallax-container">
               <div className="parallax-content">
                 <h1 className="text-box-main">Discover New Movies</h1>

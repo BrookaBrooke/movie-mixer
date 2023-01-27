@@ -37,9 +37,6 @@ function MovieSearch() {
   useEffect(() => {
     let now = new Date();
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
-      console.log(
-        "token has expired -------------------------------------------------------"
-      );
       localStorage.setItem("loginExp", "null");
       navigate("/logout");
     }
@@ -252,17 +249,53 @@ function MovieSearch() {
                 className="d-flex justify-content-center modal-container"
                 onClick={(e) => getMovies(modalId)}
               >
-                <img
-                  className="search-poster-image"
-                  src={
-                    result.poster_path
-                      ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
-                      : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
-                  }
-                  onClick={() => {
-                    setModalOpen(modalId);
-                  }}
-                />
+                <div className="movie-card">
+                  <div className="poster">
+                    <img
+                      className="movie-card"
+                      src={
+                        result.poster_path
+                          ? `https://image.tmdb.org/t/p/w400${result.poster_path}`
+                          : `https://via.placeholder.com/300x450/FFFFFF/000000/?text=No%20Image%20Available`
+                      }
+                      onClick={() => {
+                        setModalOpen(modalId);
+                      }}
+                    />
+                    <button className="show-more">
+                      <span className="material-icons">more_horiz</span>
+                    </button>
+                    <div className="movie-details">
+                      <div className="box">
+                        <h5 className="title">{result.title}</h5>
+                        <div
+                          className="rating"
+                          style={{
+                            background: `conic-gradient(${
+                              result.vote_average > 7
+                                ? "#00cc66"
+                                : result.vote_average < 3
+                                ? "#ff3333"
+                                : "#ffaa33"
+                            } ${result.vote_average * 10}%, ${
+                              result.vote_average > 7
+                                ? "#1e3228"
+                                : result.vote_average < 3
+                                ? "#342020"
+                                : "#372f23"
+                            } ${result.vote_average * 10}% ${
+                              result.vote_average * 10
+                            }%)`,
+                          }}
+                        >
+                          <span className="rating-value">
+                            {result.vote_average}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <Modal
                   show={modalId == modalOpen}
                   onHide={() => {
@@ -428,7 +461,8 @@ function MovieSearch() {
           >
             {movieList}
             {pageNumber ? (
-              <div className="d-flex justify-content-center p-5">
+              <div className="search-footer">
+                <div className="d-flex justify-content-center"></div>
                 {pageNumber > 1 ? (
                   <div className="p-2 d-flex justify-content-center">
                     <LastPageButton />
@@ -442,13 +476,15 @@ function MovieSearch() {
               </div>
             ) : null}
           </Swiper>
-          <div className="d-flex justify-content-center p-5">
-            <div
-              className={loading ? "spinner-border text-light" : "d-none"}
-              role="status"
-              style={{ height: "10em", width: "10em", alignSelf: "center" }}
-            >
-              <span className="visually-hidden">Loading...</span>
+          <div className="search-footer">
+            <div className="d-flex justify-content-center">
+              <div
+                className={loading ? "spinner-border text-light" : "d-none"}
+                role="status"
+                style={{ height: "10em", width: "10em", alignSelf: "center" }}
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
             </div>
           </div>
         </div>

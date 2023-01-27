@@ -301,7 +301,7 @@ input,
   padding-bottom: 12px;
   font-size: 17px;
   font-weight: 30px;
-  background-color: black;
+  background-color: rgb(25,25,25);
 }
 
 .home-pic {

@@ -22,9 +22,6 @@ const MovieDetail = () => {
     console.log("2nd: ", new Date(localStorage.getItem("loginExp")));
     console.log("3rd: ", new Date(now.getTime()));
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
-      console.log(
-        "token has expired -------------------------------------------------------"
-      );
       localStorage.setItem("loginExp", "null");
       navigate("/logout");
     }
@@ -182,7 +179,6 @@ const MovieDetail = () => {
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div id="poster-detail" className="col-auto px-5 mb-4">
-            {/* <div className="d-flex justify-content-center"> */}
             <img
               className="poster-image"
               src={
@@ -191,32 +187,6 @@ const MovieDetail = () => {
                   : `https://via.placeholder.com/400x550/FFFFFF/000000/?text=No%20Image%20Available`
               }
             />
-            {/* <div className="d-flex justify-content-center p-3">
-              <Dropdown>
-                <Dropdown.Toggle
-                  className="btn btn-outline-info btn-lg bg-transparent mt-4"
-                  id="dropdown-basic"
-                >
-                  Add to List
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  {" "}
-                  {movieGroups.map((movieGroup) => (
-                    <Dropdown.Item
-                      key={movieGroup.id}
-                      onClick={(event) => {
-                        setMovieCreated(true);
-                        handleGroupSelection(event);
-                      }}
-                      value={movieGroup.id}
-                    >
-                      {movieGroup.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </div> */}
 
             <div className="d-flex justify-content-center pt-4">
               {token !== "null" ? (
@@ -251,16 +221,6 @@ const MovieDetail = () => {
                   Login to add to list
                 </NavLink>
               )}
-
-              {/*
-              Couldn't get the hover effect to match what this one had, will circle back
-              <button
-                className="btn btn-outline-info btn-lg"
-                type="button"
-                onClick={() => setMovieCreated(true)}
-              >
-                Add to List
-              </button> */}
             </div>
           </div>
           <div id="genres-div" className="col-auto align-self-center pb-1">
@@ -309,14 +269,3 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
-
-// .toFixed(1)
-
-{
-  /* <div id="back-drop">
-          <img style={background-image}: {`https://image.tmdb.org/t/p/w500${details.backdrop_path}`} />
-        </div> */
-}
-
-//   <div className='background-image' style ={ { backgroundImage: `url({https://image.tmdb.org/t/p/w500${details.backdrop_path})` } }>
-// </div>

@@ -4,16 +4,21 @@ import { UserContext } from "./context/UserContext";
 
 function Nav() {
   const user = useContext(UserContext);
-  console.log(user);
   const userToken = user[0];
-  console.log(typeof userToken);
 
   const LoggedOutNavOptions = (
-    <li className="nav-item px-2">
-      <NavLink className="nav-link active" to="/login">
-        Log In
-      </NavLink>
-    </li>
+    <>
+      <li className="nav-item px-2">
+        <NavLink className="nav-link active" to="/login">
+          Log In
+        </NavLink>
+      </li>
+      <li className="nav-item px-2">
+        <NavLink className="nav-link active" to="/register">
+          Register
+        </NavLink>
+      </li>
+    </>
   );
 
   const LoggedInNavOptions = (
@@ -37,7 +42,9 @@ function Nav() {
           <li>
             <NavLink className="dropdown-item" to="/"></NavLink>
           </li>
-          {/* <li><hr className="dropdown-divider"/></li> */}
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
           <li>
             <NavLink className="dropdown-item" to="/my-groups">
               My Favorites
@@ -55,11 +62,7 @@ function Nav() {
           </li>
         </ul>
       </li>
-      {/* <li className="nav-item px-2">
-              <NavLink className="nav-link active" to="/register">
-                Register
-              </NavLink>
-            </li> */}
+
       <li className="nav-item px-2">
         <NavLink className="nav-link active" to="/logout">
           Log Out
