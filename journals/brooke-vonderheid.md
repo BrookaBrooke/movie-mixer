@@ -12,7 +12,23 @@ Today we started working on the accounts feature which will allow us to create a
 
 # 1-12-23
 
+Today I began working on the authorizations feature.
+
 # 1-13-23
+
+Today I continued working on the authorizations feature.
+
+# 1-24-23
+
+Today I began working on my test for the api.
+
+# 1-25-23
+
+Today I continued to work on my test for the api. I am almost finished.
+
+# 1-26-23
+
+Finished my test for the api.
 
 # 1-27-23
 
