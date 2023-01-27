@@ -10,7 +10,7 @@ const Trivia = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="login-background">
+    <div className="trivia-background">
       <div className="row">
         <div className="offset-3 col-6">
           <div className="trivia-box d-flex flex-column justify-content-center align-items-center">

@@ -639,7 +639,8 @@ div #genres-div .col-align-self-end pb-5{
   cursor: pointer;
 }
 
-.login-background {
+.login-background,
+.trivia-background {
   background: #8e0e00; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -654,6 +655,15 @@ div #genres-div .col-align-self-end pb-5{
   background-size: cover;
   height: 1280px;
   font-family: "Quicksand", sans-serif;
+}
+
+.trivia-background {
+  height: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .trivia-box,
