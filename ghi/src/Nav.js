@@ -39,7 +39,7 @@ function Nav() {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Dropdown
+          Menu
         </NavLink>
         <ul className="dropdown-menu p-0">
           <li>
