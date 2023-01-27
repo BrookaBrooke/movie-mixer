@@ -252,9 +252,9 @@ const MovieGroupDetail = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page pt-5">
       <div className="container">
-        <h1 style={{ color: "white", textAlign: "center" }}>
+        <h1 className=" pt-5" style={{ color: "white", textAlign: "center" }}>
           {movieGroup?.name}
         </h1>
         {listItems()}
