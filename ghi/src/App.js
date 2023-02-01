@@ -22,7 +22,7 @@ function App(props) {
           <Route path="/login" element={<Login />} /> */}
       <Nav />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="" element={<MainPage />} />
         <Route path="/movie-detail/:id" element={<MovieDetail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
