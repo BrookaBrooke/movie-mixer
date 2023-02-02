@@ -136,7 +136,7 @@ const MovieDetail = () => {
     async function fetchMovieGroups() {
       if (token !== "null") {
         const response = await fetch(
-          `http://localhost:8000/movie-groups-by-user`,
+          `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/movie-groups-by-user`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -204,18 +204,30 @@ const MovieDetail = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {movieGroups.map((movieGroup) => (
-                      <Dropdown.Item
-                        key={movieGroup.id}
-                        onClick={(event) => {
-                          setMovieCreated(true);
-                          handleGroupSelection(event);
-                        }}
-                        value={movieGroup.id}
-                      >
-                        {movieGroup.name}
-                      </Dropdown.Item>
-                    ))}
+                    {movieGroups.length > 0 ? (
+                      movieGroups.map((movieGroup) => (
+                        <Dropdown.Item
+                          key={movieGroup.id}
+                          onClick={(event) => {
+                            setMovieCreated(true);
+                            handleGroupSelection(event);
+                          }}
+                          value={movieGroup.id}
+                        >
+                          {movieGroup.name}
+                        </Dropdown.Item>
+                      ))
+                    ) : (
+                      <div className="text-center p-3">
+                        <p>You have no movie groups.</p>
+                        <NavLink
+                          className="btn btn-primary"
+                          to="/movie-mixer/my-groups"
+                        >
+                          Click here to make one!
+                        </NavLink>
+                      </div>
+                    )}
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
