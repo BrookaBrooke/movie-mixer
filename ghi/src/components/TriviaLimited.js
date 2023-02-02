@@ -113,7 +113,8 @@ const TriviaLimited = () => {
     return (
       <div className="d-flex justify-content-center">
         <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only"></span>
+          Loading...
         </div>
       </div>
     );
@@ -151,7 +152,7 @@ const TriviaLimited = () => {
                         className="btn btn-danger m-2"
                         onClick={() => {
                           navigate(
-                            `/trivia/limited/${newNumQuestions}/${difficulty}`
+                            `/movie-mixer/trivia/limited/${newNumQuestions}/${difficulty}`
                           );
                           window.location.reload();
                         }}
@@ -173,7 +174,7 @@ const TriviaLimited = () => {
                       <button
                         type="button"
                         className="btn btn-secondary m-2"
-                        onClick={() => navigate("/trivia")}
+                        onClick={() => navigate("/movie-mixer/trivia")}
                       >
                         Trivia Home
                       </button>
@@ -200,7 +201,7 @@ const TriviaLimited = () => {
                   style={{ width: "auto" }}
                   className="btn btn-danger m-2 text-center d-flex align-self-center mx-auto"
                   onClick={() => {
-                    navigate(`/trivia/limited/${newNumQuestions}`);
+                    navigate(`/movie-mixer/trivia/limited/${newNumQuestions}`);
                     window.location.reload();
                   }}
                 >
@@ -210,7 +211,7 @@ const TriviaLimited = () => {
                   type="button"
                   style={{ width: "auto" }}
                   className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
-                  onClick={() => navigate("/trivia")}
+                  onClick={() => navigate("/movie-mixer/trivia")}
                 >
                   Trivia Home
                 </button>
@@ -236,7 +237,7 @@ const TriviaLimited = () => {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => navigate("/trivia")}
+                  onClick={() => navigate("/movie-mixer/trivia")}
                 >
                   Quit to main page
                 </button>

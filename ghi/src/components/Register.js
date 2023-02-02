@@ -32,7 +32,7 @@ const Register = () => {
     if (!response.ok) {
       setErrorMessage(data.detail);
     } else {
-      navigate("/login");
+      navigate("/movie-mixer/login");
       window.location.reload(false);
     }
   };

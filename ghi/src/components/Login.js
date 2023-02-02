@@ -34,7 +34,7 @@ const Login = () => {
           localStorage.setItem("username", data.account.username);
           let expiryTime = new Date(now.getTime() + 2000000);
           localStorage.setItem("loginExp", expiryTime);
-          navigate("/");
+          navigate("/movie-mixer");
           window.location.reload(false);
         }
       } catch (e) {

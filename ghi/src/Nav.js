@@ -12,7 +12,7 @@ function Nav() {
       <li className="nav-item px-2">
         <NavLink
           className="nav-link active"
-          to="/login"
+          to="movie-mixer/login"
           onClick={() => window.scroll(0, 0)}
         >
           Log In
@@ -21,7 +21,7 @@ function Nav() {
       <li className="nav-item px-2">
         <NavLink
           className="nav-link active"
-          to="/register"
+          to="movie-mixer/register"
           onClick={() => window.scroll(0, 0)}
         >
           Register
@@ -33,7 +33,11 @@ function Nav() {
   const LoggedInNavOptions = (
     <>
       <li className="nav-item px-2">
-        <NavLink className="nav-link active" aria-current="page" to="/">
+        <NavLink
+          className="nav-link active"
+          aria-current="page"
+          to="/movie-mixer"
+        >
           Home
         </NavLink>
       </li>
@@ -49,27 +53,27 @@ function Nav() {
         </NavLink>
         <ul className="dropdown-menu p-1">
           <li>
-            <NavLink className="dropdown-item p-0" to="/"></NavLink>
+            <NavLink className="dropdown-item p-0" to="/movie-mixer"></NavLink>
           </li>
           <li>
-            <NavLink className="dropdown-item" to="/my-groups">
+            <NavLink className="dropdown-item" to="movie-mixer/my-groups">
               My Movie Lists
             </NavLink>
           </li>
           <li>
-            <NavLink className="dropdown-item" to="groups/">
+            <NavLink className="dropdown-item" to="movie-mixer/groups">
               Community Movie Lists
             </NavLink>
           </li>
           <li>
-            <NavLink className="dropdown-item" to="/trivia">
+            <NavLink className="dropdown-item" to="movie-mixer/trivia">
               Movie Trivia
             </NavLink>
           </li>
         </ul>
       </li>
       <li className="nav-item px-2">
-        <NavLink className="nav-link active" to="/logout">
+        <NavLink className="nav-link active" to="movie-mixer/logout">
           Log Out
         </NavLink>
       </li>
@@ -78,7 +82,7 @@ function Nav() {
   return (
     <nav className="navbar fixed-top navbar-expand-lg navbar-brand">
       <div className="container-fluid">
-        <NavLink className="navbar-brand px-2" to="/">
+        <NavLink className="navbar-brand px-2" to="/movie-mixer">
           <img src={Logo} alt="Logo" width={200} height={42} />
         </NavLink>
         <button

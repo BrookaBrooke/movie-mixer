@@ -40,7 +40,7 @@ function MovieSearch() {
     let now = new Date();
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
       localStorage.setItem("loginExp", "null");
-      navigate("/logout");
+      navigate("/movie-mixer/logout");
     }
     const getResults = async () => {
       setLoading(true);
@@ -215,7 +215,7 @@ function MovieSearch() {
       const number = parseInt(pageNumber) - 1;
       swiper.slideTo(0, 500);
       setLoading(true);
-      return navigate(`/search/${searchQuery}/${number}`);
+      return navigate(`/movie-mixer/search/${searchQuery}/${number}`);
     }
     const swiper = useSwiper();
 
@@ -226,7 +226,7 @@ function MovieSearch() {
       const number = parseInt(pageNumber) + 1;
       swiper.slideTo(0, 500);
       setLoading(true);
-      return navigate(`/search/${searchQuery}/${number}`);
+      return navigate(`/movie-mixer/search/${searchQuery}/${number}`);
     }
     const swiper = useSwiper();
 
@@ -234,7 +234,7 @@ function MovieSearch() {
   }
 
   function goToMovieDetail(id) {
-    return navigate(`/movie-detail/${id}`);
+    return navigate(`/movie-mixer/movie-detail/${id}`);
   }
 
   async function onSubmit(event) {
@@ -242,10 +242,8 @@ function MovieSearch() {
     if (pageNum === undefined) {
       setPageNum(1);
     }
-    return navigate(`/search/${query}/1`);
+    return navigate(`/movie-mixer/search/${query}/1`);
   }
-
-
 
   const movieList =
     results > 0
@@ -359,7 +357,7 @@ function MovieSearch() {
                               <p>You have no movie groups.</p>
                               <NavLink
                                 className="btn btn-primary"
-                                to="/my-groups"
+                                to="movie-mixer/my-groups"
                               >
                                 Click here to make one!
                               </NavLink>
@@ -370,7 +368,7 @@ function MovieSearch() {
                     ) : (
                       <NavLink
                         className="btn btn-outline-success bg-transparent"
-                        to={"/login"}
+                        to={"movie-mixer/login"}
                       >
                         Login to add to list
                       </NavLink>
@@ -386,7 +384,10 @@ function MovieSearch() {
                     <p>Movie has been successfully added to list</p>
                     <hr />
                     <div className="d-flex justify-content-end">
-                      <NavLink className="btn btn-primary" to="/my-groups">
+                      <NavLink
+                        className="btn btn-primary"
+                        to="movie-mixer/my-groups"
+                      >
                         View my lists
                       </NavLink>
                     </div>
@@ -454,17 +455,22 @@ function MovieSearch() {
               )
             ) : null}
           </div>
-          <div id="arrow-next-search" className="swiper-button image-swiper-button-next">
+          <div
+            id="arrow-next-search"
+            className="swiper-button image-swiper-button-next"
+          >
             <IoIosArrowForward />
           </div>
-          <div id="arrow-prev-search" className="swiper-button image-swiper-button-prev">
+          <div
+            id="arrow-prev-search"
+            className="swiper-button image-swiper-button-prev"
+          >
             <IoIosArrowBack />
           </div>
           <Swiper
             navigation={{
               nextEl: ".image-swiper-button-next",
               prevEl: ".image-swiper-button-prev",
-
             }}
             modules={[Grid, Navigation]}
             slidesPerView={4}

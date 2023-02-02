@@ -117,7 +117,8 @@ const TriviaEndless = () => {
     return (
       <div className="d-flex justify-content-center">
         <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only"></span>
+          Loading...
         </div>
       </div>
     );
@@ -165,7 +166,7 @@ const TriviaEndless = () => {
                       <button
                         type="button"
                         className="btn btn-secondary m-2"
-                        onClick={() => navigate("/trivia")}
+                        onClick={() => navigate("/movie-mixer/trivia")}
                       >
                         Trivia Home
                       </button>
@@ -185,7 +186,7 @@ const TriviaEndless = () => {
                   type="button"
                   style={{ width: "auto" }}
                   className="btn btn-secondary m-2 text-center d-flex align-self-center mx-auto"
-                  onClick={() => navigate("/trivia")}
+                  onClick={() => navigate("/movie-mixer/trivia")}
                 >
                   Trivia Home
                 </button>
@@ -210,7 +211,7 @@ const TriviaEndless = () => {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => navigate("/trivia")}
+                  onClick={() => navigate("/movie-mixer/trivia")}
                 >
                   Quit to main page
                 </button>

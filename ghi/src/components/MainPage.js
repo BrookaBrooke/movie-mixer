@@ -47,26 +47,26 @@ function MainPage() {
 
   function redirectToSearchPage(event) {
     event.preventDefault();
-    return navigate(`/search/${query}/1`);
+    return navigate(`/movie-mixer/search/${query}/1`);
   }
 
   function redirectLogin(event) {
     event.preventDefault();
     window.scroll(0, 0);
-    return navigate("/login");
+    return navigate("/movie-mixer/login");
   }
   function redirectRegister(event) {
     window.scroll(0, 0);
     event.preventDefault();
-    return navigate("/register");
+    return navigate("/movie-mixer/register");
   }
   function redirectTrivia(event) {
     event.preventDefault();
-    return navigate("/trivia");
+    return navigate("/movie-mixer/trivia");
   }
   function redirectFavorites(event) {
     event.preventDefault();
-    return navigate("/groups");
+    return navigate("/movie-mixer/groups");
   }
 
   return (

@@ -133,9 +133,9 @@ const MyMovieGroups = () => {
 
   if (Object.keys(groups).includes("detail")) {
     if (groups.detail === "Invalid token") {
-      navigate("/login");
+      navigate("/movie-mixer/login");
     } else {
-      navigate("/groups");
+      navigate("/movie-mixer/groups");
     }
     return (
       <div className="row justify-content-center m-5">
@@ -217,7 +217,7 @@ const MyMovieGroups = () => {
                                 <td className="ps-3">
                                   <Link
                                     className="text-secondary text-decoration-none h5"
-                                    to={`/groups/${group.id}`}
+                                    to={`/movie-mixer/groups/${group.id}`}
                                   >
                                     {group.name}
                                   </Link>

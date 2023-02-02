@@ -72,7 +72,7 @@ const MovieGroups = () => {
                                 <td className="ps-3">
                                   <Link
                                     className="text-secondary text-decoration-none h5"
-                                    to={`/groups/${group.id}`}
+                                    to={`/movie-mixer/groups/${group.id}`}
                                   >
                                     {group.name}
                                   </Link>

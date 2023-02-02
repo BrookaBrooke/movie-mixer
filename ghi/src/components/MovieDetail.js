@@ -117,7 +117,7 @@ const MovieDetail = () => {
     let now = new Date();
     if (new Date(localStorage.getItem("loginExp")) < new Date(now.getTime())) {
       localStorage.setItem("loginExp", "null");
-      navigate("/logout");
+      navigate("/movie-mixer/logout");
     }
     async function getMovies() {
       const url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api-movies/detail-with-trailer/${id}`;
@@ -221,7 +221,7 @@ const MovieDetail = () => {
               ) : (
                 <NavLink
                   className="btn btn-outline-success bg-transparent"
-                  to={"/login"}
+                  to={"/movie-mixer/login"}
                 >
                   Login to add to list
                 </NavLink>

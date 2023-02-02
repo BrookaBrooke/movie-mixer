@@ -92,7 +92,9 @@ const Trivia = () => {
                         if (numQuestions < 1) {
                           alert("Number of questions must be positive!");
                         } else {
-                          navigate(`/trivia/limited/${numQuestions}/easy`);
+                          navigate(
+                            `/movie-mixer/trivia/limited/${numQuestions}/easy`
+                          );
                         }
                       }}
                     >
@@ -107,7 +109,9 @@ const Trivia = () => {
                         if (numQuestions < 1) {
                           alert("Number of questions must be positive!");
                         } else {
-                          navigate(`/trivia/limited/${numQuestions}/medium`);
+                          navigate(
+                            `/movie-mixer/trivia/limited/${numQuestions}/medium`
+                          );
                         }
                       }}
                     >
@@ -122,7 +126,9 @@ const Trivia = () => {
                         if (numQuestions < 1) {
                           alert("Number of questions must be positive!");
                         } else if (numQuestions <= 42) {
-                          navigate(`/trivia/limited/${numQuestions}/hard`);
+                          navigate(
+                            `/movie-mixer/trivia/limited/${numQuestions}/hard`
+                          );
                         } else {
                           alert(
                             "max number of questions for hard difficulty is 42!"
@@ -142,7 +148,7 @@ const Trivia = () => {
                     variant="primary"
                     size="lg"
                     className="m-2 btn btn-success button-glow"
-                    onClick={() => navigate(`/trivia/endless/easy`)}
+                    onClick={() => navigate(`/movie-mixer/trivia/endless/easy`)}
                   >
                     Easy
                   </button>
@@ -151,7 +157,9 @@ const Trivia = () => {
                     variant="primary"
                     size="lg"
                     className="m-2 btn btn-warning button-glow"
-                    onClick={() => navigate(`/trivia/endless/medium`)}
+                    onClick={() =>
+                      navigate(`/movie-mixer/trivia/endless/medium`)
+                    }
                   >
                     Medium
                   </button>
@@ -160,7 +168,7 @@ const Trivia = () => {
                     variant="primary"
                     size="lg"
                     className="m-2 btn btn-danger button-glow"
-                    onClick={() => navigate(`/trivia/endless/hard`)}
+                    onClick={() => navigate(`/movie-mixer/trivia/endless/hard`)}
                   >
                     Hard
                   </button>
