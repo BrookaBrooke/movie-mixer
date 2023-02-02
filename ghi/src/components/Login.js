@@ -107,7 +107,10 @@ const Login = () => {
                 </div>
                 <div className="button-glow1">
                   <button className="button-glow" type="submit">
-                    <NavLink className="nav-link active" to="/register">
+                    <NavLink
+                      className="nav-link active"
+                      to="/movie-mixer/register"
+                    >
                       Register
                     </NavLink>
                   </button>

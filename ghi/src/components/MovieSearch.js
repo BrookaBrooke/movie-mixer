@@ -357,7 +357,7 @@ function MovieSearch() {
                               <p>You have no movie groups.</p>
                               <NavLink
                                 className="btn btn-primary"
-                                to="movie-mixer/my-groups"
+                                to="/movie-mixer/my-groups"
                               >
                                 Click here to make one!
                               </NavLink>
@@ -368,7 +368,7 @@ function MovieSearch() {
                     ) : (
                       <NavLink
                         className="btn btn-outline-success bg-transparent"
-                        to={"movie-mixer/login"}
+                        to={"/movie-mixer/login"}
                       >
                         Login to add to list
                       </NavLink>
@@ -386,7 +386,7 @@ function MovieSearch() {
                     <div className="d-flex justify-content-end">
                       <NavLink
                         className="btn btn-primary"
-                        to="movie-mixer/my-groups"
+                        to="/movie-mixer/my-groups"
                       >
                         View my lists
                       </NavLink>
