@@ -10,7 +10,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.environ.get("CORS_HOST", "http://localhost:3000")],
+    allow_origins=[
+        os.environ.get("CORS_HOST", "http://localhost:3000"),
+        os.environ.get(
+            "CORS_HOST", "https://team-06-we-dont-byte.gitlab.io/movie-mixer"
+        ),
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -221,7 +221,7 @@ const MovieGroupDetail = () => {
             <span id={i} className="input-item">
               <Link
                 className="text-secondary text-decoration-none h5"
-                to={`/movie-detail/${item.api3_id}`}
+                to={`/movie-mixer/movie-detail/${item.api3_id}`}
               >
                 {item.title}
               </Link>
