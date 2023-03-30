@@ -150,6 +150,8 @@ function MainPage() {
                         </div>
                       </SwiperSlide>
                     );
+                  } else {
+                    return null;
                   }
                 })
               : null}
@@ -216,6 +218,8 @@ function MainPage() {
                       </Carousel.Caption>
                     </Carousel.Item>
                   );
+                } else {
+                  return null;
                 }
               })}
             </Carousel>
