@@ -23,12 +23,10 @@ function MainPage() {
       if (response.ok) {
         const data = await response.json();
         setMovieData(data.results);
+        setLoading(false);
       }
     };
     getMovieInfoWithTrailers();
-    setTimeout(() => {
-      setLoading(false);
-    }, 800);
   }, []);
 
   useEffect(() => {
@@ -139,18 +137,20 @@ function MainPage() {
           >
             {!loading
               ? movieData.map((movie, i) => {
-                  const divStyle = {
-                    backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
-                  };
-                  return (
-                    <SwiperSlide key={i}>
-                      <div className="backdrop-image" style={divStyle}>
-                        <div className="slide-item-container">
-                          <div className="slide-item-content"></div>
+                  if (movieData.backdrop_path !== null) {
+                    const divStyle = {
+                      backgroundImage: `linear-gradient(to left, rgba(46, 21, 27, 0.932), rgba(161, 81, 44, 0.529), rgba(111, 50, 65, 0.6)), url(https://image.tmdb.org/t/p/w1280/${movie.backdrop_path})`,
+                    };
+                    return (
+                      <SwiperSlide key={i}>
+                        <div className="backdrop-image" style={divStyle}>
+                          <div className="slide-item-container">
+                            <div className="slide-item-content"></div>
+                          </div>
                         </div>
-                      </div>
-                    </SwiperSlide>
-                  );
+                      </SwiperSlide>
+                    );
+                  }
                 })
               : null}
           </Swiper>
@@ -196,24 +196,27 @@ function MainPage() {
           <div className="">
             <Carousel>
               {movieData.map((movieData) => {
-                return (
-                  <Carousel.Item key={movieData.id}>
-                    <ReactPlayer
-                      url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
-                      playing={true}
-                      width="100%"
-                      height="720px"
-                      pip={true}
-                      muted={true}
-                      loop={true}
-                      controls={false}
-                    />
-                    <Carousel.Caption>
-                      <h3>{movieData.title}</h3>
-                      <h4>Released: {movieData.release_date}</h4>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                );
+                console.log(movieData);
+                if (movieData.trailer !== null) {
+                  return (
+                    <Carousel.Item key={movieData.id}>
+                      <ReactPlayer
+                        url={`https://www.youtube.com/embed/${movieData.trailer.key}`}
+                        playing={true}
+                        width="100%"
+                        height="720px"
+                        pip={true}
+                        muted={true}
+                        loop={true}
+                        controls={false}
+                      />
+                      <Carousel.Caption>
+                        <h3>{movieData.title}</h3>
+                        <h4>Released: {movieData.release_date}</h4>
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  );
+                }
               })}
             </Carousel>
           </div>
